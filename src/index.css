@@ -1,0 +1,36 @@
+:root {
+  --accent-color-rgb: 255, 165, 0; /* Replace with your accent color RGB values */
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@keyframes goldPulse {
+  from {
+    filter: 
+      brightness(1.8)
+      contrast(1.2)
+      drop-shadow(0 0 25px rgb(250,128,114))
+      drop-shadow(0 0 45px rgb(220,20,60))
+      drop-shadow(0 0 65px rgb(139,0,0));
+  }
+  to {
+    filter: 
+      brightness(2.2)
+      contrast(1.4)
+      drop-shadow(0 0 25px rgb(250,128,114))
+      drop-shadow(0 0 45px rgb(220,20,60))
+      drop-shadow(0 0 65px rgb(139,0,0));
+  }
+}

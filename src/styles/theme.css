@@ -1,0 +1,34 @@
+:root {
+  /* Light theme (default) */
+  --bg-primary: #f3eded;
+  --bg-secondary: #d1c7c7;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --accent-color: rgb(220, 38, 38); /* Changed from #2563eb to red */
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --nav-shadow: rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --hero-bg: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+[data-theme='dark'] {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --accent-color: red;
+  --nav-bg: rgba(0, 0, 0, 0.98);
+  --nav-shadow: rgba(0, 0, 0, 0.3);
+  --card-bg: #1e1e1e;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(0, 0, 0, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --hero-bg: linear-gradient(135deg, #121212, #1a1a1a);
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}

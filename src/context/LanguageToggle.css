@@ -1,0 +1,90 @@
+.language-toggle {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  border-radius: 12px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.language-toggle:hover {
+  background: rgba(255, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.language-toggle-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.language-flag {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(255, 0, 0, 0.05);
+  border: 1px solid rgba(255, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  color: #ffffff;
+}
+
+.language-flag.active {
+  opacity: 1;
+  background: rgba(255, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.language-flag:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.language-flag:hover .flag-icon {
+  transform: scale(1.1);
+}
+
+.flag-icon {
+  font-size: 1.4rem;
+  color: #FF0000;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.flag-icon {
+  width: 24px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.usa-flag .flag-icon,
+.french-flag .flag-icon {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.french-flag .flag-icon {
+  color: #002395; /* French flag blue */
+  background: linear-gradient(90deg, #002395 33%, #FFFFFF 33%, #FFFFFF 66%, #ED2939 66%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  width: 24px;
+  height: 18px; /* Adjusted for French flag aspect ratio */
+}
+
+.language-flag span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.language-flag img {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
