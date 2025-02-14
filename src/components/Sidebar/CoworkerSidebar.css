@@ -1,13 +1,13 @@
 .coworker-sidebar {
   width: 280px;
-  background: #111827;
+  background: #000000;
   color: #ffffff;
   height: 100vh;
   padding: 0;
   position: fixed;
   left: 0;
   top: 0;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-logo {
@@ -23,8 +23,15 @@
   width: auto;
 }
 
+.mobile-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .sidebar-header {
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -91,12 +98,12 @@
 }
 
 .nav-item:hover {
-  background-color: #1F2937;
+  background-color: #1a1a1a;
   color: #ffffff;
 }
 
 .nav-item.active {
-  background-color: #1F2937;
+  background-color: #1a1a1a;
   color: #3B82F6;
   border-left: 3px solid #3B82F6;
 }

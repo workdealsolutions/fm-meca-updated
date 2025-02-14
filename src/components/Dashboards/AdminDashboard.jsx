@@ -300,6 +300,24 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
               ))}
             </div>
           </div>
+          <div className="info-card availability-card">
+            <label>Availability</label>
+            <div className="availability-grid">
+              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map(day => (
+                <div key={day} className="day-slot">
+                  <span className="day-label">{day}</span>
+                  <div className="time-slots">
+                    <div className={`time-slot ${coworker.availability?.[day]?.morning ? 'available' : 'unavailable'}`}>
+                      AM
+                    </div>
+                    <div className={`time-slot ${coworker.availability?.[day]?.afternoon ? 'available' : 'unavailable'}`}>
+                      PM
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

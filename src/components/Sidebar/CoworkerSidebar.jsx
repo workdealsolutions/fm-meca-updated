@@ -29,14 +29,13 @@ export const CoworkerSidebar = ({ activeTab, setActiveTab, user, isOpen, setIsOp
 
   return (
     <div className={`coworker-sidebar ${isOpen ? 'open' : ''} ${isMobile ? 'mobile' : ''}`}>
-      <div className="sidebar-logo">
-        <img src="/logo.png" alt="Logo" />
-        {isMobile && (
+      {isMobile && (
+        <div className="mobile-header">
           <button className="mobile-close" onClick={() => setIsOpen(false)}>
             <FontAwesomeIcon icon={faBars} />
           </button>
-        )}
-      </div>
+        </div>
+      )}
       
       <div className="sidebar-header">
         <div className="user-info">

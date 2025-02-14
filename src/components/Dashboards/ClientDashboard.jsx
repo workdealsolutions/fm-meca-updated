@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import Sidebar from '../Sidebar/Sidebar';
 import ProjectCard from '../ProjectCard/ProjectCard';
-import ClientSettings from '../ClientSettings/ClientSettings';
 import Messages from '../Messages/Messages';
+import Profile from '../Profile/Profile';
 import './ClientDashboard.css';
 
 const sampleProjects = [
@@ -58,6 +58,7 @@ const getProgressColor = (progress) => {
 const ClientDashboard = ({ user, setProjects, sendNotification }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('projects');
+  const [theme, setTheme] = useState('dark');
   const [projects, setLocalProjects] = useState(sampleProjects);
   const [inputMethod, setInputMethod] = useState('manual'); // Add this
   const [selectedFile, setSelectedFile] = useState(null); // Add this
@@ -66,6 +67,10 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
     budget: '',
     requirements: ''
   });
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -150,108 +155,121 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
     });
   };
 
-  return (
-    <div className="dashboard-container">
-      <div className="menu-toggle">
-        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-          {sidebarOpen ? '×' : '≡'}
-        </button>
-      </div>
-      <Sidebar 
-        user={user} 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab}
-        isOpen={sidebarOpen}
-        setIsOpen={setSidebarOpen}
-      />
-      <div className="main-content">
-        {activeTab === 'settings' ? (
-          <ClientSettings user={user} />
-        ) : activeTab === 'messages' ? (
-          <Messages user={user} sendNotification={sendNotification} />
-        ) : activeTab === 'new' ? (
-          <div className="new-project-section">
-            <h2>Submit New Project</h2>
-            <div className="input-method-toggle">
-              <button 
-                className={`toggle-button ${inputMethod === 'manual' ? 'active' : ''}`}
-                onClick={() => setInputMethod('manual')}
-              >
-                Manual Input
-              </button>
-              <button 
-                className={`toggle-button ${inputMethod === 'file' ? 'active' : ''}`}
-                onClick={() => setInputMethod('file')}
-              >
-                Upload File
-              </button>
-            </div>
-            <form onSubmit={handleSubmit} className="project-form">
-              {inputMethod === 'manual' ? (
-                <>
-                  <div className="form-group">
-                    <label>Project Description</label>
-                    <textarea
-                      name="description"
-                      value={formData.description}
-                      onChange={handleInputChange}
-                      placeholder="Describe your project in detail"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>Requirements</label>
-                    <textarea
-                      name="requirements"
-                      value={formData.requirements}
-                      onChange={handleInputChange}
-                      placeholder="List your specific requirements"
-                      required
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className="form-group">
-                  <label>Project File</label>
-                  <div 
-                    className="file-upload-container"
-                    onClick={() => document.getElementById('project-file').click()}
-                  >
-                    <input
-                      id="project-file"
-                      type="file"
-                      className="file-input"
-                      onChange={handleFileChange}
-                      required
-                    />
-                    {selectedFile ? (
-                      <div className="file-info">
-                        Selected file: {selectedFile.name}
-                      </div>
-                    ) : (
-                      <p>Click to upload project file</p>
-                    )}
-                  </div>
-                </div>
-              )}
-
+  const renderNewProjectSection = () => {
+    return (
+      <div className={`new-project-section ${theme}`}>
+        <h2>Submit New Project</h2>
+        <div className="input-method-toggle">
+          <button 
+            className={`toggle-button ${inputMethod === 'manual' ? 'active' : ''}`}
+            onClick={() => setInputMethod('manual')}
+          >
+            Manual Input
+          </button>
+          <button 
+            className={`toggle-button ${inputMethod === 'file' ? 'active' : ''}`}
+            onClick={() => setInputMethod('file')}
+          >
+            Upload File
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="project-form">
+          {inputMethod === 'manual' ? (
+            <>
               <div className="form-group">
-                <label>Budget (USD)</label>
-                <input
-                  type="number"
-                  name="budget"
-                  value={formData.budget}
+                <label>Project Description</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
                   onChange={handleInputChange}
-                  placeholder="Enter your budget"
+                  placeholder="Describe your project in detail"
                   required
                 />
               </div>
 
-              <button type="submit">Submit Project</button>
-            </form>
+              <div className="form-group">
+                <label>Requirements</label>
+                <textarea
+                  name="requirements"
+                  value={formData.requirements}
+                  onChange={handleInputChange}
+                  placeholder="List your specific requirements"
+                  required
+                />
+              </div>
+            </>
+          ) : (
+            <div className="form-group">
+              <label>Project File</label>
+              <div 
+                className="file-upload-container"
+                onClick={() => document.getElementById('project-file').click()}
+              >
+                <input
+                  id="project-file"
+                  type="file"
+                  className="file-input"
+                  onChange={handleFileChange}
+                  required
+                />
+                {selectedFile ? (
+                  <div className="file-info">
+                    Selected file: {selectedFile.name}
+                  </div>
+                ) : (
+                  <p>Click to upload project file</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="form-group">
+            <label>Budget (USD)</label>
+            <input
+              type="number"
+              name="budget"
+              value={formData.budget}
+              onChange={handleInputChange}
+              placeholder="Enter your budget"
+              required
+            />
           </div>
-        ) : (
+
+          <button type="submit">Submit Project</button>
+        </form>
+      </div>
+    );
+  };
+
+  const renderContent = () => {
+    switch(activeTab) {
+      case 'profile':
+        return <Profile user={user} theme={theme} />;
+      case 'messages':
+        return <Messages user={user} sendNotification={sendNotification} theme={theme} />;
+      case 'progress':
+        return (
+          <div className="progress-tracking-section">
+            <h2>Project Progress Tracking</h2>
+            <div className="projects-list">
+              {sortProjects(projects)
+                .filter(p => p.client === user.email && p.status === 'in_progress')
+                .map(project => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    getStatusColor={getStatusColor}
+                    getProgressColor={getProgressColor}
+                    formatDate={formatDate}
+                  />
+                ))}
+            </div>
+          </div>
+        );
+      case 'new':
+        return renderNewProjectSection();
+      default:
+        return (
           <div className="projects-section">
             <h2>My Projects</h2>
             <div className="projects-list">
@@ -268,7 +286,28 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
                 ))}
             </div>
           </div>
-        )}
+        );
+    }
+  };
+
+  return (
+    <div className={`dashboard-container ${theme}`}>
+      <div className="menu-toggle">
+        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? '×' : '≡'}
+        </button>
+      </div>
+      <Sidebar 
+        user={user} 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab}
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
+      <div className={`main-content ${theme}`}>
+        {renderContent()}
       </div>
     </div>
   );

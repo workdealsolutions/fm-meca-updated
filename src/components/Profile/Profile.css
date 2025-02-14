@@ -1,0 +1,287 @@
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px;
+  background: rgba(18, 18, 18, 0.97);
+  border-radius: 40px;
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 25px 45px rgba(0, 0, 0, 0.4),
+    inset 0 0 80px rgba(59, 130, 246, 0.1);
+  transition: 
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.profile-container.light {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 25px 45px rgba(0, 0, 0, 0.1),
+    inset 0 0 80px rgba(59, 130, 246, 0.05);
+}
+
+.profile-container.light .profile-header h2 {
+  background: linear-gradient(135deg, #1a1a1a 0%, #4a5568 50%, #2d3748 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-container.light .profile-header p {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.profile-container.light .profile-section {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.profile-container.light .profile-section:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    inset 0 0 30px rgba(59, 130, 246, 0.05);
+}
+
+.profile-container.light .profile-section h3 {
+  color: #1a1a1a;
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.profile-container.light .form-group label {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.profile-container.light .form-group input {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1a1a1a;
+}
+
+.profile-container.light .form-group input:focus {
+  border-color: #3B82F6;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 0 0 4px rgba(59, 130, 246, 0.15),
+    inset 0 0 15px rgba(59, 130, 246, 0.05);
+}
+
+.profile-container.light .form-group input:disabled {
+  background: rgba(0, 0, 0, 0.02);
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.profile-container.light .profile-actions {
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+.profile-container.dark {
+  background: rgba(18, 18, 18, 0.97);
+  box-shadow: 
+    0 25px 45px rgba(0, 0, 0, 0.4),
+    inset 0 0 80px rgba(59, 130, 246, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.profile-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(59, 130, 246, 0.5), 
+    transparent
+  );
+}
+
+.profile-header h2 {
+  font-size: 3rem;
+  font-weight: 200;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #3B82F6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+
+.profile-header p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ...Add the rest of your existing styles for forms, buttons, etc... */
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.profile-section {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 30px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #3B82F6, #2563EB);
+}
+
+.profile-section:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    inset 0 0 30px rgba(59, 130, 246, 0.1);
+}
+
+.profile-section h3 {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  color: #fff;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.form-group {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3B82F6;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    0 0 0 4px rgba(59, 130, 246, 0.15),
+    inset 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.save-button {
+  padding: 18px 50px;
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 
+    0 4px 15px rgba(59, 130, 246, 0.3),
+    inset 0 0 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.save-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 12px 30px rgba(59, 130, 246, 0.4),
+    inset 0 0 20px rgba(255, 255, 255, 0.4);
+  letter-spacing: 3px;
+}
+
+@media (max-width: 1024px) {
+  .profile-container {
+    margin: 20px;
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-header h2 {
+    font-size: 2.5rem;
+  }
+
+  .profile-section {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 30px;
+  }
+
+  .profile-header h2 {
+    font-size: 2rem;
+  }
+
+  .save-button {
+    width: 100%;
+    padding: 15px;
+  }
+}

@@ -1,63 +1,211 @@
 .sidebar {
   width: 280px;
-  background: #000000;
+  background: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(20px);
   color: #ffffff;
-  padding: 20px;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  box-shadow: 
+    4px 0 20px rgba(0, 0, 0, 0.3),
+    inset -1px 0 0 rgba(255, 255, 255, 0.1);
   position: fixed;
   left: 0;
   top: 0;
   height: 100vh;
   overflow-y: auto;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
 }
 
 .user-info {
   text-align: center;
-  padding: 20px 0;
+  padding: 20px 0 30px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 30px;
 }
 
 .user-avatar {
-  width: 60px;
-  height: 60px;
-  background-color: #808080;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  margin: 0 auto 10px;
+  font-size: 28px;
+  margin: 0 auto 15px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 12px 24px rgba(0, 0, 0, 0.3),
+    inset 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+.user-info h3 {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  letter-spacing: 0.5px;
 }
 
 .sidebar-nav ul {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 0;
 }
 
 .sidebar-nav li {
-  padding: 15px 20px;
-  margin: 5px 0;
+  padding: 12px 20px;
+  margin: 8px 0;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
   font-weight: 500;
+  position: relative;
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .sidebar-nav li:hover {
-  background: #333333;
+  background: rgba(59, 130, 246, 0.1);
+  color: #ffffff;
   transform: translateX(5px);
 }
 
 .sidebar-nav li.active {
-  background: #808080;
-  border-left: 4px solid #ffffff;
+  background: rgba(59, 130, 246, 0.15);
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+.sidebar-nav li.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(to bottom, #3B82F6, #2563EB);
+  border-radius: 0 4px 4px 0;
+}
+
+.theme-toggle {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 280px;
+  padding: 20px;
+  background: inherit;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1001;
+}
+
+.theme-toggle-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.2),
+    inset 0 0 20px rgba(59, 130, 246, 0.05);
+}
+
+/* Theme-specific styles */
+.sidebar.light {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a1a;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.light .user-info {
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.light .user-info h3 {
+  color: #1a1a1a;
+}
+
+.sidebar.light .sidebar-nav li {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.sidebar.light .sidebar-nav li:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #1a1a1a;
+}
+
+.sidebar.light .sidebar-nav li.active {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3B82F6;
+}
+
+.sidebar.light .theme-toggle {
+  border-top-color: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.sidebar.light .theme-toggle-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1a1a1a;
+}
+
+.sidebar.light .theme-toggle-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.1),
+    inset 0 0 20px rgba(59, 130, 246, 0.05);
+}
+
+.sidebar.dark {
+  background: rgba(18, 18, 18, 0.95);
+  color: #ffffff;
+}
+
+.sidebar.dark .theme-toggle {
+  background: rgba(18, 18, 18, 0.95);
+}
+
+/* Add transition properties for smooth theme switching */
+.sidebar,
+.sidebar *,
+.theme-toggle,
+.theme-toggle-btn {
+  transition: 
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
   }
 
   .sidebar.open {
@@ -65,6 +213,6 @@
   }
 
   .sidebar.mobile {
-    z-index: 1000;
+    background: rgba(18, 18, 18, 0.98);
   }
 }

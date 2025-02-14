@@ -1,42 +1,47 @@
 import React, { useState } from 'react';
-import './ClientSettings.css';
+import './Profile.css';
 
-const ClientSettings = ({ user }) => {
-  const [formData, setFormData] = useState({
+const Profile = ({ user, theme }) => {
+  const [profileData, setProfileData] = useState({
     fullName: user.fullName || '',
     email: user.email || '',
     phone: user.phone || '',
-    notifications: true,
-    theme: 'dark'
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
   });
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    const { name, value } = e.target;
+    setProfileData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle settings update logic here
-    console.log('Updated settings:', formData);
+    console.log('Updated profile:', profileData);
+    // Handle profile update logic here
   };
 
   return (
-    <div className="settings-container">
-      <h2>Account Settings</h2>
+    <div className={`profile-container ${theme}`}>
+      <div className="profile-header">
+        <h2>My Profile</h2>
+        <p>Manage your personal information and security</p>
+      </div>
+
       <form onSubmit={handleSubmit}>
-        <div className="settings-grid">
-          <div className="settings-section">
+        <div className="profile-grid">
+          <div className="profile-section">
             <h3>Personal Information</h3>
             <div className="form-group">
               <label>Full Name</label>
               <input
                 type="text"
                 name="fullName"
-                value={formData.fullName}
+                value={profileData.fullName}
                 onChange={handleInputChange}
                 placeholder="Enter your full name"
               />
@@ -46,9 +51,10 @@ const ClientSettings = ({ user }) => {
               <input
                 type="email"
                 name="email"
-                value={formData.email}
+                value={profileData.email}
                 onChange={handleInputChange}
                 placeholder="Enter your email"
+                disabled
               />
             </div>
             <div className="form-group">
@@ -56,46 +62,22 @@ const ClientSettings = ({ user }) => {
               <input
                 type="tel"
                 name="phone"
-                value={formData.phone}
+                value={profileData.phone}
                 onChange={handleInputChange}
                 placeholder="Enter your phone number"
               />
             </div>
           </div>
 
-          <div className="settings-section">
-            <h3>Preferences</h3>
-            <div className="form-group">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="notifications"
-                  checked={formData.notifications}
-                  onChange={handleInputChange}
-                />
-                Enable Email Notifications
-              </label>
-            </div>
-            <div className="form-group">
-              <label>Theme</label>
-              <select
-                name="theme"
-                value={formData.theme}
-                onChange={handleInputChange}
-              >
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
-              </select>
-            </div>
-          </div>
-          
-          <div className="settings-section">
-            <h3>Security</h3>
+          <div className="profile-section">
+            <h3>Security Settings</h3>
             <div className="form-group">
               <label>Current Password</label>
               <input
                 type="password"
                 name="currentPassword"
+                value={profileData.currentPassword}
+                onChange={handleInputChange}
                 placeholder="Enter current password"
               />
             </div>
@@ -104,6 +86,8 @@ const ClientSettings = ({ user }) => {
               <input
                 type="password"
                 name="newPassword"
+                value={profileData.newPassword}
+                onChange={handleInputChange}
                 placeholder="Enter new password"
               />
             </div>
@@ -112,18 +96,22 @@ const ClientSettings = ({ user }) => {
               <input
                 type="password"
                 name="confirmPassword"
+                value={profileData.confirmPassword}
+                onChange={handleInputChange}
                 placeholder="Confirm new password"
               />
             </div>
           </div>
         </div>
 
-        <button type="submit" className="save-settings-btn">
-          Save Changes
-        </button>
+        <div className="profile-actions">
+          <button type="submit" className="save-button">
+            Save Changes
+          </button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default ClientSettings;
+export default Profile;
