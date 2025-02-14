@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme } from '../context/ThemeContext';
-import Sidebar from '../components/Sidebar';
-import FeedbackModal from '../components/FeedbackModal';
-import { sampleProjects } from '../utils/sampleProjects';
+import { useTheme } from '../../context/ThemeContext';
+import Sidebar from '../Sidebar';
+import FeedbackModal from '../FeedbackModal';
+import { sampleProjects } from '../../utils/sampleProjects';
 import './AdminDashboard.css';
 import ProfileSettings from '../pages/ProfileSettings';
 

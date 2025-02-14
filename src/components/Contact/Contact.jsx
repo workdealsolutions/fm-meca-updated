@@ -98,14 +98,6 @@ const Contact = () => {
                 background: isDark ? 'var(--bg-secondary)' : 'var(--bg-primary)'
             }}
         >
-            <motion.h2
-                className="fm-contact-title fm-contact-outside-title"
-                initial={{ y: -50 }}
-                whileInView={{ y: 0 }}
-                transition={{ type: "spring", stiffness: 100 }}
-            >
-                Get in Touch
-            </motion.h2>
             <motion.div
                 className="fm-contact-container"
                 initial={{ y: 100, opacity: 0 }}

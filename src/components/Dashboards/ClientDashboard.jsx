@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/Sidebar/Sidebar';
-import ProjectCard from '../components/ProjectCard/ProjectCard';
-import ClientSettings from '../components/ClientSettings/ClientSettings';
-import Messages from '../components/Messages/Messages';
+import Sidebar from '../Sidebar/Sidebar';
+import ProjectCard from '../ProjectCard/ProjectCard';
+import ClientSettings from '../ClientSettings/ClientSettings';
+import Messages from '../Messages/Messages';
 import './ClientDashboard.css';
 
 const sampleProjects = [

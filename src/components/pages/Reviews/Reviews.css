@@ -388,6 +388,36 @@
   color: white; /* Changed from accent color to white for better contrast */
 }
 
+.mobile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  transform: none !important;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.pagination-button {
+  padding: 8px 12px;
+  border: none;
+  background: var(--accent-color);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-button.active {
+  background: var(--accent-color-dark);
+}
+
 @media (max-width: 768px) {
   .reviews-content {
     padding: 100px 1rem 40px;
@@ -401,6 +431,7 @@
   .reviews-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    overflow: visible;
   }
 
   .reviews-hero {
@@ -410,9 +441,9 @@
   }
 
   .reviews-hero-title {
-    left: 5%;
+    font-size: 2.5rem; /* Updated font size */
     width: 90%;
-    font-size: 2rem;
+    max-width: 600px;
   }
 
   .featured-title {
@@ -444,36 +475,293 @@
     margin-bottom: 1rem;
   }
 
-  .testimonials-card {
-    min-width: 300px;
+  .horizontal-scroll-section {
+    height: auto;
+    overflow-x: hidden;
   }
 
-  .step-counter {
-    top: 1rem;
-    right: 1rem;
+  .reviews-grid.horizontal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    position: relative;
+    transform: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .testimonials-card {
+    width: 100%;
+    min-width: unset;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .testimonials-quote {
     font-size: 0.9rem;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .testimonials-footer {
+    margin-top: auto;
   }
 
   .progress-line {
+    display: none;
+  }
+
+  .reviews-page {
+    min-height: 100vh;
+    overflow-y: visible;
+  }
+
+  .reviews-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .reviews-hero-overlay {
+    position: fixed;
+    height: 100vh;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+
+  .reviews-hero-title {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 90%;
-    top: 120px; /* Adjusted for mobile */
+    max-width: 600px;
+    font-size: 2.8rem;
+    text-align: center;
+    z-index: 5;
   }
 
-  .progress-dot {
-    width: 24px;
-    height: 24px;
+  .reviews-content-wrapper {
+    position: relative;
+    z-index: 10;
+    margin-top: 100vh;
+    background: var(--bg-primary);
+    border-radius: 30px 30px 0 0;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
   }
 
-  .dot-number {
-    font-size: 0.8rem;
+  .reviews-content {
+    padding-top: 3rem;
+    margin-top: 0;
+    background: var(--bg-primary);
   }
 
-  .dot-number {
-    font-size: 0.8rem;
+  .horizontal-scroll-section {
+    height: auto;
+    min-height: auto;
+  }
+
+  .reviews-grid.horizontal {
+    position: relative;
+    flex-direction: column;
+    transform: none;
+    top: 0;
+    left: 0;
+    padding: 1rem;
+  }
+
+  .testimonials-card {
+    width: 100%;
+    min-width: unset;
+    margin: 1rem 0;
+  }
+
+  .reviews-page {
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .reviews-background {
+    position: fixed;
+    height: 100vh;
+    background-attachment: fixed;
+  }
+
+  .reviews-hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+  }
+
+  .reviews-hero-title {
+    font-size: 2.5rem;
+    width: 90%;
+    padding: 0 20px;
+    text-align: center;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .reviews-content-wrapper {
+    position: relative;
+    margin-top: 100vh;
+    background: var(--bg-primary);
+    border-radius: 30px 30px 0 0;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+  }
+
+  .reviews-content {
+    padding: 2rem 1rem;
+    margin-top: 0;
+  }
+
+  .featured-testimonial-section {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .featured-testimonial {
+    padding: 1.5rem;
+  }
+
+  .featured-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .featured-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+  }
+
+  .featured-quote {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 1rem 0;
+  }
+
+  .slider-button {
+    width: 35px;
+    height: 35px;
+    font-size: 1.5rem;
+  }
+
+  .slider-button.prev {
+    left: -5px;
+  }
+
+  .slider-button.next {
+    right: -5px;
+  }
+
+  .testimonials-card {
+    width: calc(100% - 2rem);
+    min-width: unset;
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .testimonials-quote {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .testimonials-footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .testimonials-project {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.8rem;
   }
 
   .horizontal-scroll-section .featured-title {
-    font-size: 2.5rem;
-    margin-bottom: 4rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .reviews-grid.horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+    position: relative;
+    transform: none;
+    top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .reviews-hero-title {
+    font-size: 2.2rem;
+  }
+  .reviews-content-wrapper {
+    margin-top: 100vh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .reviews-hero-title {
+    font-size: 2rem;
+    padding: 0 15px;
+  }
+
+  .featured-quote {
+    font-size: 1rem;
+  }
+
+  .featured-testimonial {
+    padding: 1rem;
+  }
+
+  .testimonials-card {
+    padding: 1rem;
+    margin: 0.5rem;
+    width: calc(100% - 1rem);
+  }
+
+  .featured-client-name {
+    font-size: 1.1rem;
+  }
+
+  .featured-client-location {
+    font-size: 0.9rem;
+  }
+
+  .slider-dots {
+    gap: 0.5rem;
+  }
+
+  .slider-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .reviews-grid.horizontal {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .testimonials-card {
+    padding: 1rem;
+    margin: 0;
   }
 }

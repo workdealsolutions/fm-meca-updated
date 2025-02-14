@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CoworkerSidebar from '../components/Sidebar/CoworkerSidebar';
-import CoworkerSettings from '../components/Settings/CoworkerSettings';
+import CoworkerSidebar from '../Sidebar/CoworkerSidebar';
+import CoworkerSettings from '../Settings/CoworkerSettings';
 import './CoWorkerDashboard.css';
 
 const CoWorkerDashboard = ({ user, projects, setProjects, sendNotification }) => {

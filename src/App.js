@@ -13,15 +13,15 @@ import { OrbitControls, Environment } from '@react-three/drei'
 import { ThemeProvider } from './context/ThemeContext';
 import './styles/theme.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Reviews from './pages/Reviews/Reviews';
-import Login from './Login/Login';
-import LoginBackground from './Login/LoginBackground';
-import SignUp from './Login/SignUp';
-import ForgotPassword from './Login/ForgotPassword';
-import AdminDashboard from './Dashboards/AdminDashboard';
-import CoWorkerDashboard from './Dashboards/CoWorkerDashboard';
-import ClientDashboard from './Dashboards/ClientDashboard';
-import RoleSelection from './Login/RoleSelection';
+import Reviews from './components/pages/Reviews/Reviews';
+import Login from './components/Login/Login';
+import LoginBackground from './components/Login/LoginBackground';
+import SignUp from './components/Login/SignUp';
+import ForgotPassword from './components/Login/ForgotPassword';
+import AdminDashboard from './components/Dashboards/AdminDashboard';
+import CoWorkerDashboard from './components/Dashboards/CoWorkerDashboard';
+import ClientDashboard from './components/Dashboards/ClientDashboard';
+import RoleSelection from './components/Login/RoleSelection';
 import { NotificationProvider } from './context/NotificationContext';
 
 // Add ScrollToTop component

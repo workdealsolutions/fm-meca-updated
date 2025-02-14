@@ -1,15 +1,21 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../../../context/ThemeContext';
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import Navbar from '../../components/Navbar/Navbar';
-import Footer from '../../components/Footer/Footer';
+import Navbar from '../../Navbar/Navbar';
+import Footer from '../../Footer/Footer';
 import './Reviews.css';
+import { useMediaQuery } from 'react-responsive';
 
 const Reviews = () => {
   const { isDark } = useTheme();
   const heroImageUrl = "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1800";
+
+  // Add mobile breakpoint detection
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 769, maxWidth: 1024 });
+  const isLargeScreen = useMediaQuery({ minWidth: 1025 });
 
   // Move static data declarations here, before the hooks
   const testimonials = [
@@ -102,12 +108,35 @@ const Reviews = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeStep, setActiveStep] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [currentPage, setCurrentPage] = useState(1);
   
   // Refs
   const containerRef = useRef(null);
   const sectionRef = useRef(null);
 
-  // Effects and other code remain the same
+  useEffect(() => {
+    // Adjust items per page based on screen size
+    if (isMobile) {
+      setItemsPerPage(2);
+    } else if (isTablet) {
+      setItemsPerPage(3);
+    } else {
+      setItemsPerPage(4);
+    }
+  }, [isMobile, isTablet]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(testimonials.length / itemsPerPage);
+  const paginatedTestimonials = testimonials.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.scrollY > window.innerHeight / 3;
@@ -119,6 +148,8 @@ const Reviews = () => {
   }, []);
 
   useLayoutEffect(() => {
+    if (isMobile) return; // Don't apply GSAP animations on mobile
+
     gsap.registerPlugin(ScrollTrigger);
     
     const timeline = gsap.timeline({
@@ -152,7 +183,7 @@ const Reviews = () => {
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
-  }, [testimonials.length]);
+  }, [testimonials.length, isMobile]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % featuredTestimonials.length);
@@ -207,7 +238,7 @@ const Reviews = () => {
                 >
                   <div className="featured-content">
                     <img 
-                      src={featuredTestimonials[currentSlide].image} 
+                      src={featuredTestimonials[currentSlide].image || "/placeholder.svg"} 
                       alt={featuredTestimonials[currentSlide].name} 
                       className="featured-image" 
                     />
@@ -250,29 +281,31 @@ const Reviews = () => {
 
           <div className="horizontal-scroll-section" ref={sectionRef}>
             <h2 className="featured-title">All Reviews</h2>
-            <div className="progress-line">
-              <div className="progress-line-fill"></div>
-              {testimonials.map((_, index) => (
-                <div 
-                  key={index} 
-                  className={`progress-dot ${index + 1 === activeStep ? 'active' : ''}`}
-                  style={{
-                    left: `${(index / (testimonials.length - 1)) * 100}%`
-                  }}
-                >
-                  <span className="dot-number">{index + 1}</span>
-                </div>
-              ))}
-            </div>
-            <div className="reviews-grid horizontal" ref={containerRef}>
-              {testimonials.map((testimonial, index) => (
+            {!isMobile && (
+              <div className="progress-line">
+                <div className="progress-line-fill"></div>
+                {testimonials.map((_, index) => (
+                  <div 
+                    key={index} 
+                    className={`progress-dot ${index + 1 === activeStep ? 'active' : ''}`}
+                    style={{
+                      left: `${(index / (testimonials.length - 1)) * 100}%`
+                    }}
+                  >
+                    <span className="dot-number">{index + 1}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className={`reviews-grid ${isMobile ? 'mobile-grid' : 'horizontal'}`} ref={containerRef}>
+              {(isMobile ? paginatedTestimonials : testimonials).map((testimonial, index) => (
                 <motion.div
                   key={index}
-                  className={`testimonials-card ${index + 1 === activeStep ? 'active' : ''}`}
+                  className={`testimonials-card ${!isMobile && index + 1 === activeStep ? 'active' : ''}`}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ 
-                    opacity: index + 1 === activeStep ? 1 : 0.5,
-                    scale: index + 1 === activeStep ? 1 : 0.8
+                    opacity: isMobile ? 1 : (index + 1 === activeStep ? 1 : 0.5),
+                    scale: isMobile ? 1 : (index + 1 === activeStep ? 1 : 0.8)
                   }}
                   transition={{ duration: 0.5 }}
                 >
@@ -292,6 +325,19 @@ const Reviews = () => {
                 </motion.div>
               ))}
             </div>
+            {isMobile && (
+              <div className="pagination">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    className={`pagination-button ${currentPage === page ? 'active' : ''}`}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </main>
         <Footer />

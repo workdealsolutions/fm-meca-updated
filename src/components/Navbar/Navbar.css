@@ -265,71 +265,66 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 180px;
-    height: 50px;
-    background: rgba(24, 24, 24, 0.95);
+    width: 150px;
+    height: 45px;
+    background: rgba(88, 73, 73, 0.95);
     color: #ffffff;
-    border-radius: 30px;
+    border-radius: 12px;
     text-decoration: none;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
-    font-size: 1.1rem;
-    letter-spacing: 1.5px;
+    font-size: 1rem;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    text-align: center;      /* Added text-align */
-    line-height: 50px;      /* Match height for vertical centering */
+    text-align: center;
+    line-height: 45px;
     position: relative;
     overflow: hidden;
     margin-left: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 
-        0 4px 15px rgba(0, 0, 0, 0.2),
-        inset 0 2px 2px rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
+    border: 2px solid rgba(88, 73, 73, 0.3);
+    transition: all 0.3s ease;
 }
 
-.fm-login-button span {     /* Added span styling */
+.fm-login-button span {
     position: relative;
     z-index: 1;
     display: inline-block;
     width: 100%;
     text-align: center;
+    transition: all 0.3s ease;
 }
 
 .fm-login-button::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
+    left: -100%;
     width: 100%;
     height: 100%;
     background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.1),
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
         transparent
     );
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: left 0.7s ease;
 }
 
 .fm-login-button:hover {
     transform: translateY(-2px);
-    background: rgba(40, 40, 40, 0.95);
-    color: #ffffff;         /* Ensure color stays white on hover */
-    box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.3),
-        inset 0 2px 2px rgba(255, 255, 255, 0.2);
+    background: rgba(88, 73, 73, 1);
+    color: #ffffff;
+    border-color: rgba(88, 73, 73, 0.5);
+    box-shadow: 0 4px 15px rgba(88, 73, 73, 0.3);
 }
 
 .fm-login-button:hover::before {
-    opacity: 1;
+    left: 100%;
 }
 
 .fm-login-button:active {
     transform: translateY(0);
-    box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.2),
-        inset 0 2px 2px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 8px rgba(88, 73, 73, 0.2);
 }
 
 .settings-container {
@@ -537,10 +532,11 @@ body {
     }
 
     .fm-login-button {
-        width: 160px;
-        height: 45px;       /* Adjusted height for mobile */
-        font-size: 1rem;    /* Slightly smaller font for mobile */
-        margin: 0.8rem 0;
+        width: 130px;
+        height: 40px;
+        font-size: 0.9rem;
+        line-height: 40px;
+        margin: 0.6rem 0;
     }
 
     .settings-dropdown {
