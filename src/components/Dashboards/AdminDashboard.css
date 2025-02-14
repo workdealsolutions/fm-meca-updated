@@ -432,3 +432,83 @@
   background: rgba(24, 24, 24, 0.95);
   color: #ffffff;
 }
+
+/* Mobile Responsive Styles */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .admin-dashboard {
+    margin-left: 0;
+  }
+
+  .dashboard-content {
+    padding: 20px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card {
+    width: 100%;
+  }
+
+  /* Sidebar mobile styles */
+  .sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .sidebar.mobile-visible {
+    transform: translateX(0);
+  }
+
+  /* Overlay when menu is open */
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+  }
+
+  .mobile-overlay.visible {
+    display: block;
+  }
+
+  .coworker-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .coworker-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons,
+  .review-buttons {
+    flex-direction: column;
+  }
+}

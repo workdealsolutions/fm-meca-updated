@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import Sidebar from '../Sidebar/Sidebar';
 import ProjectCard from '../ProjectCard/ProjectCard';
 import ClientSettings from '../ClientSettings/ClientSettings';
@@ -55,6 +56,7 @@ const getProgressColor = (progress) => {
 };
 
 const ClientDashboard = ({ user, setProjects, sendNotification }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('projects');
   const [projects, setLocalProjects] = useState(sampleProjects);
   const [inputMethod, setInputMethod] = useState('manual'); // Add this
@@ -150,7 +152,18 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
 
   return (
     <div className="dashboard-container">
-      <Sidebar user={user} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className="menu-toggle">
+        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? '×' : '≡'}
+        </button>
+      </div>
+      <Sidebar 
+        user={user} 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab}
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+      />
       <div className="main-content">
         {activeTab === 'settings' ? (
           <ClientSettings user={user} />

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import CoworkerSidebar from '../Sidebar/CoworkerSidebar';
 import CoworkerSettings from '../Settings/CoworkerSettings';
 import './CoWorkerDashboard.css';
 
 const CoWorkerDashboard = ({ user, projects, setProjects, sendNotification }) => {
+  const isMobile = useIsMobile();
+  const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   const [activeTab, setActiveTab] = useState('projects');
   const [currentStep, setCurrentStep] = useState({});
   const [stepContent, setStepContent] = useState({});
@@ -138,13 +141,22 @@ const CoWorkerDashboard = ({ user, projects, setProjects, sendNotification }) =>
   });
 
   return (
-    <div className="dashboard-container">
+    <div className={`dashboard-container ${isMobile ? 'mobile' : ''}`}>
+      {isMobile && (
+        <div className="menu-toggle">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)}>
+            {sidebarOpen ? '×' : '≡'}
+          </button>
+        </div>
+      )}
       <CoworkerSidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         user={user}
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
       />
-      <div className="main-content">
+      <div className={`main-content ${isMobile ? 'mobile' : ''}`}>
         {activeTab === 'profile' ? (
           <CoworkerSettings 
             user={user}

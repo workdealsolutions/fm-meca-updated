@@ -185,3 +185,98 @@
 .sidebar.light .sidebar-footer {
   border-color: #808080;
 }
+
+.close-mobile-menu {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    bottom: 0;
+    width: 85%;
+    max-width: 300px;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out, left 0.3s ease-in-out;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar.mobile-visible {
+    left: 0;
+    transform: translateX(0);
+  }
+
+  .close-mobile-menu {
+    display: block;
+  }
+
+  .sidebar-nav {
+    padding-top: 60px;
+  }
+
+  .sidebar-nav button {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+  }
+
+  .coworkers-list {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .sidebar-footer {
+    position: relative;
+    margin-top: 20px;
+    padding: 15px;
+  }
+
+  .admin-profile {
+    padding-right: 30px;
+  }
+
+  /* Improve touch targets */
+  .coworker-item,
+  .settings-button,
+  .theme-toggle {
+    padding: 12px 15px;
+    margin: 5px 0;
+  }
+
+  /* Add smooth scrolling */
+  .sidebar {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent background scroll when menu is open */
+  .sidebar.mobile-visible + .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+}
+
+/* Dark theme adjustments for mobile */
+.sidebar.dark .close-mobile-menu {
+  color: #ffffff;
+}
+
+.sidebar.light .close-mobile-menu {
+  color: #333333;
+}

@@ -131,8 +131,81 @@ button:hover {
   background-color: #45a049;
 }
 
+.menu-toggle {
+  display: none;
+}
+
 @media (max-width: 1200px) {
   .main-content {
     margin-left: 300px;  /* Keep consistent with sidebar width */
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+  }
+
+  .menu-toggle button {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #ffffff;
+    background: #1a1a1a;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .dashboard-container.mobile .main-content {
+    margin-left: 0;
+    padding-top: 60px;
+  }
+
+  .project-card {
+    padding: 15px;
+  }
+
+  .project-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .step-card {
+    padding: 12px;
+  }
+
+  .step-submission textarea {
+    min-height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-card {
+    padding: 12px;
+  }
+
+  .step-card {
+    margin: 8px 0;
+  }
+
+  .progress-control {
+    margin: 10px 0;
+  }
+
+  button {
+    width: 100%;
+    margin: 5px 0;
   }
 }

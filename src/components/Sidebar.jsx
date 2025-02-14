@@ -11,14 +11,16 @@ const Sidebar = ({
   adminImage = "/admin-avatar.jpg", 
   coworkers, 
   onCoworkerSelect,
-  onSettingsClick 
+  onSettingsClick,
+  className,
+  onClose // Add this prop
 }) => {
   const { theme, toggleTheme } = useTheme();
   const [showCoworkers, setShowCoworkers] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <div className={`sidebar ${theme}`}>
+    <div className={`sidebar ${theme} ${className || ''}`}>
       <div className="sidebar-header">
         <div className="admin-profile">
           <div className="admin-image">
@@ -27,6 +29,9 @@ const Sidebar = ({
           <h3>Hello, {adminName}</h3>
         </div>
       </div>
+
+      {/* Close button for mobile */}
+      <button className="close-mobile-menu" onClick={onClose}>×</button>
 
       <nav className="sidebar-nav">
         <button 

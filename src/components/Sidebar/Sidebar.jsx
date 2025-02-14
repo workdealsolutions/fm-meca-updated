@@ -1,9 +1,19 @@
 import React from 'react';
 import './Sidebar.css';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
-const Sidebar = ({ user, activeTab, setActiveTab }) => {
+const Sidebar = ({ user, activeTab, setActiveTab, isOpen, setIsOpen }) => {
+  const isMobile = useIsMobile();
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    if (isMobile) {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isOpen ? 'open' : ''} ${isMobile ? 'mobile' : ''}`}>
       <div className="user-info">
         <div className="user-avatar">
           {user.email.charAt(0).toUpperCase()}
@@ -12,30 +22,15 @@ const Sidebar = ({ user, activeTab, setActiveTab }) => {
       </div>
       <nav className="sidebar-nav">
         <ul>
-          <li 
-            className={activeTab === 'projects' ? 'active' : ''} 
-            onClick={() => setActiveTab('projects')}
-          >
-            My Projects
-          </li>
-          <li 
-            className={activeTab === 'new' ? 'active' : ''} 
-            onClick={() => setActiveTab('new')}
-          >
-            New Project
-          </li>
-          <li 
-            className={activeTab === 'messages' ? 'active' : ''} 
-            onClick={() => setActiveTab('messages')}
-          >
-            Messages
-          </li>
-          <li 
-            className={activeTab === 'settings' ? 'active' : ''} 
-            onClick={() => setActiveTab('settings')}
-          >
-            Settings
-          </li>
+          {['projects', 'new', 'messages', 'settings'].map((tab) => (
+            <li 
+              key={tab}
+              className={activeTab === tab ? 'active' : ''} 
+              onClick={() => handleTabClick(tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </li>
+          ))}
         </ul>
       </nav>
     </div>

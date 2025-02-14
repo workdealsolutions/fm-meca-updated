@@ -13,6 +13,7 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedCoworker, setSelectedCoworker] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Initialize with sample projects if no projects are provided
   useEffect(() => {
@@ -20,6 +21,23 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
       setProjects(sampleProjects);
     }
   }, [setProjects, projects]);
+
+  // Add this effect to handle body scroll when menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
+  // Add effect to close mobile menu on tab change
+  useEffect(() => {
+    closeMobileMenu();
+  }, [activeTab]);
 
   const handleInitialReview = (projectId, isApproved, feedback = '') => {
     setProjects(prevProjects => prevProjects.map(project =>
@@ -103,6 +121,20 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
   const openFeedbackModal = (project, type) => {
     setSelectedProject({ ...project, reviewType: type });
     setShowFeedbackModal(true);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  // Update setActiveTab handler to include menu closing
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    closeMobileMenu();
   };
 
   const renderProjectCard = (project) => (
@@ -297,17 +329,33 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
 
   return (
     <div className={`admin-dashboard ${theme}`}>
+      <button className="menu-toggle" onClick={toggleMobileMenu}>
+        ☰
+      </button>
+      
+      {/* Add overlay */}
+      <div 
+        className={`mobile-overlay ${isMobileMenuOpen ? 'visible' : ''}`}
+        onClick={closeMobileMenu}
+      />
+
       <Sidebar 
         activeTab={activeTab} 
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange} // Changed from setActiveTab
         adminName={adminInfo.name}
         adminImage={adminInfo.image}
         coworkers={coworkers}
-        onCoworkerSelect={setSelectedCoworker}
+        onCoworkerSelect={(coworker) => {
+          setSelectedCoworker(coworker);
+          closeMobileMenu();
+        }}
         onSettingsClick={() => {
           setShowSettings(true);
           setSelectedCoworker(null);
+          closeMobileMenu();
         }}
+        className={isMobileMenuOpen ? 'mobile-visible' : ''}
+        onClose={closeMobileMenu} // Add this prop
       />
       <div className="dashboard-content">
         <h2>
