@@ -246,10 +246,8 @@ const AppContent = ({ sendNotification }) => {
 };
 
 const App = () => {
-  // Create a mock sendNotification function until context is available
   const sendNotification = ({ userId, message, type }) => {
     console.log(`Notification for user ${userId}: ${message} (${type})`);
-    // You can implement actual notification logic here
   };
 
   return (

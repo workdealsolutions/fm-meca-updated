@@ -7,13 +7,32 @@ import './AdminDashboard.css';
 import ProfileSettings from '../pages/ProfileSettings';
 
 const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) => {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState('pending');
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedCoworker, setSelectedCoworker] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
+
+  // Add sample clients data
+  const sampleClients = [
+    {
+      id: 1,
+      name: "John Smith",
+      projectsCount: 3,
+      satisfactionLevel: 95,
+      latestFeedback: "Excellent service and very professional team. Would definitely recommend!"
+    },
+    {
+      id: 2,
+      name: "Sarah Johnson",
+      projectsCount: 5,
+      satisfactionLevel: 98,
+      latestFeedback: "Outstanding work quality and great communication throughout the project."
+    }
+  ];
 
   // Initialize with sample projects if no projects are provided
   useEffect(() => {
@@ -138,15 +157,15 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
   };
 
   const renderProjectCard = (project) => (
-    <div className={`project-card ${theme}`}>
+    <div className={`project-card ${theme}`} key={project.id}>
       <div className="project-header">
-        <h4>{project.client}</h4>
-        <span className={`status-badge ${project.status}`}>
+        <h4 className={theme}>{project.client}</h4>
+        <span className={`status-badge ${project.status} ${theme}`}>
           {project.status.replace(/-/g, ' ')}
         </span>
       </div>
 
-      <div className="project-details">
+      <div className={`project-details ${theme}`}>
         <p><strong>Description:</strong> {project.description}</p>
         <p><strong>Budget:</strong> ${project.budget.toLocaleString()}</p>
         <p><strong>Submitted:</strong> {new Date(project.submissionDate).toLocaleDateString()}</p>
@@ -161,7 +180,7 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
         </div>
 
         {project.status === 'pending' && (
-          <div className="action-buttons">
+          <div className={`action-buttons ${theme}`}>
             <button 
               className="button approve-button"
               onClick={() => handleInitialReview(project.id, true)}
@@ -169,7 +188,7 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
               Approve Project
             </button>
             <button 
-              className="button reject-button"
+              className={`button reject-button ${theme}`}
               onClick={() => openFeedbackModal(project, 'initial')}
             >
               Decline Project
@@ -231,16 +250,16 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
 
   const renderCoworkerDetails = (coworker) => (
     <div className={`coworker-details ${theme}`}>
-      <button className="back-button" onClick={() => setSelectedCoworker(null)}>
-        ← Back to Projects
+      <button className={`back-button ${theme}`} onClick={() => setSelectedCoworker(null)}>
+         Back to Projects
       </button>
-      <div className="coworker-profile">
+      <div className={`coworker-profile ${theme}`}>
         <div className="coworker-header">
           <div className="coworker-avatar">
             <img src={coworker.avatar || '/default-avatar.png'} alt={coworker.name} />
           </div>
           <h2>{coworker.name}</h2>
-          <span className={`status-indicator ${coworker.status}`}>
+          <span className={`status-indicator ${coworker.status || 'active'} ${theme}`}>
             {coworker.status || 'Active'}
           </span>
         </div>
@@ -286,6 +305,54 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
     </div>
   );
 
+  const renderClientDetails = (client) => (
+    <div className={`client-details ${theme}`}>
+      <button className={`back-button ${theme}`} onClick={() => setSelectedClient(null)}>
+         Back to Projects
+      </button>
+      <div className={`client-profile ${theme}`}>
+        <div className="client-header">
+          <h2>{client.name}</h2>
+          <div className="client-overview">
+            <div className="stat-card">
+              <h3>Total Projects</h3>
+              <p>{client.projectsCount}</p>
+            </div>
+            <div className="stat-card">
+              <h3>Satisfaction Level</h3>
+              <p>{client.satisfactionLevel}%</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="client-feedback-section">
+          <h3>Latest Feedback</h3>
+          <blockquote className={`feedback-quote ${theme}`}>
+            "{client.latestFeedback}"
+          </blockquote>
+        </div>
+
+        <div className="client-projects">
+          <h3>Projects History</h3>
+          <div className="projects-list">
+            {projects
+              .filter(project => project.client === client.name)
+              .map(project => (
+                <div key={project.id} className={`project-item ${theme}`}>
+                  <h4>{project.description}</h4>
+                  <div className="project-meta">
+                    <span>Status: {project.status}</span>
+                    <span>Budget: ${project.budget}</span>
+                    <span>Date: {new Date(project.submissionDate).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   // Add admin info - replace with actual admin data from your auth system
   const adminInfo = {
     name: "David Smith",
@@ -310,6 +377,9 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
         />
       );
     }
+    if (selectedClient) {
+      return renderClientDetails(selectedClient);
+    }
     if (selectedCoworker) {
       return renderCoworkerDetails(selectedCoworker);
     }
@@ -329,13 +399,13 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
 
   return (
     <div className={`admin-dashboard ${theme}`}>
-      <button className="menu-toggle" onClick={toggleMobileMenu}>
+      <button className={`menu-toggle ${theme}`} onClick={toggleMobileMenu}>
         ☰
       </button>
       
       {/* Add overlay */}
       <div 
-        className={`mobile-overlay ${isMobileMenuOpen ? 'visible' : ''}`}
+        className={`mobile-overlay ${isMobileMenuOpen ? 'visible' : ''} ${theme}`}
         onClick={closeMobileMenu}
       />
 
@@ -345,8 +415,15 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
         adminName={adminInfo.name}
         adminImage={adminInfo.image}
         coworkers={coworkers}
+        clients={sampleClients} // Add the clients prop
         onCoworkerSelect={(coworker) => {
           setSelectedCoworker(coworker);
+          closeMobileMenu();
+        }}
+        onClientSelect={(client) => {
+          setSelectedClient(client);
+          setSelectedCoworker(null);
+          setShowSettings(false);
           closeMobileMenu();
         }}
         onSettingsClick={() => {
@@ -354,12 +431,14 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
           setSelectedCoworker(null);
           closeMobileMenu();
         }}
-        className={isMobileMenuOpen ? 'mobile-visible' : ''}
+        className={`${isMobileMenuOpen ? 'mobile-visible' : ''} ${theme}`}
         onClose={closeMobileMenu} // Add this prop
+        theme={theme}
       />
-      <div className="dashboard-content">
-        <h2>
+      <div className={`dashboard-content ${theme}`}>
+        <h2 className={theme}>
           {showSettings ? 'Profile Settings' :
+           selectedClient ? `Client: ${selectedClient.name}` :
            selectedCoworker ? 'Coworker Profile' :
            activeTab === 'pending' ? 'New Projects' : 'Projects Under Review'}
         </h2>
@@ -377,6 +456,7 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
             }
             setShowFeedbackModal(false);
           }}
+          theme={theme}
         />
       )}
     </div>
