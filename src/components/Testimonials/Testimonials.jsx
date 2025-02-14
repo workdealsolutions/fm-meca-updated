@@ -1,12 +1,36 @@
 import { motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { Link } from 'react-router-dom';
 import './Testimonials.css';
 
 const Testimonials = () => {
   const { isDark } = useTheme();
-  const { language, translations } = useLanguage();
-  const { title, testimonials } = translations[language].testimonialsSection;
+
+  // Temporary static data
+  const testimonials = [
+    {
+      stars: 5,
+      quote: "Amazing service! Really professional and efficient.",
+      name: "John Doe",
+      location: "New York",
+      project: "Website Development"
+    },
+    {
+      stars: 5,
+      quote: "Exceeded my expectations in every way possible.",
+      name: "Jane Smith",
+      location: "London",
+      project: "Mobile App"
+    },
+    {
+      stars: 5,
+      quote: "Exceeded my expectations in every way possible.",
+      name: "Jane Smith",
+      location: "London",
+      project: "Mobile App"
+    },
+    // Add more testimonials as needed
+  ];
 
   return (
     <motion.section 
@@ -18,22 +42,16 @@ const Testimonials = () => {
         background: isDark ? '#000000' : 'var(--bg-primary)'
       }}
     >
-      <motion.h2 
-        className="testimonials-title"
-        initial={{ y: -50 }}
-        whileInView={{ y: 0 }}
-        transition={{ type: "spring", stiffness: 100 }}
-      >
-        {title}
+      <motion.h2 className="testimonials-title">
+        What Our Clients Say
       </motion.h2>
 
       <div className="testimonials-scroll-container">
-        <div className="testimonials-gradient-left"></div>
         <div className="testimonials-container">
           <div className="testimonials-track">
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
+            {testimonials.map((testimonial, index) => (
               <motion.div
-                key={`${index >= testimonials.length ? 'repeat-' : ''}${index % testimonials.length}`}
+                key={index}
                 className="testimonials-card"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -95,8 +113,18 @@ const Testimonials = () => {
             ))}
           </div>
         </div>
-        <div className="testimonials-gradient-right"></div>
       </div>
+
+      <motion.div 
+        className="explore-more-container"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <Link to="/reviews" className="explore-more-button">
+          Explore More Reviews
+        </Link>
+      </motion.div>
     </motion.section>
   );
 };

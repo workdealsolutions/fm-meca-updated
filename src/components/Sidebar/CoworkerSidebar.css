@@ -1,0 +1,92 @@
+.coworker-sidebar {
+  width: 300px;  /* Increased from 250px */
+  background-color: #000000;  /* Pure black background */
+  color: #ffffff;  /* Pure white text */
+  height: 100vh;
+  padding: 20px 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-header {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid #333333;  /* Dark grey border */
+}
+
+.user-info {
+  text-align: center;
+}
+
+.user-info img {
+  width: 100px;  /* Increased from 80px */
+  height: 100px;  /* Increased from 80px */
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 2px solid #808080;  /* Medium grey border */
+  padding: 2px;
+  background-color: #ffffff;  /* White background for image */
+}
+
+.user-info h3 {
+  margin: 0;
+  font-size: 1.1em;
+  color: #ffffff;  /* Pure white text */
+}
+
+.user-info p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #cccccc;  /* Light grey text */
+}
+
+.sidebar-nav {
+  padding: 20px 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;  /* Increased padding */
+  width: 100%;
+  border: none;
+  background: none;
+  color: #cccccc;  /* Light grey text */
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.1em;  /* Slightly larger font */
+}
+
+.nav-item:hover {
+  background-color: #333333;  /* Dark grey background on hover */
+  color: #ffffff;  /* Pure white text on hover */
+}
+
+.nav-item.active {
+  background-color: #404040;  /* Medium-dark grey for active state */
+  color: #ffffff;  /* Pure white text for active state */
+  border-left: 4px solid #ffffff;  /* White border indicator */
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+  opacity: 0.9;
+}
+
+/* Add subtle hover effects */
+.nav-item:hover .icon {
+  opacity: 1;
+}
+
+/* Add transition effects */
+.nav-item, .icon {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Update the main content margin to match new sidebar width */
+.main-content {
+  margin-left: 300px;  /* Match the new sidebar width */
+}

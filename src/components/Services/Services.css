@@ -43,13 +43,14 @@
   width: 100%;
   position: relative;
   z-index: 1;
+  padding-top: 0; /* Added to remove extra space */
 }
 
 .services-title {
   font-family: "Syncopate", sans-serif;
   font-size: 2.8rem;
   text-align: center;
-  margin-bottom: 2rem; /* Reduced from 5rem to 2rem */
+  margin-bottom: 1rem; /* Reduced from 2rem to 1rem */
   background: linear-gradient(45deg, #ffffff, #a0a0a0);
   -webkit-background-clip: text;
   background-clip: text;
@@ -64,24 +65,26 @@
   display: flex;
   flex-direction: column;
   gap: 4rem; /* Reduced from 6rem to 4rem */
-  color: red;
+  color: rgb(88, 73, 73);
 }
 
 .service-item {
   display: flex;
   align-items: center;
   gap: 4rem;
-  color: red;
+  color: rgb(88, 73, 73);
   transition: color 0.3s ease;
+  will-change: transform; /* Add will-change */
+  transform: translateZ(0); /* Force GPU acceleration */
 }
 
 .service-item:hover {
-  color: darkred;
+  color: rgb(88, 73, 73);
 }
 
 .service-item:nth-child(even) {
   flex-direction: row-reverse;
-  color: red;
+  color: rgb(88, 73, 73);
 }
 
 .service-card {
@@ -104,6 +107,9 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  transform: translateZ(0); /* Force GPU acceleration */
+  will-change: transform, opacity; /* Add will-change */
+  backface-visibility: hidden; /* Optimize transforms */
 }
 
 .service-card::before {
@@ -143,15 +149,22 @@
 .service-card:hover {
   transform: translateY(-15px) scale(1.02);
   background: linear-gradient(165deg, 
-    rgba(50, 50, 50, 0.95) 0%,
-    rgba(30, 30, 30, 0.95) 50%,
-    rgba(20, 20, 20, 0.98) 100%
+    var(--card-hover-bg, rgba(50, 50, 50, 0.95)) 0%,
+    var(--card-hover-bg-mid, rgba(30, 30, 30, 0.95)) 50%,
+    var(--card-hover-bg-end, rgba(20, 20, 20, 0.98)) 100%
   );
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(var(--border-color, 255, 255, 255), 0.15);
   box-shadow: 
     0 30px 60px rgba(0, 0, 0, 0.4),
     0 20px 30px rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    inset 0 0 0 1px rgba(var(--border-color, 255, 255, 255), 0.1);
+}
+
+[data-theme="light"] .service-card:hover {
+  --card-hover-bg: rgba(250, 250, 250, 0.95);
+  --card-hover-bg-mid: rgba(245, 245, 245, 0.95);
+  --card-hover-bg-end: rgba(235, 235, 235, 0.98);
+  --border-color: 0, 0, 0;
 }
 
 .service-card:hover::after {
@@ -285,6 +298,9 @@
     0 20px 40px rgba(0, 0, 0, 0.4),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   position: relative;
+  transform: translateZ(0); /* Force GPU acceleration */
+  will-change: transform; /* Add will-change */
+  backface-visibility: hidden; /* Optimize transforms */
 }
 
 .service-image img {
@@ -354,8 +370,8 @@
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from { transform: rotate(0deg) translateZ(0); }
+  to { transform: rotate(360deg) translateZ(0); }
 }
 
 /* Add this new animation for smoother gradient transitions */
@@ -369,9 +385,23 @@
   50% { opacity: 1; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .service-card,
+  .service-image,
+  .service-button {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  @keyframes rotate {
+    from, to { transform: none; }
+  }
+}
+
 .services-section-title {
   text-align: center;
-  margin-bottom: 2rem; /* Reduced from 4rem to 2rem */
+  margin-bottom: 1rem; /* Reduced from 2rem to 1rem */
   position: relative;
   padding-bottom: 1rem;
 }
@@ -406,7 +436,7 @@
   transform: translateX(-50%);
   width: 100px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgb(139,0,0), transparent);
+  background: linear-gradient(90deg, transparent, rgb(88, 73, 73), transparent);
 }
 
 @media (max-width: 768px) {

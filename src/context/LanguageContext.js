@@ -27,24 +27,20 @@ export const LanguageProvider = ({ children }) => {
       },
       hero: {
         title: {
-          line1: 'Engineering the',
-          line2: 'Future of',
-          line3: 'Innovation'
+          line1: 'Engineering ',
+          line2: 'Just a Step',
+          line3: 'Away'
         },
-        subtitle: 'We combine precision engineering with innovative design to create solutions that define the next generation of mechanical excellence.',
+        subtitle: 'We work as an extension of your team, providing expert engineering solutions with smooth collaboration and innovation at every step.',
         cta: 'Get Started',
         services: [
           {
-            title: 'Mechanical Design',
-            desc: 'Machinery & Equipment Customizations'
+            title: 'Access Your Client Space ',
+            desc: 'Manage your project, track progress and stay updated'
           },
           {
-            title: 'Systems Engineering',
-            desc: 'Product Design & Engineering'
-          },
-          {
-            title: 'Technical Innovation',
-            desc: 'Manufacturing Documents Management'
+            title: 'Start You Project With Us',
+            desc: 'Tell us about your needs, and let s bring your ideas to life'
           }
         ]
       },
@@ -52,19 +48,19 @@ export const LanguageProvider = ({ children }) => {
         title: "Pioneering Excellence in Engineering",
         services: [
           {
-            title: "Machinery & Equipment Customizations",
-            description: "Specialized in designing and delivering customized machinery and equipment solutions. Our expertise spans industrial systems, precision assembly lines, and advanced packaging solutions, driving efficiency and productivity through innovation.",
+            title: "Industrial & Production Solutions",
+            description: "Is your production too slow or facing quality problems? Inefficient processes waste time and increase costs. We improve your production line to make manufacturing faster, more accurate, and more reliable—helping you produce more with fewer mistakes.",
           },
           {
-            title: "Product Design & Engineering",
-            description: "Comprehensive end-to-end solutions in design, engineering, and product development. We transform concepts into reality, ensuring precision, functionality, and scalability throughout the entire process.",
+            title: "Product Development & Innovation",
+            description: "Have a great idea? We turn it into a real, manufacturable product—ready for production and success. From concept to production, we work side by side in a confidential, cooperative process to bring your vision to life. We focus on smart design to make your product easy to produce, high quality, and market-ready.",
           },
           {
-            title: "Manufacturing Documents Management",
-            description: "Expert management of technical documentation and equipment optimization. We enhance efficiency and scalability for production lines, providing clear and precise documentation management solutions.",
+            title: "Engineering Data & Documentation",
+            description: "Have a great idea? We turn it into a real, manufacturable product—ready for production and success. From concept to production, we work side by side in a confidential, cooperative process to bring your vision to life. We focus on smart design to make your product easy to produce, high quality, and market-ready.",
           }
         ],
-        exploreButton: "Explore Innovation"
+        exploreButton: "Shape Your Vision"
       },
       testimonialsSection: {
         title: "Here's what our customers say",

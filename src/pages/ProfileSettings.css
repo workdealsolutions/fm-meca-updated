@@ -1,0 +1,297 @@
+.profile-settings {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+}
+
+.profile-settings h1 {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.profile-settings h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.avatar-section {
+  text-align: center;
+  margin: 0 auto 60px;
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.avatar-section img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.avatar-section::after {
+  content: 'Change Photo';
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.avatar-section:hover::after {
+  opacity: 1;
+  bottom: -35px;
+}
+
+.avatar-section input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.avatar-section:hover img {
+  filter: brightness(0.8);
+}
+
+.form-group {
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.password-section {
+  margin-top: 50px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.password-section h3 {
+  font-size: 1.4rem;
+  margin-bottom: 30px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.save-button {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 40px;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.save-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Light theme */
+.profile-settings.light {
+  background: #ffffff;
+  color: #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-settings.light input {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.profile-settings.light input:focus {
+  border-color: #666;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+.profile-settings.light .save-button {
+  background: #000000;
+  color: #ffffff;
+}
+
+.profile-settings.light .save-button:hover {
+  background: #000;
+}
+
+.profile-settings.light .form-group {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.profile-settings.light .form-group label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.profile-settings.light .form-group input {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #333333;
+}
+
+.profile-settings.light .avatar-section::after {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.profile-settings.light .password-section {
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+.profile-settings.light .password-section h3 {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dark theme */
+.profile-settings.dark {
+  background: rgba(24, 24, 24, 0.95);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-settings.dark input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.profile-settings.dark input:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
+}
+
+.profile-settings.dark .save-button {
+  background: #fff;
+  color: #000;
+}
+
+.profile-settings.dark .save-button:hover {
+  background: #f2f2f2;
+  transform: translateY(-2px);
+}
+
+/* Shared hover effects */
+.form-group input:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.form-group input:focus {
+  outline: none;
+}
+
+.save-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: inherit;
+  font-size: 1rem;
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.back-button::before {
+  content: '←';
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(-5px);
+}
+
+.back-button:hover::before {
+  transform: translateX(-3px);
+}
+
+/* Light theme overrides */
+.profile-settings.light .back-button {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.profile-settings.light .back-button:hover {
+  background: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark theme overrides */
+.profile-settings.dark .back-button {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.profile-settings.dark .back-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}

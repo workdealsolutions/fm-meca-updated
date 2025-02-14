@@ -1,18 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX, FiSettings } from 'react-icons/fi';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useLanguage } from '../../context/LanguageContext';
 import LanguageToggle from '../../context/LanguageToggle';
 import './Navbar.css';
 import { useTheme } from '../../context/ThemeContext';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Navbar = ({ onNavigate, currentSection }) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const { isDark, toggleTheme } = useTheme();
   const { language, translations } = useLanguage();
+  const [showSettings, setShowSettings] = useState(false);
+  const settingsRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,12 +41,32 @@ const Navbar = ({ onNavigate, currentSection }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+        setShowSettings(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const handleNavigation = (href) => {
-    onNavigate(href);
+    if (window.location.pathname !== '/' && href === '#home') {
+      // If we're not on homepage and user clicks home, navigate to root
+      navigate('/', { replace: true });
+      return;
+    }
+    
+    // Otherwise use existing navigation
+    if (onNavigate) {
+      onNavigate(href);
+    }
     setIsOpen(false);
   };
 
@@ -54,13 +78,49 @@ const Navbar = ({ onNavigate, currentSection }) => {
     { name: translations[language]?.navigation?.contact || 'Contact', href: '#contact' }
   ];
 
+  const renderNavControls = () => (
+    <motion.li className="nav-controls">
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        <Link to="/login" className="fm-login-button">
+          <span>Login</span>
+        </Link>
+      </motion.div>
+      <div className="settings-container" ref={settingsRef}>
+        <motion.button
+          className="settings-toggle"
+          onClick={() => setShowSettings(!showSettings)}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <FiSettings className={showSettings ? 'rotating' : ''} />
+        </motion.button>
+        {showSettings && (
+          <div className="settings-dropdown">
+            <motion.button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {isDark ? <FaSun /> : <FaMoon />}
+            </motion.button>
+            <LanguageToggle />
+          </div>
+        )}
+      </div>
+    </motion.li>
+  );
+
   return (
     <nav className={`navbar ${isOpen ? 'open' : ''} ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
         <motion.a 
           href="#home" 
           className="logo"
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.03 }}  // Reduced scale effect
           transition={{ type: "spring", stiffness: 400 }}
         >
           <img src="/jpg_to_png-removebg-preview.png" alt="FM MECA" />
@@ -82,7 +142,8 @@ const Navbar = ({ onNavigate, currentSection }) => {
             window.innerWidth <= 768  // Only animate on mobile
               ? { 
                   x: isOpen ? 0 : "100%",
-                  opacity: isOpen ? 1 : 0 
+                  opacity: isOpen ? 1 : 0,
+                  transition: { duration: 0.2 }  // Faster transition
                 }
               : { opacity: 1, x: 0 }
           }
@@ -108,24 +169,14 @@ const Navbar = ({ onNavigate, currentSection }) => {
               </a>
             </motion.li>
           ))}
-          <motion.li className="nav-controls">
-            <motion.button
-              className="theme-toggle"
-              onClick={toggleTheme}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isDark ? <FaSun /> : <FaMoon />}
-            </motion.button>
-            <LanguageToggle />
-          </motion.li>
+          {renderNavControls()}
         </motion.ul>
         <motion.div 
           className="scroll-indicator"
           style={{ width: `${scrollProgress}%` }}
           initial={{ width: 0 }}
           animate={{ width: `${scrollProgress}%` }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}  // Faster transition
         />
       </div>
     </nav>

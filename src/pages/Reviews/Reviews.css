@@ -1,0 +1,479 @@
+.reviews-page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: transparent; /* Changed from var(--bg-primary) */
+}
+
+.reviews-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.reviews-content-wrapper {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 80vh,
+    var(--bg-primary) 100vh
+  );
+}
+
+.reviews-content {
+  padding: 120px 5% 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 100vh; /* Start content after the full viewport height */
+  background: transparent; /* Changed from var(--bg-primary) */
+  position: relative;
+  z-index: 3;
+  margin-top: -20vh; /* Pull content up slightly */
+}
+
+.reviews-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  background: linear-gradient(to right, var(--accent-color), var(--text-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+  position: relative;
+  background: var(--bg-primary);
+  padding-top: 4rem;
+  border-radius: 50px 50px 0 0;
+}
+
+.reviews-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  margin-bottom: 4rem;
+  border-radius: 0 0 50px 50px;
+  overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.reviews-hero-overlay {
+  position: fixed; /* Changed to fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  z-index: 1;
+}
+
+.reviews-hero-title {
+  position: fixed; /* Changed to fixed */
+  top: 50%;
+  left: 15%; /* Changed from 50% */
+  transform: translate(0, -50%); /* Changed from translate(-50%, -50%) */
+  color: white;
+  font-size: 4rem;
+  width: 600px; /* Fixed width instead of percentage */
+  text-align: left; /* Changed from center */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  letter-spacing: 2px;
+  font-weight: 700;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Hide title when scrolled */
+.reviews-hero-title.scrolled {
+  opacity: 0;
+}
+
+.featured-testimonial-section {
+  padding: 4rem 2rem;
+  margin-bottom: 4rem;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--bg-primary)
+  );
+  border-radius: 30px;
+}
+
+.featured-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.featured-testimonial-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.featured-testimonial {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.featured-quote {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: white;
+  margin: 2rem 0;
+  text-align: center;
+  font-style: italic;
+}
+
+.slider-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.slider-button.prev {
+  left: -25px;
+}
+
+.slider-button.next {
+  right: -25px;
+}
+
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(128, 128, 128, 0.3); /* Changed to grey */
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-dot.active {
+  background: #808080; /* Changed to solid grey */
+  transform: scale(1.2);
+}
+
+.featured-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+}
+
+.featured-client-name {
+  font-size: 1.3rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.featured-client-location {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.featured-project {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: white;
+}
+
+.featured-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.featured-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+.featured-text {
+  flex: 1;
+}
+
+.featured-quote.light-mode {
+  color: #000;
+}
+
+.featured-client-name.light-mode {
+  color: #000;
+}
+
+.featured-client-location.light-mode {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.horizontal-scroll-section {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.reviews-grid.horizontal {
+  display: flex;
+  gap: 4rem;
+  padding: 2rem;
+  position: absolute;
+  left: 0;
+  top: 45%; /* Changed from 50% to move cards up slightly */
+  transform: translateY(-50%);
+  width: fit-content;
+  height: auto;
+}
+
+.horizontal-scroll-section .featured-title {
+  margin-bottom: 5rem;
+  position: relative;
+  z-index: 12;
+  font-size: 4rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  background: linear-gradient(45deg, #fff, var(--accent-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  from {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+  }
+  to {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+  }
+}
+
+.testimonials-card {
+  min-width: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 20px;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.5s ease;
+  transform-origin: center center;
+}
+
+.testimonials-card.active {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--accent-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Remove these classes */
+.step-counter,
+.step-number {
+  display: none;
+}
+
+.progress-line {
+  position: fixed;
+  top: 150px; /* Changed from 100px to be closer to cards */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.progress-line-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent-color);
+  width: 0;
+  transition: width 0.1s linear;
+}
+
+.progress-dot {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: var(--bg-primary);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.progress-dot::before {
+  display: none; /* Remove the inner circle */
+}
+
+.progress-dot.active {
+  border-color: var(--accent-color);
+  transform: translate(-50%, -50%) scale(1.2); /* Updated transform */
+  background: var(--accent-color);
+}
+
+.dot-number {
+  position: relative; /* Changed from absolute */
+  top: 0; /* Changed from -25px */
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.progress-dot.active .dot-number {
+  color: white; /* Changed from accent color to white for better contrast */
+}
+
+@media (max-width: 768px) {
+  .reviews-content {
+    padding: 100px 1rem 40px;
+  }
+  
+  .reviews-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .reviews-hero {
+    height: 50vh;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 2rem;
+  }
+
+  .reviews-hero-title {
+    left: 5%;
+    width: 90%;
+    font-size: 2rem;
+  }
+
+  .featured-title {
+    font-size: 2rem;
+  }
+
+  .featured-quote {
+    font-size: 1.2rem;
+  }
+
+  .featured-testimonial {
+    padding: 2rem 1rem;
+  }
+
+  .slider-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .featured-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .featured-image {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 1rem;
+  }
+
+  .testimonials-card {
+    min-width: 300px;
+  }
+
+  .step-counter {
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .progress-line {
+    width: 90%;
+    top: 120px; /* Adjusted for mobile */
+  }
+
+  .progress-dot {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dot-number {
+    font-size: 0.8rem;
+  }
+
+  .dot-number {
+    font-size: 0.8rem;
+  }
+
+  .horizontal-scroll-section .featured-title {
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+  }
+}

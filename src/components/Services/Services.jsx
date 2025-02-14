@@ -4,6 +4,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { FiSettings, FiBox, FiFileText } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../Modal/ModalDisplay';
 import "./Services.css";
 
 
@@ -35,23 +36,21 @@ const TypeWriter = ({ text, delay = 50 }) => {
 const cardVariants = {
   hidden: {
     opacity: 0,
-    y: 100,
-    scale: 0.9,
-    rotateX: -10,
-    filter: 'blur(10px)'
+    y: 50, // Reduced from 100
+    scale: 0.95, // Changed from 0.9
+    filter: 'blur(4px)' // Reduced blur amount
   },
   visible: index => ({
     opacity: 1,
     y: 0,
     scale: 1,
-    rotateX: 0,
     filter: 'blur(0px)',
     transition: {
       type: "spring",
-      damping: 20,
-      stiffness: 100,
-      delay: index * 0.2,
-      duration: 0.8,
+      damping: 25,
+      stiffness: 200,
+      delay: index * 0.1, // Reduced delay
+      duration: 0.5, // Reduced duration
     }
   })
 };
@@ -63,6 +62,8 @@ const Services = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, threshold: 0.2 });
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedModel, setSelectedModel] = useState(null);
 
   const themeStyles = {
     background: isDark 
@@ -71,7 +72,7 @@ const Services = () => {
     textColor: isDark ? '#ffffff' : '#000000',
     cardBg: isDark 
       ? 'linear-gradient(165deg, rgba(40, 40, 40, 0.95), rgba(10, 10, 10, 0.98))'
-      : 'linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 245, 0.98))',
+      : 'linear-gradient(165deg, rgba(240, 240, 240, 0.95), rgba(220, 220, 220, 0.98))',
     cardBorder: isDark 
       ? 'rgba(255, 255, 255, 0.1)'
       : 'rgba(0, 0, 0, 0.1)',
@@ -81,18 +82,18 @@ const Services = () => {
     titleGradient: isDark
       ? 'linear-gradient(135deg, #000000, rgba(255, 255, 255, 0.7))'
       : 'linear-gradient(135deg, #000000, rgba(0, 0, 0, 0.8))',
-    accentColor: isDark ? '#ff4444' : '#cc0000',
+    accentColor: isDark ? '#ff4444' : 'rgb(88, 73, 73)',
     titleColor: isDark ? '#ffffff' : '#000000',
     cardTitle: isDark ? '#ffffff' : '#000000', // This line ensures black color in light mode
     titleUnderline: isDark 
       ? 'linear-gradient(90deg, #ffffff, transparent)'
-      : 'linear-gradient(90deg, #cc0000, transparent)',
+      : 'linear-gradient(90deg, rgb(88, 73, 73), transparent)',
     descriptionColor: isDark 
       ? 'rgba(255, 255, 255, 0.7)' 
       : 'rgba(70, 70, 70, 0.9)',
     borderColor: isDark
       ? 'rgba(255, 255, 255, 0.1)'
-      : '#cc0000',
+      : 'rgb(88, 73, 73)',
     titleAfter: isDark 
       ? 'linear-gradient(90deg, #000000, transparent)'
       : 'linear-gradient(90deg, #000000, transparent)',
@@ -101,27 +102,39 @@ const Services = () => {
       : 'rgba(0, 0, 0, 0.7)',
   };
 
+  // Add this for performance optimization
+  const shouldReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Optimized animation controls
   useEffect(() => {
     if (inView) {
-      controls.start("visible")
+      controls.start("visible", {
+        transition: {
+          staggerChildren: shouldReduceMotion ? 0 : 0.1,
+          delayChildren: shouldReduceMotion ? 0 : 0.2
+        }
+      });
     }
-  }, [controls, inView])
+  }, [controls, inView]);
 
   const serviceIcons = [<FiSettings />, <FiBox />, <FiFileText />];
   const { title, services, exploreButton } = translations[language].servicesSection;
 
   const handleExploreClick = (index) => {
-    if (index === 0) {
-      navigate('/innovation');
-    } else if (index === 1) {
-      navigate('/innovation2');
-    }
+    setSelectedModel(index === 0 ? 'model1' : index === 1 ? 'model2' : 'model3');
+    setModalOpen(true);
   };
 
   return (
-    <section className="services" style={{ background: themeStyles.background }}>
+    <section className="services" style={{ background: themeStyles.background, paddingTop: '4rem' }}> {/* Reduced padding */}
       <div className="services-content">
-        <div className="services-section-title">
+        {/* Replace current title animations with simpler ones */}
+        <motion.div 
+          className="services-section-title"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <motion.h1 
             className="section-title-main"
             style={{
@@ -149,7 +162,7 @@ const Services = () => {
             whileInView={{ width: "100px", opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           />
-        </div>
+        </motion.div>
 
         <motion.h2
           className="services-title"
@@ -179,7 +192,15 @@ const Services = () => {
             <motion.div
               key={index}
               className="service-item"
-              style={{ color: themeStyles.accentColor }}
+              style={{ 
+                color: themeStyles.accentColor,
+                willChange: 'transform, opacity' // Add will-change for performance
+              }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ margin: "-50px", once: true }} // Reduced margin and added once
+              variants={cardVariants}
+              custom={index}
             >
               <motion.div 
                 className="service-card"
@@ -236,17 +257,18 @@ const Services = () => {
                     color: themeStyles.textColor,
                     borderColor: themeStyles.cardBorder
                   }}
-                  whileHover={{
-                    scale: 1.05,
-                    color: themeStyles.accentColor,
-                    borderColor: themeStyles.accentColor
+                  whileHover={{ 
+                    x: 15,
+                    color: 'rgb(88, 73, 73)',
+                    scale: 1.02,
+                    backgroundColor: "rgba(88, 73, 73, 0.05)",
                   }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0.9 }}
                   animate={{ opacity: 1 }}
                   onClick={() => handleExploreClick(index)}
                 >
-                  {exploreButton}
+                  {index === 0 ? "Create Your Solution" : exploreButton}
                 </motion.button>
               </motion.div>
               <motion.div
@@ -268,7 +290,7 @@ const Services = () => {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <img 
-                  src={index === 0 ? "pics.jpg" : index === 1 ? "pic.jpg" : "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1080,h=883,fit=crop,trim=0;0;16.778985507246375;0/YlenyqBkyesbG2vB/mechanical-sealing.36-mP4ZMBGkJksywGZp.png"} 
+                  src={index === 0 ? "pics.jpg" : index === 1 ? "pic.jpg" : "https://i.pinimg.com/736x/5b/eb/3f/5beb3f51580397c8349a18bbec9c170c.jpg"} 
                   alt={service.title} 
                 />
               </motion.div>
@@ -276,6 +298,11 @@ const Services = () => {
           ))}
         </div>
       </div>
+      <Modal 
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        modelType={selectedModel}
+      />
     </section>
   );
 };

@@ -51,7 +51,7 @@
 
 .flag-icon {
   font-size: 1.4rem;
-  color: #FF0000;
+  color: rgb(88, 73, 73);
   width: 24px;
   height: 24px;
   margin-right: 8px;
@@ -71,7 +71,7 @@
 
 .french-flag .flag-icon {
   color: #002395; /* French flag blue */
-  background: linear-gradient(90deg, #002395 33%, #FFFFFF 33%, #FFFFFF 66%, #ED2939 66%);
+  background: linear-gradient(90deg, #002395 33%, #FFFFFF 33%, #FFFFFF 66%, rgb(88, 73, 73) 66%);
   -webkit-background-clip: text;
   background-clip: text;
   width: 24px;

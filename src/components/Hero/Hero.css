@@ -126,7 +126,7 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    rgb(139,0,0,0.4),
+    rgb(88, 73, 73, 0.4),
     transparent
   );
   animation: shimmer 3s infinite;
@@ -271,7 +271,7 @@ body {
   background: linear-gradient(
     45deg,
     transparent 0%,
-    rgb(139,0,0) 50%,
+    rgb(88, 73, 73) 50%,
     transparent 100%
   );
   transform: translateX(-100%);
@@ -344,11 +344,11 @@ body {
   backdrop-filter: blur(10px);
   border-radius: 25px;
   padding: 3.5rem; /* increased padding */
-  border: 1px solid rgb(139,0,0);
+  border: 1px solid rgb(88, 73, 73);
   box-shadow: 
-    0 20px 40px rgb(139,0,0),
-    0 1px 3px rgb(139,0,0),
-    inset 0 1px 1px rgb(139,0,0);
+    0 20px 40px rgb(88, 73, 73),
+    0 1px 3px rgb(88, 73, 73),
+    inset 0 1px 1px rgb(88, 73, 73);
   width: 100%;
   max-width: 800px;
   margin: 0;  /* changed from auto to 0 */
@@ -628,7 +628,7 @@ body {
   left: 0;
   width: 0;
   height: 1px;
-  background: rgb(139,0,0);
+  background: rgb(88, 73, 73);
   transition: var(--transition);
 }
 
@@ -642,10 +642,7 @@ body {
   to { width: 100% }
 }
 
-@keyframes blink {
-  50% { border-color: transparent }
-}
-
+/* Update typing container and text styles */
 .typing-container {
   display: inline-block;
   overflow: hidden;
@@ -658,32 +655,26 @@ body {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  border-right: 3px solid var(--text-primary);
   width: 0;
-  margin-right: -3px;
-  padding-bottom: 0.05em; /* Reduced padding from 0.1em to 0.05em */
+  margin-right: 0; /* Remove the negative margin that was compensating for border */
+  padding-bottom: 0.05em;
+  animation-fill-mode: forwards;
 }
 
 /* Modify animation timing for each line */
 .typing-text:nth-child(1) {
-  animation: 
-    typing 1.5s steps(20, end) forwards,
-    blink 1s step-end infinite;
+  animation: typing 1.5s steps(20, end) forwards;
   animation-delay: 0.5s;
 }
 
 .typing-container:nth-child(3) .typing-text {
-  animation: 
-    typing 1.5s steps(20, end) forwards,
-    blink 1s step-end infinite;
-  animation-delay: 2s; /* Start after first animation completes */
+  animation: typing 1.5s steps(20, end) forwards;
+  animation-delay: 2s;
 }
 
 .typing-container:nth-child(5) .typing-text {
-  animation: 
-    typing 1.5s steps(20, end) forwards,
-    blink 1s step-end infinite;
-  animation-delay: 3.5s; /* Start after second animation completes */
+  animation: typing 1.5s steps(20, end) forwards;
+  animation-delay: 3.5s;
 }
 
 /* Remove or comment out the delay classes as they're no longer needed */

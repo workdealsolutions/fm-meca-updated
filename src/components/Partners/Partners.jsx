@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import './Partners.css';
 import { useTheme } from '../../context/ThemeContext';
@@ -6,7 +6,17 @@ import { useTheme } from '../../context/ThemeContext';
 const Partners = () => {
   const { isDark } = useTheme();
   const scrollRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const partners = [
     { 
       name: 'ABBK Physicsworks', 
@@ -35,13 +45,11 @@ const Partners = () => {
     },
     { 
       name: 'Markabte', 
-      logo: '/logos/markabte.png',
-      isLight: false 
+      isText: true
     },
     { 
       name: 'SIP', 
-      logo: '/logos/sip.png',
-      isLight: false 
+      isText: true
     },
     { 
       name: 'Phoenixmicron', 
@@ -67,28 +75,18 @@ const Partners = () => {
     const scrollContent = scrollRef.current;
     if (!scrollContent) return;
 
-    const cloneItems = () => {
-      const items = scrollContent.children;
-      const itemWidth = items[0].offsetWidth;
-      const scrollWidth = scrollContent.scrollWidth;
-      
-      // Remove existing clones
-      const existingClones = scrollContent.querySelectorAll('.clone');
-      existingClones.forEach(clone => clone.remove());
+    // Create exactly one copy of the partners for smooth infinite scroll
+    const items = Array.from(scrollContent.children).slice(0, partners.length);
+    items.forEach(item => {
+      const clone = item.cloneNode(true);
+      clone.classList.add('clone');
+      scrollContent.appendChild(clone);
+    });
 
-      // Add new clones until we have enough to ensure continuous scrolling
-      while (scrollContent.scrollWidth < scrollWidth * 2) {
-        Array.from(items).slice(0, partners.length).forEach(item => {
-          const clone = item.cloneNode(true);
-          clone.classList.add('clone');
-          scrollContent.appendChild(clone);
-        });
-      }
+    return () => {
+      const clones = scrollContent.querySelectorAll('.clone');
+      clones.forEach(clone => clone.remove());
     };
-
-    cloneItems();
-    window.addEventListener('resize', cloneItems);
-    return () => window.removeEventListener('resize', cloneItems);
   }, [partners.length]);
 
   return (
@@ -96,7 +94,7 @@ const Partners = () => {
       id="partners" 
       className="partners-section"
       style={{
-        background: isDark ? '#8a817c' : '#f5f5f5',
+        background: isDark ? '#111111' : '#f5f5f5',
       }}
     >
       <h2 className="partners-section-title" style={{ color: isDark ? '#ffffff' : '#000000' }}>
@@ -116,20 +114,31 @@ const Partners = () => {
                   background: 'transparent',
                 }}
               >
-                <img 
-                  src={partner.logo} 
-                  alt={partner.name}
-                  style={{
-                    filter: partner.isLight
-                      ? isDark
-                        ? 'brightness(1)' // Light logo in dark mode
-                        : 'brightness(0.1)' // Light logo in light mode
-                      : isDark
-                        ? 'brightness(2) invert(1)' // Dark logo in dark mode
-                        : 'brightness(1)' // Dark logo in light mode
-                  }}
-                  className="partner-logo"
-                />
+                {partner.isText ? (
+                  <span style={{
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                    color: isDark ? '#ffffff' : '#000000',
+                    fontFamily: 'Poppins, sans-serif'
+                  }}>
+                    {partner.name}
+                  </span>
+                ) : (
+                  <img 
+                    src={partner.logo} 
+                    alt={partner.name}
+                    style={{
+                      filter: partner.isLight
+                        ? isDark
+                          ? 'brightness(1)' // Light logo in dark mode
+                          : 'brightness(0.1)' // Light logo in light mode
+                        : isDark
+                          ? 'brightness(2) invert(1)' // Dark logo in dark mode
+                          : 'brightness(1)' // Dark logo in light mode
+                    }}
+                    className="partner-logo"
+                  />
+                )}
               </div>
             ))}
           </div>

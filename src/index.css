@@ -21,16 +21,16 @@ code {
     filter: 
       brightness(1.8)
       contrast(1.2)
-      drop-shadow(0 0 25px rgb(250,128,114))
-      drop-shadow(0 0 45px rgb(220,20,60))
-      drop-shadow(0 0 65px rgb(139,0,0));
+      drop-shadow(0 0 25px rgb(241, 236, 236))
+      drop-shadow(0 0 45px rgb(144, 132, 134))
+      drop-shadow(0 0 65px rgb(88, 73, 73));
   }
   to {
     filter: 
       brightness(2.2)
       contrast(1.4)
-      drop-shadow(0 0 25px rgb(250,128,114))
-      drop-shadow(0 0 45px rgb(220,20,60))
-      drop-shadow(0 0 65px rgb(139,0,0));
+      drop-shadow(0 0 25px rgb(241, 236, 236))
+      drop-shadow(0 0 45px rgb(144, 132, 134))
+      drop-shadow(0 0 65px rgb(88, 73, 73));
   }
 }

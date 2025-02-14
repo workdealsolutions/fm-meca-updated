@@ -1,0 +1,138 @@
+.coworker-dashboard {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 300px;  /* Match the new sidebar width */
+  padding: 20px;
+}
+
+.project-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.deadline {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.progress-bar {
+  background: #eee;
+  height: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.progress-fill {
+  background: #3498db;
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.step-card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.step-card.completed {
+  border-color: #2ecc71;
+  background: #f7fdf9;
+}
+
+.step-card.in-progress {
+  border-color: #3498db;
+  background: #f7fbfe;
+}
+
+.step-card.pending-review {
+  border-color: #f1c40f;
+  background: #fffff7;
+}
+
+.step-card.revision-needed {
+  border-color: #e74c3c;
+  background: #fdf7f7;
+}
+
+.step-submission {
+  margin-top: 15px;
+}
+
+.step-submission textarea {
+  width: 100%;
+  min-height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.step-submission button {
+  background-color: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.step-submission button:hover {
+  background-color: #2980b9;
+}
+
+.step-feedback {
+  background: #fff5f5;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.progress-control {
+  margin: 15px 0;
+}
+
+.progress-control input[type="range"] {
+  width: 100%;
+  margin: 10px 0;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 1200px) {
+  .main-content {
+    margin-left: 300px;  /* Keep consistent with sidebar width */
+  }
+}

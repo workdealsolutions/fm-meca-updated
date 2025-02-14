@@ -21,9 +21,9 @@ const Hero = () => {
     cardBg: isDark ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
     cardBorder: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
     gradientOverlay: isDark 
-      ? 'linear-gradient(135deg, rgba(139, 0, 0, 0.1), rgba(220, 0, 0, 0.05))'
+      ? `linear-gradient(135deg, rgba(88, 73, 73, 0.1), rgba(88, 73, 73, 0.05))`
       : 'linear-gradient(135deg, rgba(255, 240, 240, 0.9), rgba(255, 245, 245, 0.95))',
-    iconColor: isDark ? '#ff4444' : '#cc0000'
+    iconColor: isDark ? 'rgb(88, 73, 73)' : 'rgb(88, 73, 73)'
   };
 
   const { hero } = translations[language];

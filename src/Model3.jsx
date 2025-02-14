@@ -3,7 +3,7 @@ import { useGLTF } from '@react-three/drei'
 
 export default function Model({ position, scale, rotation, ...props }) {
   const [hasError, setHasError] = useState(false);
-  const { nodes, materials } = useGLTF('/Electrical demolder-Concept1-STL.STL', 
+  const { nodes, materials } = useGLTF('/manual_transmission_gear_box.glb', 
     undefined,
     (error) => {
       console.error('Error loading model:', error);
@@ -44,4 +44,4 @@ export default function Model({ position, scale, rotation, ...props }) {
   )
 }
 
-useGLTF.preload('/Electrical demolder-Concept1-STL.STL')
+useGLTF.preload('/manual_transmission_gear_box.glb')

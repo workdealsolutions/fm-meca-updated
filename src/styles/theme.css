@@ -4,7 +4,7 @@
   --bg-secondary: #d1c7c7;
   --text-primary: #1a1a1a;
   --text-secondary: #4a4a4a;
-  --accent-color: rgb(220, 38, 38); /* Changed from #2563eb to red */
+  --accent-color: rgb(88, 73, 73); /* Changed from #2563eb to red */
   --nav-bg: rgba(255, 255, 255, 0.95);
   --nav-shadow: rgba(0, 0, 0, 0.1);
   --card-bg: #ffffff;
@@ -19,7 +19,7 @@
   --bg-secondary: #1e1e1e;
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
-  --accent-color: red;
+  --accent-color: rgb(88, 73, 73);
   --nav-bg: rgba(0, 0, 0, 0.98);
   --nav-shadow: rgba(0, 0, 0, 0.3);
   --card-bg: #1e1e1e;

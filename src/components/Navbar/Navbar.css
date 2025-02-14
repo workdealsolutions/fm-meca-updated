@@ -73,7 +73,7 @@ body {
 
 .nav-links li a {
     position: relative;
-    color: #ff0000;  /* Changed to red */
+    color: rgb(88, 73, 73);
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: 500;
@@ -114,7 +114,7 @@ body {
 .nav-links li a:hover span:nth-child(2) {
     transform: translateY(0);
     opacity: 1;                   /* Show second span on hover */
-    color: red; /* Ensure the second span is also white on hover */
+    color: rgb(88, 73, 73); /* Changed from red */
 }
 
 /* Remove or modify the existing hover effect */
@@ -124,7 +124,7 @@ body {
 
 .nav-links li a:hover,
 .nav-links li a.active {
-    color: #ff4444; /* Changed to lighter red for hover state */
+    color: rgb(88, 73, 73);
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Added shadow for better visibility */
 }
 
@@ -135,35 +135,35 @@ body {
     left: 0;
     width: 100%;
     height: 2px;
-    background: rgb(220, 38, 38); /* Changed from var(--accent-color) */
-    box-shadow: 0 0 8px rgb(220, 38, 38); /* Changed from var(--accent-color) */
+    background: rgb(88, 73, 73);
+    box-shadow: 0 0 8px rgb(88, 73, 73);
     border-radius: 4px;
+}
+
+.nav-links button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.nav-links button:hover {
+  color: var(--accent-color);
 }
 
 .menu-icon {
     display: none;
-    color: red;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1001;
-    transition: transform 0.3s ease;
-}
-
-.menu-icon.open {
-    transform: rotate(90deg);
-}
-
-.nav-controls {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
+    color: rgb(88, 73, 73);
     margin-left: 1rem;
 }
 
 .theme-toggle {
     background: none;
     border: none;
-    color: red;
+    color: rgb(88, 73, 73);
     cursor: pointer;
     font-size: 1.1rem;
     padding: 0.5rem;
@@ -175,7 +175,7 @@ body {
 }
 
 .theme-toggle:hover {
-    color: rgb(220, 38, 38); /* Changed from var(--accent-color) */
+    color: rgb(88, 73, 73); /* Changed from rgb(220, 38, 38) */
     transform: translateY(-2px);
 }
 
@@ -186,15 +186,15 @@ body {
     height: 4px;
     background: linear-gradient(
         90deg,
-        rgba(255, 0, 0, 0.8) 0%,
-        rgba(255, 68, 68, 0.9) 50%,
-        rgba(255, 120, 120, 1) 100%
+        rgba(88, 73, 73, 0.8) 0%,
+        rgba(88, 73, 73, 0.9) 50%,
+        rgba(88, 73, 73, 1) 100%
     );
     border-radius: 0 4px 4px 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 
-        0 0 10px rgba(255, 0, 0, 0.4),
-        0 0 20px rgba(255, 0, 0, 0.2),
+        0 0 10px rgba(88, 73, 73, 0.4),
+        0 0 20px rgba(88, 73, 73, 0.2),
         inset 0 0 8px rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(4px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -221,14 +221,14 @@ body {
 @keyframes glow {
     from {
         box-shadow: 
-            0 0 10px rgba(255, 0, 0, 0.4),
-            0 0 20px rgba(255, 0, 0, 0.2),
+            0 0 10px rgba(88, 73, 73, 0.4),
+            0 0 20px rgba(88, 73, 73, 0.2),
             inset 0 0 8px rgba(255, 255, 255, 0.3);
     }
     to {
         box-shadow: 
-            0 0 12px rgba(255, 0, 0, 0.5),
-            0 0 24px rgba(255, 0, 0, 0.3),
+            0 0 12px rgba(88, 73, 73, 0.5),
+            0 0 24px rgba(88, 73, 73, 0.3),
             inset 0 0 12px rgba(255, 255, 255, 0.4);
     }
 }
@@ -247,21 +247,204 @@ body {
     }
 }
 
+.nav-controls {
+  display: flex;
+  flex-direction: row; /* Changed from column to row */
+  align-items: center;
+  gap: 1rem; /* Adjust spacing between controls */
+}
+
+.theme-toggle {
+  margin-left: 0;
+  margin-top: 0; /* Remove top margin */
+  display: flex;
+  align-items: center;
+}
+
+.fm-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 50px;
+    background: rgba(24, 24, 24, 0.95);
+    color: #ffffff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;      /* Added text-align */
+    line-height: 50px;      /* Match height for vertical centering */
+    position: relative;
+    overflow: hidden;
+    margin-left: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        inset 0 2px 2px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.fm-login-button span {     /* Added span styling */
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.fm-login-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fm-login-button:hover {
+    transform: translateY(-2px);
+    background: rgba(40, 40, 40, 0.95);
+    color: #ffffff;         /* Ensure color stays white on hover */
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 2px 2px rgba(255, 255, 255, 0.2);
+}
+
+.fm-login-button:hover::before {
+    opacity: 1;
+}
+
+.fm-login-button:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        inset 0 2px 2px rgba(255, 255, 255, 0.1);
+}
+
+.settings-container {
+  position: relative;
+  display: inline-block;
+}
+
+.settings-toggle {
+  background: none;
+  border: none;
+  color: rgb(88, 73, 73);
+  cursor: pointer;
+  font-size: 1.3rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+}
+
+.settings-toggle:hover {
+  background: rgba(88, 73, 73, 0.1);
+  color: rgba(88, 73, 73, 0.8);
+}
+
+.settings-toggle .rotating {
+  animation: rotate 2s linear infinite;
+}
+
+.settings-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: rgba(24, 24, 24, 0.95);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-width: 180px;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.2),
+    0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.settings-dropdown .theme-toggle,
+.settings-dropdown .language-toggle {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.settings-dropdown .theme-toggle:hover,
+.settings-dropdown .language-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.settings-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  background: rgba(24, 24, 24, 0.95);
+  transform: rotate(45deg);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 768px) {
     .navbar {
-        top: 20px;
-        left: 20px;
-        right: 20px;
+        top: 20px; /* Increased from 10px to move navbar down */
+        left: 10px;
+        right: 10px;
+        border-radius: 15px;
     }
 
     .navbar-container {
-        padding: 1.2rem 2rem;
+        padding: 0.8rem 1.2rem;
+    }
+
+    .logo img {
+        height: 35px;
     }
 
     .menu-icon {
         display: block;
-        position: relative;
+        position: absolute;
         z-index: 1001;
+        font-size: 1.2rem;
+        top: 0.6rem; /* Reduced from 0.8rem */
+        right: 1rem;
     }
 
     .menu-icon svg {
@@ -276,8 +459,8 @@ body {
         position: fixed;
         top: 0;
         right: -100%;
-        height: 100vh;
-        width: 70%;
+        height: auto; /* Change from 100vh to auto */
+        max-height: 80vh; /* Add max-height for very long menus */
         background: linear-gradient(
             135deg,
             rgba(30, 30, 30, 0.98) 0%,
@@ -285,12 +468,14 @@ body {
         );
         backdrop-filter: blur(10px);
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start; /* Align items to start instead of center */
         align-items: center;
         transition: right 0.3s ease;
         border-radius: 15px;
         transform: translateX(100%);
         opacity: 0;  /* Only hide on mobile when menu is closed */
+        padding: 2.5rem 1rem 1.5rem 1rem; /* Reduced top padding from 3.5rem to 2.5rem */
+        gap: 0.8rem;
     }
 
     .nav-links.active {
@@ -300,43 +485,113 @@ body {
         background: rgba(0, 0, 0, 0.95);  /* Ensure background is visible */
     }
 
+    .nav-links li:first-child {
+        margin-top: 15px; /* Remove top margin from first item */
+    }
+
+    .nav-links li {
+        margin: 0.3rem 0; /* Reduce margin between items */
+    }
+
     .nav-links li a {
-        font-size: 1.0rem; /* slightly larger for mobile */
-        margin: 0.5rem 0;  /* Reduced from 1.5rem to 0.8rem */
-    }
-
-    .nav-controls {
-        flex-direction: column;
-        gap: 0.3rem;      /* Reduced from 1rem to 0.5rem */
-        margin-top: 0.7rem; /* Reduced from 2rem to 1rem */
-    }
-
-    .theme-toggle {
-        margin-left: 0;
-        font-size: 1.5rem;
-        margin-top: 0.5rem; /* Reduced from 1.5rem to 0.8rem */
+        font-size: 0.85rem; /* Slightly smaller font */
+        padding: 0.2rem 0; /* Reduced padding */
     }
 
     .nav-links li a.active::before {
-        width: 30%;
-        left: 35%;
-        bottom: -8px;
+        width: 25%;
+        left: 37.5%;
+        bottom: -4px;
+    }
+
+    .nav-controls {
+        flex-direction: row; /* Keep as row even on mobile */
+        gap: 1rem;
+        margin-top: 0.8rem;
+    }
+
+    .theme-toggle {
+        margin-top: 0; /* Remove top margin on mobile */
     }
 
     .nav-controls {
         flex-direction: column;
-        gap: 1rem;
-        margin-top: 2rem;
+        gap: 0.3rem; /* Reduced from 0.5rem */
+        margin-top: 0.8rem;
+        padding-bottom: 0.5rem;
     }
 
     .theme-toggle {
         margin-left: 0;
-        font-size: 1.5rem;
-        margin-top: 1.5rem;
+        font-size: 1rem; /* Reduced from 1.2rem */
+        margin-top: 0.3rem; /* Reduced from 0.5rem */
     }
 
     .language-toggle-container {
         flex-direction: column;
         align-items: center;
+    }
+
+    .scroll-indicator {
+        height: 3px;
+    }
+
+    .fm-login-button {
+        width: 160px;
+        height: 45px;       /* Adjusted height for mobile */
+        font-size: 1rem;    /* Slightly smaller font for mobile */
+        margin: 0.8rem 0;
+    }
+
+    .settings-dropdown {
+        position: static;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+        padding: 0.5rem;
+        min-width: unset;
+        width: 100%;
+        backdrop-filter: none;
+    }
+
+    .settings-dropdown::before {
+        display: none;
+    }
+
+    .settings-dropdown .theme-toggle,
+    .settings-dropdown .language-toggle {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        top: 15px; /* Increased from 5px to move navbar down */
+        left: 5px;
+        right: 5px;
+    }
+
+    .navbar-container {
+        padding: 0.6rem 1rem;
+    }
+
+    .logo img {
+        height: 30px;
+    }
+
+    .nav-links {
+        width: 65%; /* Reduced from 75% */
+        max-height: 70vh; /* Slightly smaller for mobile */
+        padding: 4rem 1rem 1.2rem 1rem; /* Reduced top padding from 3rem to 2rem */
+        padding-top: 2.5rem; /* Even less padding for smaller screens */
+    }
+
+    .nav-links li a {
+        font-size: 0.8rem; /* Even smaller font for very small screens */
+    }
+
+    .menu-icon {
+        top: 0.6rem; /* Adjust position for smaller screens */
     }
 }

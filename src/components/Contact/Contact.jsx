@@ -46,7 +46,7 @@ const Contact = () => {
 
         return (
             <motion.div
-                className={`form-group ${index < 2 ? 'dual-inputs' : ''}`}
+                className={`fm-contact-form-group ${index < 2 ? 'fm-contact-dual-inputs' : ''}`}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false }}
@@ -79,10 +79,10 @@ const Contact = () => {
                         })}
                         placeholder={field.label} // Add placeholder text
                         type={field.type}
-                        className={`form-input ${isTextarea ? 'textarea' : ''} ${errors[field.name] ? 'error' : ''}`}
+                        className={`fm-contact-form-input ${isTextarea ? 'fm-contact-textarea' : ''} ${errors[field.name] ? 'fm-contact-error' : ''}`}
                         rows={isTextarea ? "5" : undefined}
                     />
-                    <label className="form-label">{field.label}</label>
+                    <label className="fm-contact-form-label">{field.label}</label>
                 </motion.div>
             </motion.div>
         );
@@ -90,7 +90,7 @@ const Contact = () => {
 
     return (
         <motion.section
-            className="contact section"
+            className="fm-contact-section"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: false }}
@@ -99,7 +99,7 @@ const Contact = () => {
             }}
         >
             <motion.h2
-                className="section-title outside-title"
+                className="fm-contact-title fm-contact-outside-title"
                 initial={{ y: -50 }}
                 whileInView={{ y: 0 }}
                 transition={{ type: "spring", stiffness: 100 }}
@@ -107,7 +107,7 @@ const Contact = () => {
                 Get in Touch
             </motion.h2>
             <motion.div
-                className="contact-container"
+                className="fm-contact-container"
                 initial={{ y: 100, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: false }}
@@ -119,19 +119,19 @@ const Contact = () => {
                 }}
             >
                 <motion.p
-                    className="section-subtitle"
+                    className="fm-contact-subtitle"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                 >
                     {contactSection.title}
                 </motion.p>
-                <form onSubmit={handleSubmit(onSubmit)} className="contact-form">
+                <form onSubmit={handleSubmit(onSubmit)} className="fm-contact-form">
                     {contactSection.formFields.map((field, index) => renderFormField(field, index))}
 
                     <motion.button
                         type="submit"
-                        className="submit-button"
+                        className="fm-contact-submit-button"
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: false }}
