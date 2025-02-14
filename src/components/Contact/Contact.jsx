@@ -5,6 +5,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import './Contact.css';
 
 const Contact = () => {
+    
     const { isDark } = useTheme();
     const { language, translations } = useLanguage();
     const { register, handleSubmit, formState: { errors } } = useForm();
