@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiMenu, FiX, FiSettings } from 'react-icons/fi';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { FaMoon, FaSun } from 'react-icons/fa';
-import { useLanguage } from '../../context/LanguageContext';
-import LanguageToggle from '../../context/LanguageToggle';
 import './Navbar.css';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
+import LoginButton from '../LoginButton/LoginButton';
 
 const Navbar = ({ onNavigate, currentSection }) => {
   const navigate = useNavigate();
@@ -14,9 +13,6 @@ const Navbar = ({ onNavigate, currentSection }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const { isDark, toggleTheme } = useTheme();
-  const { language, translations } = useLanguage();
-  const [showSettings, setShowSettings] = useState(false);
-  const settingsRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,17 +37,6 @@ const Navbar = ({ onNavigate, currentSection }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
-        setShowSettings(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -71,46 +56,24 @@ const Navbar = ({ onNavigate, currentSection }) => {
   };
 
   const navLinks = [
-    { name: translations[language]?.navigation?.home || 'Home', href: '#home' },
-    { name: translations[language]?.navigation?.services || 'Services', href: '#services' },
-    { name: translations[language]?.navigation?.partners || 'Partners', href: '#partners' },
-    { name: translations[language]?.navigation?.testimonials || 'Testimonials', href: '#testimonials' },
-    { name: translations[language]?.navigation?.contact || 'Contact', href: '#contact' }
+    { name: 'Home', href: '#home' },
+    { name: 'Services', href: '#services' },
+    { name: 'Partners', href: '#partners' },
+    { name: 'Testimonials', href: '#testimonials' },
+    { name: 'Contact', href: '#contact' }
   ];
 
   const renderNavControls = () => (
     <motion.li className="nav-controls">
-      <motion.div
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+      <LoginButton />
+      <motion.button
+        className="theme-toggle"
+        onClick={toggleTheme}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
       >
-        <Link to="/login" className="fm-login-button">
-          <span>Login</span>
-        </Link>
-      </motion.div>
-      <div className="settings-container" ref={settingsRef}>
-        <motion.button
-          className="settings-toggle"
-          onClick={() => setShowSettings(!showSettings)}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <FiSettings className={showSettings ? 'rotating' : ''} />
-        </motion.button>
-        {showSettings && (
-          <div className="settings-dropdown">
-            <motion.button
-              className="theme-toggle"
-              onClick={toggleTheme}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isDark ? <FaSun /> : <FaMoon />}
-            </motion.button>
-            <LanguageToggle />
-          </div>
-        )}
-      </div>
+        {isDark ? <FaSun /> : <FaMoon />}
+      </motion.button>
     </motion.li>
   );
 
