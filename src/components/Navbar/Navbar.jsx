@@ -67,7 +67,7 @@ const Navbar = ({ onNavigate, currentSection }) => {
     <motion.li className="nav-controls">
       <LoginButton />
       <motion.button
-        className="theme-toggle"
+        className="navbar-theme-toggle"
         onClick={toggleTheme}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}

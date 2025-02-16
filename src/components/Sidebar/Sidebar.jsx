@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../../context/ThemeContext';
 import './Sidebar.css';
 import { useIsMobile } from '../../hooks/useIsMobile';
 
@@ -13,8 +14,10 @@ const getIcon = (tab) => {
   return icons[tab] || '📄';
 };
 
-const Sidebar = ({ user, activeTab, setActiveTab, isOpen, setIsOpen, theme, toggleTheme }) => {
+const Sidebar = ({ user, activeTab, setActiveTab, isOpen, setIsOpen }) => {
   const isMobile = useIsMobile();
+  const { isDark, toggleTheme } = useTheme();
+  const theme = isDark ? 'dark' : 'light';
 
   const handleTabClick = (tab) => {
     console.log('Sidebar tab clicked:', tab);
@@ -24,13 +27,8 @@ const Sidebar = ({ user, activeTab, setActiveTab, isOpen, setIsOpen, theme, togg
     }
   };
 
-  const handleThemeToggle = (e) => {
-    e.stopPropagation(); // Prevent event bubbling
-    toggleTheme();
-  };
-
   const tabs = [
-    { id: 'projects', label: 'Projects' },
+    { id: 'projects', label: 'Projects' }, // This should be first in the array
     { id: 'new', label: 'New Project' },
     { id: 'progress', label: 'Track Progress' },
     { id: 'messages', label: 'Messages' },
@@ -65,11 +63,11 @@ const Sidebar = ({ user, activeTab, setActiveTab, isOpen, setIsOpen, theme, togg
       </nav>
       <div className="theme-toggle">
         <button 
-          onClick={handleThemeToggle} 
-          className="theme-toggle-btn"
-          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          onClick={toggleTheme} 
+          className={`theme-toggle-btn ${theme}`}
+          aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
         >
-          {theme === 'dark' ? (
+          {isDark ? (
             <>
               <span role="img" aria-hidden="true">☀️</span>
               <span>Light Mode</span>

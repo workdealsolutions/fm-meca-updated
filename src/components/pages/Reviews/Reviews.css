@@ -184,21 +184,29 @@
   justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
+  padding: 1rem 0;
 }
 
 .slider-dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  border: none;
-  background: rgba(128, 128, 128, 0.3); /* Changed to grey */
+  border: 2px solid var(--accent-color);
+  background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
+  padding: 0;
+  outline: none;
+}
+
+.slider-dot:hover {
+  background: rgba(var(--accent-color-rgb), 0.5);
 }
 
 .slider-dot.active {
-  background: #808080; /* Changed to solid grey */
+  background: var(--accent-color);
   transform: scale(1.2);
+  box-shadow: 0 0 10px var(--accent-color);
 }
 
 .featured-footer {

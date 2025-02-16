@@ -24,6 +24,8 @@ import ClientDashboard from './components/Dashboards/ClientDashboard';
 import RoleSelection from './components/Login/RoleSelection';
 import { NotificationProvider } from './context/NotificationContext';
 
+  
+
 // Add ScrollToTop component
 const ScrollToTop = () => {
   const { pathname } = useLocation();

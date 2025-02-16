@@ -7,26 +7,23 @@ import './Sidebar.css';
 const Sidebar = ({ 
   activeTab, 
   setActiveTab, 
-  adminName = "David Smith", // Updated default name
+  adminName = "David Smith",
   adminImage = "/admin-avatar.jpg", 
   coworkers, 
-  clients, // Add this prop
+  clients,
   onCoworkerSelect,
-  onClientSelect, // Add this prop
+  onClientSelect,
   onSettingsClick,
   className,
-  onClose 
+  onClose,
+  isOpen,
+  setIsOpen
 }) => {
-  const { theme, toggleTheme } = useTheme();
   const [showCoworkers, setShowCoworkers] = useState(false);
   const [showClients, setShowClients] = useState(false);
   const navigate = useNavigate();
-
-  const handleThemeToggle = () => {
-    toggleTheme();
-    // Optionally save theme preference to localStorage
-    localStorage.setItem('theme', theme === 'dark' ? 'light' : 'dark');
-  };
+  const { isDark, toggleTheme } = useTheme();
+  const theme = isDark ? 'dark' : 'light';
 
   return (
     <div className={`sidebar ${theme} ${className || ''}`}>
@@ -78,7 +75,6 @@ const Sidebar = ({
           )}
         </div>
 
-        {/* Add Clients List Section */}
         <div className={`sidebar-section ${theme}`}>
           <button 
             className={`section-toggle ${theme}`}
@@ -113,10 +109,10 @@ const Sidebar = ({
           Profile Settings
         </button>
         <button 
-          className={`theme-toggle ${theme}`}
+          className={`theme-mode-switcher ${theme}`}
           onClick={toggleTheme}
         >
-          {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
+          {isDark ? '☀️ Switch to Light Mode' : '🌙 Switch to Dark Mode'}
         </button>
       </div>
     </div>

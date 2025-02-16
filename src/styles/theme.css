@@ -5,13 +5,15 @@
   --text-primary: #1a1a1a;
   --text-secondary: #4a4a4a;
   --accent-color: rgb(88, 73, 73); /* Changed from #2563eb to red */
-  --nav-bg: rgba(255, 255, 255, 0.95);
+  --nav-bg: rgba(255, 255, 255, 0.8);
   --nav-shadow: rgba(0, 0, 0, 0.1);
   --card-bg: #ffffff;
-  --border-color: #e2e8f0;
+  --border-color: rgba(255, 255, 255, 0.1);
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(255, 255, 255, 0.2);
   --hero-bg: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  --text-color: rgb(88, 73, 73);
+  --body-bg: #ffffff;
 }
 
 [data-theme='dark'] {
@@ -20,15 +22,23 @@
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
   --accent-color: rgb(88, 73, 73);
-  --nav-bg: rgba(0, 0, 0, 0.98);
+  --nav-bg: rgba(0, 0, 0, 0.8);
   --nav-shadow: rgba(0, 0, 0, 0.3);
   --card-bg: #1e1e1e;
-  --border-color: rgba(255, 255, 255, 0.1);
+  --border-color: rgba(255, 255, 255, 0.05);
   --glass-bg: rgba(0, 0, 0, 0.8);
   --glass-border: rgba(255, 255, 255, 0.1);
   --hero-bg: linear-gradient(135deg, #121212, #1a1a1a);
+  --text-color: #e5e5e5;
+  --body-bg: #121212;
 }
 
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body {
+  background-color: var(--body-bg);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

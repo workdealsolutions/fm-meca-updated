@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../../context/ThemeContext';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -13,6 +14,8 @@ import './CoworkerSidebar.css';
 
 export const CoworkerSidebar = ({ activeTab, setActiveTab, user, isOpen, setIsOpen }) => {
   const isMobile = useIsMobile();
+  const { isDark, toggleTheme } = useTheme();
+  const theme = isDark ? 'dark' : 'light';
 
   const menuItems = [
     { id: 'projects', label: 'My Projects', icon: faProjectDiagram },
@@ -28,7 +31,10 @@ export const CoworkerSidebar = ({ activeTab, setActiveTab, user, isOpen, setIsOp
   };
 
   return (
-    <div className={`coworker-sidebar ${isOpen ? 'open' : ''} ${isMobile ? 'mobile' : ''}`}>
+    <aside 
+      className={`coworker-sidebar ${isOpen ? 'open' : ''} ${isMobile ? 'mobile' : ''}`}
+      data-theme={theme}
+    >
       {isMobile && (
         <div className="mobile-header">
           <button className="mobile-close" onClick={() => setIsOpen(false)}>
@@ -60,7 +66,17 @@ export const CoworkerSidebar = ({ activeTab, setActiveTab, user, isOpen, setIsOp
           </button>
         ))}
       </nav>
-    </div>
+
+      <div className="theme-toggle">
+        <button 
+          onClick={toggleTheme} 
+          className="theme-toggle-btn"
+          aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+        >
+          {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
+        </button>
+      </div>
+    </aside>
   );
 };
 

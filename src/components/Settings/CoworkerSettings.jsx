@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 import './CoworkerSettings.css';
 
 const CoworkerSettings = ({ user, onUpdateProfile }) => {
+  const { isDark } = useTheme();
+  const theme = isDark ? 'dark' : 'light';
+
   const [profileData, setProfileData] = useState({
     name: user.name || '',
     email: user.email || '',
@@ -42,7 +46,7 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
   };
 
   return (
-    <div className="coworker-settings">
+    <div className="coworker-settings" data-theme={theme}>
       <div className="settings-header">
         <h2>Profile Settings</h2>
         <p>Manage your account preferences and personal information</p>
@@ -71,7 +75,7 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
             </div>
             
             <div className="form-group">
-              <label>Full Name</label>
+              <label className="form-label">Full Name</label>
               <input
                 className="form-control"
                 type="text"
@@ -85,7 +89,7 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
             </div>
 
             <div className="form-group">
-              <label>Email</label>
+              <label className="form-label">Email</label>
               <input
                 className="form-control"
                 type="email"
@@ -98,7 +102,7 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
             </div>
 
             <div className="form-group">
-              <label>Phone</label>
+              <label className="form-label">Phone</label>
               <input
                 className="form-control"
                 type="tel"
@@ -118,7 +122,7 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
               Security Settings
             </h3>
             <div className="form-group">
-              <label>Current Password</label>
+              <label className="form-label security-field-label">Current Password</label>
               <input
                 className="form-control"
                 type="password"
@@ -126,7 +130,7 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
               />
             </div>
             <div className="form-group">
-              <label>New Password</label>
+              <label className="form-label security-field-label">New Password</label>
               <input
                 className="form-control"
                 type="password"
@@ -134,7 +138,7 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
               />
             </div>
             <div className="form-group">
-              <label>Confirm Password</label>
+              <label className="form-label security-field-label">Confirm Password</label>
               <input
                 className="form-control"
                 type="password"
@@ -150,7 +154,7 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
               Professional Details
             </h3>
             <div className="form-group">
-              <label>Bio</label>
+              <label className="form-label">Bio</label>
               <textarea
                 className="form-control"
                 value={profileData.bio}

@@ -129,6 +129,12 @@
   color: #ffffff;
 }
 
+.project-header .header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .status-badge {
   padding: 8px 16px;
   border-radius: 30px;
@@ -934,4 +940,87 @@
   .availability-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.work-url {
+  text-decoration: underline;
+  transition: opacity 0.3s ease;
+}
+
+.work-url.light {
+  color: #0066cc;
+}
+
+.work-url.dark {
+  color: #66b3ff;
+}
+
+.work-url:hover {
+  opacity: 0.8;
+}
+
+.url-indicator {
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.url-indicator.light {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.url-indicator.dark {
+  background: rgba(25, 118, 210, 0.2);
+  color: #90caf9;
+}
+
+.dashboard-container {
+  transition: 
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.dashboard-container.light {
+  background-color: #f8fafc;
+  color: #1a1a1a;
+}
+
+.dashboard-container.dark {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.main-content {
+  transition: 
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.main-content.light {
+  background-color: #f8fafc;
+}
+
+.main-content.dark {
+  background-color: #000000;
+}
+
+/* Add theme-specific styles for other elements */
+.dashboard-container.light .card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-container.dark .card {
+  background: rgba(18, 18, 18, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }

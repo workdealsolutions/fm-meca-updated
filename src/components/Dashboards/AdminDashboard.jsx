@@ -7,7 +7,8 @@ import './AdminDashboard.css';
 import ProfileSettings from '../pages/ProfileSettings';
 
 const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) => {
-  const { theme, toggleTheme } = useTheme();
+  const { isDark } = useTheme();
+  const theme = isDark ? 'dark' : 'light';
   const [activeTab, setActiveTab] = useState('pending');
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -15,6 +16,7 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
   const [showSettings, setShowSettings] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Add sample clients data
   const sampleClients = [
@@ -160,9 +162,16 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
     <div className={`project-card ${theme}`} key={project.id}>
       <div className="project-header">
         <h4 className={theme}>{project.client}</h4>
-        <span className={`status-badge ${project.status} ${theme}`}>
-          {project.status.replace(/-/g, ' ')}
-        </span>
+        <div className="header-right">
+          {project.status === 'completed-pending-review' && project.completedWorkUrl && (
+            <span className={`url-indicator ${theme}`}>
+              📎 Work Attached
+            </span>
+          )}
+          <span className={`status-badge ${project.status} ${theme}`}>
+            {project.status.replace(/-/g, ' ')}
+          </span>
+        </div>
       </div>
 
       <div className={`project-details ${theme}`}>
@@ -170,6 +179,20 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
         <p><strong>Budget:</strong> ${project.budget.toLocaleString()}</p>
         <p><strong>Submitted:</strong> {new Date(project.submissionDate).toLocaleDateString()}</p>
         
+        {project.status === 'completed-pending-review' && project.completedWorkUrl && (
+          <p>
+            <strong>Completed Work:</strong>{' '}
+            <a 
+              href={project.completedWorkUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={`work-url ${theme}`}
+            >
+              View Work
+            </a>
+          </p>
+        )}
+
         <div className="requirements-section">
           <strong>Requirements:</strong>
           <ul className="requirements-list">
@@ -416,24 +439,19 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
   };
 
   return (
-    <div className={`admin-dashboard ${theme}`}>
-      <button className={`menu-toggle ${theme}`} onClick={toggleMobileMenu}>
-        ☰
-      </button>
-      
-      {/* Add overlay */}
-      <div 
-        className={`mobile-overlay ${isMobileMenuOpen ? 'visible' : ''} ${theme}`}
-        onClick={closeMobileMenu}
-      />
-
+    <div className={`dashboard-container ${theme}`}>
+      <div className="menu-toggle">
+        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? '×' : '≡'}
+        </button>
+      </div>
       <Sidebar 
         activeTab={activeTab} 
-        setActiveTab={handleTabChange} // Changed from setActiveTab
+        setActiveTab={handleTabChange}
         adminName={adminInfo.name}
         adminImage={adminInfo.image}
         coworkers={coworkers}
-        clients={sampleClients} // Add the clients prop
+        clients={sampleClients}
         onCoworkerSelect={(coworker) => {
           setSelectedCoworker(coworker);
           closeMobileMenu();
@@ -449,11 +467,12 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
           setSelectedCoworker(null);
           closeMobileMenu();
         }}
-        className={`${isMobileMenuOpen ? 'mobile-visible' : ''} ${theme}`}
-        onClose={closeMobileMenu} // Add this prop
-        theme={theme}
+        className={`${isMobileMenuOpen ? 'mobile-visible' : ''}`}
+        onClose={closeMobileMenu}
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
       />
-      <div className={`dashboard-content ${theme}`}>
+      <div className={`main-content ${theme}`}>
         <h2 className={theme}>
           {showSettings ? 'Profile Settings' :
            selectedClient ? `Client: ${selectedClient.name}` :

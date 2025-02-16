@@ -13,13 +13,15 @@
   color: #ffffff;
 }
 
-.coworker-settings.light {
+.coworker-settings[data-theme="light"] {
   background: rgba(255, 255, 255, 0.95);
+  color: var(--text-primary);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
 }
 
-.coworker-settings.dark {
+.coworker-settings[data-theme="dark"] {
   background: rgba(24, 24, 24, 0.95);
+  color: var(--text-primary);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
@@ -142,7 +144,7 @@
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #000000;
 }
 
 .form-group input,
@@ -155,20 +157,20 @@
   transition: all 0.3s ease;
 }
 
-.coworker-settings.light .form-group input,
-.coworker-settings.light .form-group textarea,
-.coworker-settings.light .form-group select {
+.coworker-settings[data-theme="light"] .form-group input,
+.coworker-settings[data-theme="light"] .form-group textarea,
+.coworker-settings[data-theme="light"] .form-group select {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   color: #1a202c;
 }
 
-.coworker-settings.dark .form-group input,
-.coworker-settings.dark .form-group textarea,
-.coworker-settings.dark .form-group select {
+.coworker-settings[data-theme="dark"] .form-group input,
+.coworker-settings[data-theme="dark"] .form-group textarea,
+.coworker-settings[data-theme="dark"] .form-group select {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: #000000;
 }
 
 .form-group input {
@@ -177,7 +179,7 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  color: #ffffff;
+  color: #000000;
   font-size: 1rem;
   transition: all 0.3s ease;
 }
@@ -421,7 +423,7 @@
   display: block;
   margin-bottom: 10px;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #808080;
 }
 
 .time-slots {
@@ -432,13 +434,29 @@
 
 .time-slot {
   padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
   background: none;
-  color: rgba(255, 255, 255, 0.5);
+  color: #808080;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
+}
+
+.coworker-settings[data-theme="light"] .time-slot {
+  color: #808080;
+  border-color: #e0e0e0;
+}
+
+.coworker-settings[data-theme="dark"] .time-slot {
+  color: #808080;
+  border-color: #404040;
+}
+
+.time-slot:hover {
+  color: #3B82F6;
+  border-color: #3B82F6;
+  background: rgba(59, 130, 246, 0.1);
 }
 
 .time-slot.available {
@@ -559,4 +577,81 @@
   .availability-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.coworker-settings[data-theme="light"] .form-group label {
+  color: #000000;
+}
+
+.coworker-settings[data-theme="light"] .form-control {
+  color: #000000;
+}
+
+.coworker-settings[data-theme="light"] .form-group input,
+.coworker-settings[data-theme="light"] .form-group textarea,
+.coworker-settings[data-theme="light"] .form-group select {
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.coworker-settings[data-theme="light"] .section-icon {
+  color: #000000;
+}
+
+.coworker-settings[data-theme="light"] h3 {
+  color: #000000;
+}
+
+.coworker-settings[data-theme="light"] .upload-info h4,
+.coworker-settings[data-theme="light"] .upload-info p {
+  color: #000000;
+}
+
+.coworker-settings[data-theme="light"] {
+  color: #000000;
+}
+
+.coworker-settings[data-theme="light"] .settings-header h2 {
+  background: linear-gradient(135deg, #000000, #333333);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.coworker-settings[data-theme="light"] .form-group label,
+.coworker-settings[data-theme="light"] .section-title,
+.coworker-settings[data-theme="light"] .settings-header p,
+.coworker-settings[data-theme="light"] h3,
+.coworker-settings[data-theme="light"] h4 {
+  color: #000000;
+}
+
+.coworker-settings[data-theme="light"] .security-field-label {
+  color: #000000;
+  font-weight: 500;
+}
+
+.coworker-settings[data-theme="light"] .settings-section h3,
+.coworker-settings[data-theme="light"] .settings-section label,
+.coworker-settings[data-theme="light"] .settings-section .form-label {
+  color: #000000;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.coworker-settings[data-theme="light"] .form-label {
+  color: #000000;
+}
+
+.coworker-settings[data-theme="dark"] .form-label {
+  color: #ffffff;
 }

@@ -183,7 +183,7 @@
 }
 
 .settings-button,
-.theme-toggle {
+.theme-mode-switcher {
   width: 100%;
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -199,7 +199,7 @@
 }
 
 .settings-button:hover,
-.theme-toggle:hover {
+.theme-mode-switcher:hover {
   background: #333333;
   color: #ffffff;
 }
@@ -467,4 +467,17 @@
 .sidebar.dark .client-item:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Theme variations */
+.theme-mode-switcher.light {
+  background: #f5f5f5;
+  color: #333333;
+  border: 1px solid #e0e0e0;
+}
+
+.theme-mode-switcher.dark {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

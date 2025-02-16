@@ -321,3 +321,43 @@
     padding: 20px;
   }
 }
+
+.form-group.light input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #1a202c;
+}
+
+.form-group.dark input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.password-section.light {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.password-section.dark {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.save-button.light {
+  background: #3B82F6;
+  color: white;
+}
+
+.save-button.dark {
+  background: #2563EB;
+  color: white;
+}
+
+.back-button.light {
+  color: #333333;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.back-button.dark {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}

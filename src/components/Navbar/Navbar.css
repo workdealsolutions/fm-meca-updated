@@ -73,7 +73,7 @@ body {
 
 .nav-links li a {
     position: relative;
-    color: rgb(88, 73, 73);
+    color: var(--text-color);
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: 500;
@@ -160,10 +160,10 @@ body {
     margin-left: 1rem;
 }
 
-.theme-toggle {
+.navbar-theme-toggle {
     background: none;
     border: none;
-    color: rgb(88, 73, 73);
+    color: var(--text-color);
     cursor: pointer;
     font-size: 1.1rem;
     padding: 0.5rem;
@@ -174,8 +174,8 @@ body {
     margin-left: 1rem;
 }
 
-.theme-toggle:hover {
-    color: rgb(88, 73, 73); /* Changed from rgb(220, 38, 38) */
+.navbar-theme-toggle:hover {
+    color: var(--text-color);
     transform: translateY(-2px);
 }
 
@@ -186,9 +186,9 @@ body {
     height: 4px;
     background: linear-gradient(
         90deg,
-        rgba(88, 73, 73, 0.8) 0%,
-        rgba(88, 73, 73, 0.9) 50%,
-        rgba(88, 73, 73, 1) 100%
+        var(--text-color) 0%,
+        var(--text-color) 50%,
+        var(--text-color) 100%
     );
     border-radius: 0 4px 4px 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -251,24 +251,6 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
-}
-
-.theme-toggle {
-  background: none;
-  border: none;
-  color: rgb(88, 73, 73);
-  cursor: pointer;
-  font-size: 1.1rem;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.theme-toggle:hover {
-  color: rgb(88, 73, 73);
-  transform: translateY(-2px);
 }
 
 /* Remove these sections */
@@ -385,7 +367,7 @@ body {
         padding-bottom: 0.5rem;
     }
 
-    .theme-toggle {
+    .navbar-theme-toggle {
         margin: 0;
         font-size: 1rem;
     }

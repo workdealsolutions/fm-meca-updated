@@ -37,6 +37,7 @@ export const sampleProjects = [
     submissionDate: "2024-01-05T14:20:00Z",
     assignedTo: "coworker1",
     deadline: "2024-02-01",
+    completedWorkUrl: "https://example.com/completed-work/mobile-app-ui",
     requirements: [
       "iOS and Android designs",
       "User flow diagrams",

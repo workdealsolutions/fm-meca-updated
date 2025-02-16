@@ -1,0 +1,235 @@
+.project-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.2),
+    inset 0 0 20px rgba(59, 130, 246, 0.05);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.project-header h3 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #ffffff;
+  flex: 1;
+  margin-right: 15px;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.project-details {
+  margin: 15px 0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-row span {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.info-row strong {
+  color: #ffffff;
+}
+
+.requirements {
+  margin-top: 20px;
+}
+
+.requirements h4 {
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.requirements-text {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.progress-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-title {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.progress-percentage {
+  font-weight: 600;
+}
+
+progress {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--progress-color);
+}
+
+progress::-webkit-progress-bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.rejection-reason {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 87, 34, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #FF5722;
+}
+
+.rejection-reason h4 {
+  color: #FF5722;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rejection-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.project-urls {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+}
+
+.project-urls h4 {
+  color: #4CAF50;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.url-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(76, 175, 80, 0.15);
+  border-radius: 20px;
+  color: #4CAF50;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.project-link:hover {
+  background: rgba(76, 175, 80, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Light theme */
+.light .project-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .project-header h3 {
+  color: #1a1a1a;
+}
+
+.light .info-row span {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.light .info-row strong {
+  color: #1a1a1a;
+}
+
+.light .requirements h4 {
+  color: #1a1a1a;
+}
+
+.light .requirements-text {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.light .info-row {
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .progress-section {
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .progress-title {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.light .rejection-reason {
+  background: rgba(255, 87, 34, 0.05);
+}
+
+.light .rejection-text {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.light .project-urls {
+  background: rgba(76, 175, 80, 0.05);
+}
+
+.light .project-link {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.light .project-link:hover {
+  background: rgba(76, 175, 80, 0.2);
+}

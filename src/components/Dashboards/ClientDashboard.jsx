@@ -1,53 +1,12 @@
 import React, { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import Sidebar from '../Sidebar/Sidebar';
 import ProjectCard from '../ProjectCard/ProjectCard';
 import Messages from '../Messages/Messages';
 import Profile from '../Profile/Profile';
+import SampleProjects, { sampleProjects } from '../SampleProjects/SampleProjects';
 import './ClientDashboard.css';
-
-const sampleProjects = [
-  {
-    id: 1,
-    description: "E-commerce Website Development",
-    budget: 5000,
-    requirements: "- React.js frontend\n- Node.js backend\n- Payment integration\n- Responsive design",
-    status: "in_progress",
-    client: "user@example.com",
-    progress: 65,
-    submittedDate: "2024-01-15T10:30:00.000Z"
-  },
-  {
-    id: 2,
-    description: "Mobile App UI Design",
-    budget: 2500,
-    requirements: "- Modern minimal design\n- iOS and Android layouts\n- 10 core screens\n- Design system",
-    status: "pending_approval",
-    client: "user@example.com",
-    progress: 0,
-    submittedDate: "2024-01-20T15:45:00.000Z"
-  },
-  {
-    id: 3,
-    description: "WordPress Blog Migration",
-    budget: 800,
-    requirements: "- Transfer existing content\n- Maintain SEO rankings\n- Update theme\n- Speed optimization",
-    status: "completed",
-    client: "user@example.com",
-    progress: 100,
-    submittedDate: "2023-12-01T09:00:00.000Z"
-  },
-  {
-    id: 4,
-    description: "Logo Design Package",
-    budget: 1200,
-    requirements: "- 3 concept options\n- Brand colors\n- Vector files\n- Brand guidelines",
-    status: "rejected",
-    client: "user@example.com",
-    progress: 0,
-    submittedDate: "2024-01-10T11:20:00.000Z"
-  }
-];
 
 const getProgressColor = (progress) => {
   if (progress >= 80) return '#4CAF50';
@@ -56,21 +15,18 @@ const getProgressColor = (progress) => {
 };
 
 const ClientDashboard = ({ user, setProjects, sendNotification }) => {
+  const { isDark } = useTheme();
+  const theme = isDark ? 'dark' : 'light';
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('projects');
-  const [theme, setTheme] = useState('dark');
+  const [activeTab, setActiveTab] = useState('projects'); // Ensure this is set to 'projects' by default
   const [projects, setLocalProjects] = useState(sampleProjects);
-  const [inputMethod, setInputMethod] = useState('manual'); // Add this
-  const [selectedFile, setSelectedFile] = useState(null); // Add this
+  const [inputMethod, setInputMethod] = useState('manual');
+  const [selectedFile, setSelectedFile] = useState(null);
   const [formData, setFormData] = useState({
     description: '',
     budget: '',
     requirements: ''
   });
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -80,16 +36,13 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
     }));
   };
 
-  // Add this function
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
-      // You could also read the file content here if needed
     }
   };
 
-  // Update both local and parent state when adding new projects
   const handleSubmit = (e) => {
     e.preventDefault();
     let newProject;
@@ -107,7 +60,7 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
       newProject = {
         id: Date.now(),
         description: selectedFile ? selectedFile.name : 'Uploaded project file',
-        budget: formData.budget, // Still need budget even with file upload
+        budget: formData.budget,
         requirements: `File uploaded: ${selectedFile ? selectedFile.name : 'No file'}`,
         status: 'pending_approval',
         client: user.email,
@@ -125,11 +78,11 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
 
   const getStatusColor = (status) => {
     const colors = {
-      pending_approval: '#808080', // grey
-      approved: '#333333',        // dark grey
-      rejected: '#4d4d4d',        // medium grey
-      in_progress: '#666666',     // lighter grey
-      completed: '#1a1a1a'        // almost black
+      pending_approval: '#808080',
+      approved: '#333333',
+      rejected: '#4d4d4d',
+      in_progress: '#666666',
+      completed: '#1a1a1a'
     };
     return colors[status] || '#808080';
   };
@@ -144,7 +97,6 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
 
   const sortProjects = (projects) => {
     return [...projects].sort((a, b) => {
-      // Sort by status priority
       const statusPriority = {
         in_progress: 1,
         pending_approval: 2,
@@ -251,40 +203,26 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
         return (
           <div className="progress-tracking-section">
             <h2>Project Progress Tracking</h2>
-            <div className="projects-list">
-              {sortProjects(projects)
-                .filter(p => p.client === user.email && p.status === 'in_progress')
-                .map(project => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    getStatusColor={getStatusColor}
-                    getProgressColor={getProgressColor}
-                    formatDate={formatDate}
-                  />
-                ))}
-            </div>
+            <SampleProjects
+              user={user}
+              getStatusColor={getStatusColor}
+              getProgressColor={getProgressColor}
+              formatDate={formatDate}
+            />
           </div>
         );
       case 'new':
         return renderNewProjectSection();
-      default:
+      default: // This case handles the 'projects' tab
         return (
           <div className="projects-section">
             <h2>My Projects</h2>
-            <div className="projects-list">
-              {sortProjects(projects)
-                .filter(p => p.client === user.email)
-                .map(project => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    getStatusColor={getStatusColor}
-                    getProgressColor={getProgressColor}
-                    formatDate={formatDate}
-                  />
-                ))}
-            </div>
+            <SampleProjects
+              user={user}
+              getStatusColor={getStatusColor}
+              getProgressColor={getProgressColor}
+              formatDate={formatDate}
+            />
           </div>
         );
     }
@@ -303,8 +241,6 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
         setActiveTab={setActiveTab}
         isOpen={sidebarOpen}
         setIsOpen={setSidebarOpen}
-        theme={theme}
-        toggleTheme={toggleTheme}
       />
       <div className={`main-content ${theme}`}>
         {renderContent()}

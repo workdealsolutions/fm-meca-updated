@@ -1,50 +1,62 @@
 import React, { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 import './Messages.css';
 
-const Messages = ({ user, sendNotification, theme }) => {
+// Sample messages data
+const sampleMessages = [
+  {
+    id: 1,
+    sender: 'Project Manager',
+    content: 'Your project proposal has been reviewed and approved.',
+    date: new Date('2024-01-15T10:30:00'),
+    unread: true
+  },
+  {
+    id: 2,
+    sender: 'Technical Lead',
+    content: 'Can you provide more details about the technical requirements?',
+    date: new Date('2024-01-14T15:45:00'),
+    unread: false
+  },
+  {
+    id: 3,
+    sender: 'Design Team',
+    content: 'The initial mockups are ready for your review.',
+    date: new Date('2024-01-13T09:20:00'),
+    unread: false
+  }
+];
+
+const Messages = ({ user, sendNotification }) => {
+  const { isDark } = useTheme();
+  const theme = isDark ? 'dark' : 'light';
+  const [messages, setMessages] = useState(sampleMessages);
   const [newMessage, setNewMessage] = useState('');
-  
-  // Sample messages - replace with actual data
-  const [messages] = useState([
-    {
-      id: 1,
-      sender: 'Project Manager',
-      content: 'Your project proposal has been reviewed and approved.',
-      date: '2024-01-20T14:30:00Z',
-      unread: true
-    },
-    {
-      id: 2,
-      sender: 'System',
-      content: 'New feature update: Project tracking improvements are now live!',
-      date: '2024-01-19T09:15:00Z',
-      unread: false
-    },
-    {
-      id: 3,
-      sender: 'Support Team',
-      content: 'Thank you for your inquiry. We have updated your ticket status.',
-      date: '2024-01-18T16:45:00Z',
-      unread: false
-    }
-  ]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newMessage.trim()) {
-      console.log('Sending message:', newMessage);
-      setNewMessage('');
-    }
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-US', {
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!newMessage.trim()) return;
+
+    const newMsg = {
+      id: Date.now(),
+      sender: user.email,
+      content: newMessage,
+      date: new Date(),
+      unread: false
+    };
+
+    setMessages([...messages, newMsg]);
+    setNewMessage('');
+    sendNotification?.('Message sent successfully!', 'success');
   };
 
   return (
