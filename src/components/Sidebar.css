@@ -238,22 +238,64 @@
 @media screen and (max-width: 768px) {
   .sidebar {
     position: fixed;
-    left: -100%;
+    left: -280px; /* Start off-screen */
     top: 0;
     bottom: 0;
-    width: 85%;
-    max-width: 300px;
+    width: 280px;
     z-index: 1000;
-    transition: transform 0.3s ease-in-out, left 0.3s ease-in-out;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease-in-out;
   }
 
   .sidebar.mobile-visible {
     left: 0;
-    transform: translateX(0);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
   }
 
   .close-mobile-menu {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .close-mobile-menu.light {
+    color: #333333;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .close-mobile-menu.dark {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-nav {
+    padding-top: 60px;
+  }
+
+  /* Add mobile overlay */
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .mobile-overlay.visible {
     display: block;
   }
 

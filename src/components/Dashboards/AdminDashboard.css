@@ -31,23 +31,31 @@
   box-shadow: -8px 0 15px -15px rgba(0, 0, 0, 0.5);
 }
 
-.dashboard-content h2 {
+.dashboard-title {
   font-size: 2.5rem;
   margin-bottom: 2.5rem;
-  color: #ffffff;
   font-weight: 300;
   letter-spacing: 2px;
   position: relative;
 }
 
-.dashboard-content h2::after {
+.dashboard-title.light {
+  color: #333333;
+}
+
+.dashboard-title.dark {
+  color: #ffffff;
+}
+
+.dashboard-title::after {
   content: '';
   position: absolute;
   bottom: -10px;
   left: 0;
   width: 60px;
   height: 3px;
-  background: #ffffff;
+  background: currentColor;
+  opacity: 0.5;
 }
 
 .projects-grid {
@@ -309,30 +317,28 @@
 }
 
 .reject-button {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(234, 84, 85, 0.1);
+  border: 1px solid rgba(234, 84, 85, 0.3);
+  color: #ea5455;
   transition: all 0.3s ease;
 }
 
-/* Add theme-specific styles for reject button */
 .reject-button.light {
-  color: #333333;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(234, 84, 85, 0.1);
+  color: #ea5455;
+  border: 1px solid rgba(234, 84, 85, 0.3);
 }
 
 .reject-button.dark {
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(234, 84, 85, 0.2);
+  color: #ff6b6b;
+  border: 1px solid rgba(234, 84, 85, 0.4);
 }
 
-.reject-button.light:hover {
-  background: rgba(0, 0, 0, 0.1);
-  color: #333333;
-}
-
-.reject-button.dark:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+.reject-button:hover {
+  background: rgba(234, 84, 85, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(234, 84, 85, 0.2);
 }
 
 .assignment-info {
@@ -567,28 +573,51 @@
 /* Mobile Responsive Styles */
 .menu-toggle {
   display: none;
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  background: transparent;
-  border: none;
-  color: inherit;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.menu-toggle.light {
-  color: #333333;
-}
-
-.menu-toggle.dark {
-  color: #ffffff;
 }
 
 @media screen and (max-width: 768px) {
   .menu-toggle {
     display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 998;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .menu-toggle button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    font-size: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .menu-toggle.light button {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333333;
+  }
+
+  .menu-toggle.dark button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  .admin-dashboard {
+    margin-left: 0 !important;
+    padding-top: 60px;
+  }
+
+  .main-content {
+    padding: 20px;
   }
 
   .admin-dashboard {

@@ -516,3 +516,31 @@
         font-size: 2.5rem;
     }
 }
+
+/* Add styles for the enhanced signup form */
+.signup-container {
+    max-width: 600px;
+    width: 90%;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.signup-form {
+    width: 100%;
+}
+
+.signup-form .input-group {
+    margin-bottom: 0;
+}
+
+.signup-container h2 {
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    text-align: center;
+    font-size: 2rem;
+}

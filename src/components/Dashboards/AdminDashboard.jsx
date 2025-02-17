@@ -22,7 +22,7 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
   const sampleClients = [
     {
       id: 1,
-      name: "John Smith",
+      name: "John Smith", 
       projectsCount: 3,
       satisfactionLevel: 95,
       latestFeedback: "Excellent service and very professional team. Would definitely recommend!"
@@ -473,7 +473,7 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
         setIsOpen={setSidebarOpen}
       />
       <div className={`main-content ${theme}`}>
-        <h2 className={theme}>
+        <h2 className={`dashboard-title ${theme}`}>
           {showSettings ? 'Profile Settings' :
            selectedClient ? `Client: ${selectedClient.name}` :
            selectedCoworker ? 'Coworker Profile' :

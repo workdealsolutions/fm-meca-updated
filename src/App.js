@@ -175,22 +175,22 @@ const AppContent = ({ sendNotification }) => {
             <>
               <LoginBackground />
               <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
-              <RoleSelection />
-            </>
-          } 
-        />
-        <Route 
-          path="/login/:role" 
-          element={
-            <>
-              <LoginBackground />
-              <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
               <Login onLogin={handleLogin} />
             </>
           } 
         />
         <Route 
           path="/signup" 
+          element={
+            <>
+              <LoginBackground />
+              <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
+              <RoleSelection isSignUp={true} />
+            </>
+          } 
+        />
+        <Route 
+          path="/signup/:role" 
           element={
             <>
               <LoginBackground />

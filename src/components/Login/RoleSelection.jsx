@@ -4,7 +4,7 @@ import { FaUser, FaUserTie, FaUsers } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
-const RoleSelection = () => {
+const RoleSelection = ({ isSignUp = false }) => {
   const navigate = useNavigate();
 
   const roles = [
@@ -12,22 +12,22 @@ const RoleSelection = () => {
       id: 'client', 
       icon: FaUser, 
       label: 'Client',
-      description: 'Submit and track your projects',
-      path: '/login/client'
+      description: isSignUp ? 'Create an account to submit projects' : 'Submit and track your projects',
+      path: isSignUp ? '/signup/client' : '/login/client'
     },
     { 
       id: 'admin', 
       icon: FaUserTie, 
       label: 'Admin',
       description: 'Manage projects and users',
-      path: '/login/admin'
+      path: isSignUp ? '/signup/admin' : '/login/admin'
     },
     { 
       id: 'coworker', 
       icon: FaUsers, 
       label: 'Coworker',
-      description: 'Work on assigned projects',
-      path: '/login/coworker'
+      description: isSignUp ? 'Create an account to work on projects' : 'Work on assigned projects',
+      path: isSignUp ? '/signup/coworker' : '/login/coworker'
     }
   ];
 
@@ -38,12 +38,8 @@ const RoleSelection = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        Choose Your Role
+      <motion.h2>
+        {isSignUp ? 'Choose Your Role to Sign Up' : 'Choose Your Role to Login'}
       </motion.h2>
       
       <div className="roles-grid">

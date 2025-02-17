@@ -47,6 +47,11 @@ const Navbar = ({ onNavigate, currentSection }) => {
       return;
     }
 
+    if (href === '/login') {
+      navigate('/login');
+      return;
+    }
+
     if (window.location.pathname !== '/' && href === '#home') {
       navigate('/', { replace: true });
       return;
