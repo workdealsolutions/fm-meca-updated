@@ -509,8 +509,13 @@ body {
 
 @media (max-width: 768px) {
   .hero {
-    padding: 100px 2rem 2rem; /* Adjusted top padding for mobile */
+    padding: 80px 1rem 2rem; /* Adjusted top padding for mobile */
     margin-top: 0;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .hero-title {
@@ -523,6 +528,7 @@ body {
 
   .service-preview-card {
     padding: 1rem;
+    min-width: unset;
   }
 
   .spline-container {
@@ -536,13 +542,14 @@ body {
   }
 
   .services-preview {
-    grid-template-columns: 1fr; /* 1 column on mobile */
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .hero {
-    padding: 100px 2rem 2rem; /* Adjusted top padding for mobile */
+    padding: 80px 1rem 2rem; /* Adjusted top padding for mobile */
     margin-top: 0;
   }
 
@@ -770,4 +777,53 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Mobile-specific styles */
+.hero.mobile {
+  padding: 80px 1rem 2rem;
+  min-height: auto;
+}
+
+.hero-content.mobile {
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.hero-text-container.mobile {
+  padding: 0;
+  text-align: center;
+}
+
+.hero-right-column.mobile {
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.hero-right-column.mobile .services-preview {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.hero.mobile .service-preview-card {
+  padding: 1.5rem;
+  min-width: unset;
+}
+
+.hero.mobile .hero-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.1;
+}
+
+.hero.mobile .hero-subtitle {
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  margin-bottom: 2rem;
+}
+
+.hero.mobile .cta-primary {
+  margin: 0 auto;
+}
+
+.hero.mobile .button-content {
+  padding: 0.5rem 1.5rem;
 }

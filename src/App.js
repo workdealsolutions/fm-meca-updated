@@ -7,7 +7,6 @@ import Testimonials from './components/Testimonials/Testimonials';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
-import Partners from './components/Partners/Partners';
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment } from '@react-three/drei'
 import { ThemeProvider } from './context/ThemeContext';
@@ -147,10 +146,6 @@ const AppContent = ({ sendNotification }) => {
 
                     <section id="services">
                       <Services />
-                    </section>
-
-                    <section id="partners">
-                      <Partners />
                     </section>
                     
                     <section id="testimonials">

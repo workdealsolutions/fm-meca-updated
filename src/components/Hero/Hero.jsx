@@ -2,20 +2,27 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { FiSettings, FiBox, FiFileText, FiArrowRight } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import Spline from '@splinetool/react-spline';
 import './Hero.css';
 
 const Hero = () => {
   const { isDark } = useTheme();
   const { language, translations } = useLanguage();
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll();
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [0, 150]), {
-    stiffness: 100,
-    damping: 30
-  });
+  
+  // Adjust animation values for mobile
+  const y = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, isMobile ? 50 : 150]), 
+    {
+      stiffness: 100,
+      damping: 30
+    }
+  );
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '25%' : '50%']);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '15%' : '25%']);
 
   // Define theme-specific styles
   const themeStyles = {
@@ -52,7 +59,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="hero" style={{ background: isDark ? '#121212' : '#f5f5f5' }}>
+    <section className={`hero ${isMobile ? 'mobile' : ''}`} style={{ background: isDark ? '#121212' : '#f5f5f5' }}>
       <motion.div 
         className="parallax-bg"
         style={{ 
@@ -65,7 +72,7 @@ const Hero = () => {
         className="content-wrapper"
         style={{ y: contentY }}
       >
-        <div className="hero-content">
+        <div className={`hero-content ${isMobile ? 'mobile' : ''}`}>
           {/* Left column - Hero text */}
           <motion.div 
             className="hero-text-container"
@@ -123,16 +130,18 @@ const Hero = () => {
           </motion.div>
           
           {/* Right column - Model and cards */}
-          <div className="hero-right-column">
-            <motion.div 
-              className="spline-container"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 1 }}
-              style={{ background: 'transparent' }}  // Add this line
-            >
-              <Spline scene="https://prod.spline.design/Jz8-z0zKzsy0l7t8/scene.splinecode" />
-            </motion.div>
+          <div className={`hero-right-column ${isMobile ? 'mobile' : ''}`}>
+            {!isMobile && (
+              <motion.div 
+                className="spline-container"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 1 }}
+                style={{ background: 'transparent' }}  // Add this line
+              >
+                <Spline scene="https://prod.spline.design/Jz8-z0zKzsy0l7t8/scene.splinecode" />
+              </motion.div>
+            )}
 
             <motion.div 
               className="services-preview"
