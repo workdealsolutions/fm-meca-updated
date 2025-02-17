@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Pagination, Autoplay } from "swiper/modules"
+import { useTheme } from "../../context/ThemeContext"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/autoplay"
@@ -10,50 +11,51 @@ import "./PartnersShowcase.css"
 
 const partners = [
     {
-        name: 'Quantum Dynamics',
-        description: 'Pioneering advanced AI solutions with quantum computing integration, specializing in complex problem-solving and predictive analytics for enterprise-level applications.',
-        logo: 'https://public.readdy.ai/ai/img_res/fae666b4497b2ead12a58d263cf38d20.jpg'
-        },
-        {
-        name: 'NexaTech Global',
-        description: 'Leading provider of enterprise-grade cloud infrastructure solutions, offering scalable and secure platforms for digital transformation and business innovation.',
+        name: 'SMARTEC',
+        logo: 'https://www.smartec.tn/css/front/images/logo-mobile-white.png'
+    },
+    {
+        name: 'Markabte',
         logo: 'https://public.readdy.ai/ai/img_res/15df35435fc3e9a050b21e6f7d0782e8.jpg'
-        },
-        {
-        name: 'Stellar Systems',
-        description: 'Revolutionary space technology solutions for satellite communications, orbital logistics, and deep space exploration, pushing the boundaries of human achievement.',
+    },
+    {
+        name: 'SIP',
         logo: 'https://public.readdy.ai/ai/img_res/4e40bac974b414cd58e4a43e259ac880.jpg'
-        },
-        {
-        name: 'CyberForge Industries',
-        description: 'Next-generation cybersecurity solutions protecting global enterprises with AI-driven threat detection, blockchain security, and zero-trust architecture implementation.',
-        logo: 'https://public.readdy.ai/ai/img_res/5be9c5eb7f3c987b0a1f5faf05e5775f.jpg'
-        },
-        {
-        name: 'Fusion Dynamics',
-        description: 'Innovative clean energy solutions leveraging fusion technology and smart grid systems for sustainable power generation and distribution worldwide.',
-        logo: 'https://public.readdy.ai/ai/img_res/8a22c3c4468f9530886a489e1226e1a8.jpg'
-        },
-        {
-        name: 'BioSynth Labs',
-        description: 'Cutting-edge biotechnology research facility specializing in synthetic biology, genomics, and personalized medicine development for global healthcare advancement.',
-        logo: 'https://public.readdy.ai/ai/img_res/b3e4809db4e3d09415b84bcd7a928027.jpg'
-        },
-        {
-        name: 'Vertex Solutions',
-        description: 'Expert software engineering consultancy delivering custom enterprise solutions, cloud-native applications, and digital transformation strategies.',
-        logo: 'https://public.readdy.ai/ai/img_res/9394652df86430db3f43ae518087a3b4.jpg'
-        },
-        {
-        name: 'Aurora Technologies',
-        description: 'Digital innovation powerhouse creating immersive AR/VR experiences, IoT solutions, and advanced machine learning applications for the future of technology.',
-        logo: 'https://public.readdy.ai/ai/img_res/f5e37addb87a935846c0e1db5333d58f.jpg'
-        }
+    },
+    {
+        name: 'Phoenix MICRONE',
+        logo: 'https://phoenixmicron.com/wp-content/themes/phoenixtech/assets/images/Phoenix-Micron-Color-on-Transparent_RGB-02.png'
+    },
+    {
+        name: 'TransitFare',
+        logo: '/TransitFare3-300x76.png'
+    },
+    {
+        name: 'MEEK',
+        logo: '/db8bea_d9649bde5512477e997b373b242c4427~mv2.avif'
+    },
+    {
+        name: 'ABBK PhysicsWorks',
+        logo: 'https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-6/359404056_10160046588761379_3758527357639452835_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=pCoEJzp8lmMQ7kNvgHKRvti&_nc_oc=AdiXBM4KPIpbUZcHyXy3Rfcj_WcRcB3CbtCbOmywNUWWJ_nIuOsPYH0GnSPElljKxno&_nc_zt=23&_nc_ht=scontent.ftun14-1.fna&_nc_gid=AieOpOEjy0n5IZvDBSE1_Ba&oh=00_AYB7qfJfHEDhNQWIcs6kQ45Y6bMufQkurU57aBEEwYo4zA&oe=67ACF9F4'
+    },
+    {
+        name: 'OIT',
+        logo: 'https://www.ilo.org/themes/custom/ilo/node_modules/@ilo-org/brand-assets/dist/assets/logo_fr_horizontal_white.svg'
+    },
+    {
+        name: '3DExperience',
+        logo: '/3D-experience-logo2.webp'
+    },
+    {
+        name: 'ENISO',
+        logo: 'https://static.cdnlogo.com/logos/e/50/eniso-tunisie.svg'
+    }
 ]
 
 const PartnersSection = () => {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef(null)
+  const { isDark } = useTheme()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -77,8 +79,8 @@ const PartnersSection = () => {
   }, [])
 
   return (
-    <div ref={sectionRef} className="partners-showcase__section">
-      <div className="partners-showcase__container">
+    <div ref={sectionRef} className={`partners-showcase__section ${isDark ? 'dark' : 'light'}`}>
+      <div className={`partners-showcase__container ${isDark ? 'dark' : 'light'}`}>
         <div className={`partners-showcase__header ${isVisible ? "visible" : ""}`}>
           <h2 className="partners-showcase__title">Our Global Partners</h2>
           <p className="partners-showcase__description">
@@ -118,9 +120,6 @@ const PartnersSection = () => {
                   </div>
                   <div className="partners-showcase__content">
                     <h3 className="partners-showcase__partner-name">{partner.name}</h3>
-                    <p className="partners-showcase__description">
-                      {partner.description}
-                    </p>
                   </div>
                 </div>
               </div>
@@ -132,9 +131,10 @@ const PartnersSection = () => {
   )
 }
 
-const PartnersShowcase = () => {
+const PartnersShowCase = () => {
   const [scrollY, setScrollY] = useState(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const { isDark } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -156,14 +156,14 @@ const PartnersShowcase = () => {
   }, [])
 
   return (
-    <div className="partners-showcase__wrapper">
+    <div className={`partners-showcase__wrapper ${isDark ? 'dark' : 'light'}`}>
       <div
         className="partners-showcase__background"
         style={{
           transform: `translate3d(${-mousePosition.x * 2}px, ${-mousePosition.y * 2}px, 0) scale(1.1)`,
         }}
       >
-        <img className="partners-showcase__bg-image" src="https://public.readdy.ai/ai/img_res/9f202f3a1ead8283d6b595d6081ce73b.jpg" alt="Background" />
+        <img className="partners-showcase__bg-image" src="https://i.pinimg.com/736x/14/8c/a0/148ca016550ec52f775582d0fec759e7.jpg" alt="Background" />
         <div className="partners-showcase__overlay" />
       </div>
       <div
@@ -188,5 +188,5 @@ const PartnersShowcase = () => {
   )
 }
 
-export default PartnersShowcase
+export default PartnersShowCase
 

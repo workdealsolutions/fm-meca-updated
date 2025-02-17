@@ -24,7 +24,7 @@ import ClientDashboard from './components/Dashboards/ClientDashboard';
 import RoleSelection from './components/Login/RoleSelection';
 import { NotificationProvider } from './context/NotificationContext';
 import HubSpotChat from './components/HubSpotChat/HubSpotChat';
-import PartnersPage from './components/pages/Partners/PartnersPage';
+import PartnersPage from './components/Partners/Partners/PartnersPage';
 
   
 

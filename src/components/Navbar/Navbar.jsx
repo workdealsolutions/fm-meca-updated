@@ -73,7 +73,9 @@ const Navbar = ({ onNavigate, currentSection }) => {
 
   const renderNavControls = () => (
     <motion.li className="nav-controls">
-      <LoginButton />
+      <div className="navbar-login-button">
+        <LoginButton />
+      </div>
       <motion.button
         className="navbar-theme-toggle"
         onClick={toggleTheme}

@@ -1,5 +1,5 @@
 import Navbar from '../../Navbar/Navbar';
-import PartnersShowCase from '../../Partners/PartnersShowcase';
+import PartnersShowCase from '../PartnersShowCase'; 
 import Footer from '../../Footer/Footer';
 
 const PartnersPage = () => {

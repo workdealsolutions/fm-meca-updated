@@ -269,6 +269,35 @@ body {
     display: none;
 }
 
+.navbar-login-button {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: linear-gradient(
+        135deg,
+        rgba(88, 73, 73, 0.2) 0%,
+        rgba(88, 73, 73, 0.3) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.navbar-login-button:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(88, 73, 73, 0.3) 0%,
+        rgba(88, 73, 73, 0.4) 100%
+    );
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-login-button:active {
+    transform: translateY(0);
+}
+
 @keyframes rotate {
   from {
     transform: rotate(0deg);
@@ -408,6 +437,10 @@ body {
     .settings-dropdown .language-toggle {
         background: rgba(255, 255, 255, 0.05);
         border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .navbar-login-button {
+        padding: 0.4rem 0.8rem;
     }
 }
 
