@@ -23,6 +23,8 @@ import CoWorkerDashboard from './components/Dashboards/CoWorkerDashboard';
 import ClientDashboard from './components/Dashboards/ClientDashboard';
 import RoleSelection from './components/Login/RoleSelection';
 import { NotificationProvider } from './context/NotificationContext';
+import HubSpotChat from './components/HubSpotChat/HubSpotChat';
+import PartnersPage from './components/pages/Partners/PartnersPage';
 
   
 
@@ -113,6 +115,7 @@ const AppContent = ({ sendNotification }) => {
   return (
     <Router>
       <ScrollToTop />
+      <HubSpotChat />
       <Routes>
         <Route path="/" element={
           <div className="App">
@@ -242,6 +245,7 @@ const AppContent = ({ sendNotification }) => {
             />
           }
         />
+        <Route path="/partners" element={<PartnersPage />} />
       </Routes>
     </Router>
   );

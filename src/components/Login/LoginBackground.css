@@ -4,19 +4,16 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        135deg,
-        rgb(28, 23, 23) 0%,
-        rgb(48, 40, 40) 100%
-    );
     overflow: hidden;
     z-index: -1;
+    background: none; /* Remove the background gradient since Aurora handles it */
 }
 
 .particles-container {
     position: absolute;
     width: 100%;
     height: 100%;
+    z-index: 1; /* Ensure particles are above Aurora */
 }
 
 .particle {
@@ -70,6 +67,7 @@
         transparent 100%
     );
     transform-origin: center;
+    opacity: 0.15;
 }
 
 .noise-overlay {
@@ -92,7 +90,7 @@
     background: radial-gradient(
         circle at center,
         transparent 0%,
-        rgba(0, 0, 0, 0.4) 100%
+        rgba(0, 0, 0, 0.6) 100%
     );
     pointer-events: none;
 }

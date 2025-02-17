@@ -121,7 +121,7 @@ const Services = () => {
   const { title, services, exploreButton } = translations[language].servicesSection;
 
   const handleExploreClick = (index) => {
-    setSelectedModel(index === 0 ? 'model1' : index === 1 ? 'model2' : 'model3');
+    setSelectedModel(index === 0 ? 'model1' : index === 1 ? 'model2' : index === 2 ? 'model3' : 'model4');
     setModalOpen(true);
   };
 
@@ -268,7 +268,7 @@ const Services = () => {
                   animate={{ opacity: 1 }}
                   onClick={() => handleExploreClick(index)}
                 >
-                  {index === 0 ? "Create Your Solution" : exploreButton}
+                  {index === 0 ? "Create Your Solution" : index === 2 ? "Talk To An Expert" : exploreButton}
                 </motion.button>
               </motion.div>
               <motion.div
@@ -290,7 +290,7 @@ const Services = () => {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <img 
-                  src={index === 0 ? "pics.jpg" : index === 1 ? "pic.jpg" : "https://i.pinimg.com/736x/5b/eb/3f/5beb3f51580397c8349a18bbec9c170c.jpg"} 
+                  src={index === 0 ? "Alu profile equipment.6.png" : index === 1 ? "EVC-C3.1.png" : index === 2 ? "Docs mng.png" : "EVC-C2.1.png"} 
                   alt={service.title} 
                 />
               </motion.div>

@@ -1,6 +1,6 @@
 .navbar {
     position: fixed;  /* Change from absolute to fixed */
-    top: 30px;
+    top: 20px; /* Reduced from 30px */
     left: 30px;
     right: 30px;
     width: auto;
@@ -280,7 +280,7 @@ body {
 
 @media (max-width: 768px) {
     .navbar {
-        top: 20px; /* Increased from 10px to move navbar down */
+        top: 15px; /* Reduced from 20px */
         left: 10px;
         right: 10px;
         border-radius: 15px;
@@ -413,7 +413,7 @@ body {
 
 @media (max-width: 480px) {
     .navbar {
-        top: 15px; /* Increased from 5px to move navbar down */
+        top: 10px; /* Reduced from 15px */
         left: 5px;
         right: 5px;
     }

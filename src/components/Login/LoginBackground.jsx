@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Aurora from './Aurora';
 import './LoginBackground.css';
 
 const LoginBackground = () => {
@@ -19,6 +20,12 @@ const LoginBackground = () => {
 
   return (
     <div className="login-background">
+      <Aurora
+        colorStops={["#3A29FF", "#FF94B4", "#FF3232"]}
+        speed={0.5}
+        amplitude={1.2}
+      />
+      
       <div className="particles-container">
         {[...Array(50)].map((_, i) => (
           <motion.div

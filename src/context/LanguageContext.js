@@ -58,6 +58,10 @@ export const LanguageProvider = ({ children }) => {
           {
             title: "Engineering Data & Documentation",
             description: "Have a great idea? We turn it into a real, manufacturable product—ready for production and success. From concept to production, we work side by side in a confidential, cooperative process to bring your vision to life. We focus on smart design to make your product easy to produce, high quality, and market-ready.",
+          },
+          {
+            title: "Engineering Data & Documentation",
+            description: "Have a great idea? We turn it into a real, manufacturable product—ready for production and success. From concept to production, we work side by side in a confidential, cooperative process to bring your vision to life. We focus on smart design to make your product easy to produce, high quality, and market-ready.",
           }
         ],
         exploreButton: "Shape Your Vision"

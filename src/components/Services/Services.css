@@ -303,6 +303,9 @@
   backface-visibility: hidden; /* Optimize transforms */
 }
 
+/* Add new rule for the third service image */
+
+
 .service-image img {
   width: 100%;
   height: 100%;

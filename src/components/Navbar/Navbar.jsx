@@ -41,14 +41,17 @@ const Navbar = ({ onNavigate, currentSection }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleNavigation = (href) => {
+  const handleNavigation = (href, isPage) => {
+    if (isPage) {
+      navigate(href);
+      return;
+    }
+
     if (window.location.pathname !== '/' && href === '#home') {
-      // If we're not on homepage and user clicks home, navigate to root
       navigate('/', { replace: true });
       return;
     }
     
-    // Otherwise use existing navigation
     if (onNavigate) {
       onNavigate(href);
     }
@@ -58,7 +61,7 @@ const Navbar = ({ onNavigate, currentSection }) => {
   const navLinks = [
     { name: 'Home', href: '#home' },
     { name: 'Services', href: '#services' },
-    { name: 'Partners', href: '#partners' },
+    { name: 'Partners', href: '/partners', isPage: true }, // Updated this line
     { name: 'Testimonials', href: '#testimonials' },
     { name: 'Contact', href: '#contact' }
   ];
@@ -124,7 +127,7 @@ const Navbar = ({ onNavigate, currentSection }) => {
                 className={currentSection === link.href.replace('#', '') ? 'active' : ''}
                 onClick={(e) => {
                   e.preventDefault();
-                  handleNavigation(link.href);
+                  handleNavigation(link.href, link.isPage);
                 }}
               >
                 <span>{link.name}</span>

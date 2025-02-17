@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { FiSettings, FiBox, FiFileText, FiArrowRight } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
+import Spline from '@splinetool/react-spline';
 import './Hero.css';
 
 const Hero = () => {
@@ -65,6 +66,7 @@ const Hero = () => {
         style={{ y: contentY }}
       >
         <div className="hero-content">
+          {/* Left column - Hero text */}
           <motion.div 
             className="hero-text-container"
             initial={{ opacity: 0, y: 50 }}
@@ -120,46 +122,59 @@ const Hero = () => {
             </motion.button>
           </motion.div>
           
-          <motion.div 
-            className="services-preview"
-            style={{ y }}
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-          >
-            {hero.services.map((service, index) => (
-              <motion.div 
-                key={index}
-                className="service-preview-card hover-line"
-                initial={{ x: 50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ 
-                  delay: index * 0.2, 
-                  duration: 0.8, 
-                  ease: [0.25, 0.1, 0.25, 1]
-                }}
-                whileHover={{ 
-                  scale: 1.02,
-                  transition: { duration: 0.3 }
-                }}
-                style={{
-                  background: themeStyles.cardBg,
-                  borderColor: themeStyles.cardBorder,
-                  color: isDark ? '#ffffff' : '#000000'
-                }}
-              >
-                <span className="service-icon" style={{ color: themeStyles.iconColor }}>
-                  {[<FiSettings />, <FiBox />, <FiFileText />][index]}
-                </span>
-                <div className="service-info">
-                  <h3 style={{ color: isDark ? '#ffffff' : '#000000' }}>{service.title}</h3>
-                  <p style={{ color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)' }}>
-                    {service.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          {/* Right column - Model and cards */}
+          <div className="hero-right-column">
+            <motion.div 
+              className="spline-container"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 1 }}
+              style={{ background: 'transparent' }}  // Add this line
+            >
+              <Spline scene="https://prod.spline.design/Jz8-z0zKzsy0l7t8/scene.splinecode" />
+            </motion.div>
+
+            <motion.div 
+              className="services-preview"
+              style={{ y }}
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+            >
+              {hero.services.map((service, index) => (
+                <motion.div 
+                  key={index}
+                  className="service-preview-card hover-line"
+                  initial={{ x: 50, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ 
+                    delay: index * 0.2, 
+                    duration: 0.8, 
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: { duration: 0.3 }
+                  }}
+                  style={{
+                    background: themeStyles.cardBg,
+                    borderColor: themeStyles.cardBorder,
+                    color: isDark ? '#ffffff' : '#000000'
+                  }}
+                >
+                  <span className="service-icon" style={{ color: themeStyles.iconColor }}>
+                    {[<FiSettings />, <FiBox />, <FiFileText />][index]}
+                  </span>
+                  <div className="service-info">
+                    <h3 style={{ color: isDark ? '#ffffff' : '#000000' }}>{service.title}</h3>
+                    <p style={{ color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)' }}>
+                      {service.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </motion.div>
     </section>

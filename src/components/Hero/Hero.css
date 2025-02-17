@@ -40,10 +40,11 @@ body {
   position: relative;
   overflow: hidden;
   display: flex;
-  align-items: flex-start; /* Change from center to flex-start */
-  padding: 15vh 5vw 20vh; /* Changed bottom padding from 5vh to 20vh */
+  align-items: flex-start;
+  padding: 120px 5vw 20vh; /* Changed from 0 5vw 20vh - add top padding to prevent overlap */
   background: var(--bg-color);
   perspective: 1000px;
+  margin-top: 0; /* Remove negative margin */
 }
 
 .parallax-bg {
@@ -87,12 +88,10 @@ body {
 }
 
 .hero-content {
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr; /* Change to single column */
-  gap: 8rem; /* Increase gap between sections */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
   position: relative;
   z-index: 1;
   padding: 0 5vw;
@@ -100,8 +99,15 @@ body {
   margin: 0;
 }
 
+.hero-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 0; /* Remove top padding if any */
+}
+
 .hero-text-container {
-  padding-top: 4rem;
+  padding-top: 0; /* Remove top padding */
   max-width: 900px; /* Limit width of text container */
 }
 
@@ -283,11 +289,14 @@ body {
 }
 
 .services-preview {
-  margin-top: 6rem; /* Add space above cards */
+  margin-top: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Display cards in row */
+  grid-template-columns: repeat(3, 1fr); /* Fixed 3 columns */
   gap: 2rem;
   width: 100%;
+  max-width: 1200px; /* Limit maximum width */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .service-preview-card {
@@ -438,6 +447,26 @@ body {
 
 /* Remove three-container styles */
 
+.spline-container {
+  width: 100%;
+  height: 700px; /* Increased from 400px */
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: transparent !important;
+}
+
+.spline-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+.spline-container div {
+  background: transparent !important;
+}
+
 @media (max-width: 1200px) {
   .title {
     font-size: 3.5rem;
@@ -453,7 +482,10 @@ body {
 @media (max-width: 1024px) {
   .hero-content {
     grid-template-columns: 1fr;
-    gap: 2rem;
+  }
+
+  .hero-right-column {
+    margin-top: 0; /* Remove top margin on mobile */
   }
 
   .hero-title {
@@ -461,14 +493,19 @@ body {
   }
 
   .services-preview {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
     padding-bottom: 2rem;
+  }
+
+  .spline-container {
+    height: 700px;
   }
 }
 
 @media (max-width: 768px) {
   .hero {
-    padding: 12vh 2rem 2rem;
+    padding: 100px 2rem 2rem; /* Adjusted top padding for mobile */
+    margin-top: 0;
   }
 
   .hero-title {
@@ -482,11 +519,20 @@ body {
   .service-preview-card {
     padding: 1rem;
   }
+
+  .spline-container {
+    height: 700px;
+  }
+
+  .services-preview {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
 }
 
 @media (max-width: 768px) {
   .hero {
-    padding: 1rem;
+    padding: 100px 2rem 2rem; /* Adjusted top padding for mobile */
+    margin-top: 0;
   }
 
   .glass-panel {
@@ -526,6 +572,18 @@ body {
 
   .services-preview {
     grid-template-columns: 1fr;
+  }
+
+  .spline-container {
+    height: 300px;
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 90px 1rem 2rem; /* Further adjusted for smaller screens */
+    margin-top: 0;
   }
 }
 
