@@ -39,23 +39,12 @@ const FeedbackModal = ({ onClose, onSubmit, theme }) => {
           exit={{ scale: 0.5, opacity: 0 }}
           transition={{ type: "spring", damping: 15 }}
         >
-          <motion.button 
-            className={`close-button ${theme}`} 
-            onClick={onClose}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
+          <button className={`close-button ${theme}`} onClick={onClose}>
             <FaTimes />
-          </motion.button>
+          </button>
 
           <div className={`modal-header ${theme}`}>
-            <motion.div 
-              initial={{ rotate: -180, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <FaExclamationTriangle className={`warning-icon ${theme}`} />
-            </motion.div>
+            <FaExclamationTriangle className={`warning-icon ${theme}`} />
             <h2>Decline Project</h2>
             <p>Please provide a reason for declining this project</p>
           </div>
@@ -91,12 +80,7 @@ const FeedbackModal = ({ onClose, onSubmit, theme }) => {
               />
             </div>
 
-            <motion.div 
-              className="modal-actions"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
+            <div className="modal-actions">
               <motion.button
                 type="button"
                 className={`cancel-button ${theme}`}
@@ -115,7 +99,7 @@ const FeedbackModal = ({ onClose, onSubmit, theme }) => {
               >
                 Submit Feedback
               </motion.button>
-            </motion.div>
+            </div>
           </form>
         </motion.div>
       </motion.div>

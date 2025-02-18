@@ -156,9 +156,10 @@ const PartnersShowCase = () => {
   }, [])
 
   return (
-    <div className={`partners-showcase__wrapper ${isDark ? 'dark' : 'light'}`}>
+    <div id="partners" className={`partners-showcase__wrapper ${isDark ? 'dark' : 'light'}`}>
       <div
         className="partners-showcase__background"
+        id="home"
         style={{
           transform: `translate3d(${-mousePosition.x * 2}px, ${-mousePosition.y * 2}px, 0) scale(1.1)`,
         }}
@@ -181,9 +182,11 @@ const PartnersShowCase = () => {
           </button>
         </div>
       </div>
-      <div className="partners-showcase__main">
+      <div id="services" className="partners-showcase__main">
         <PartnersSection />
       </div>
+      <div id="testimonials"></div>
+      <div id="contact"></div>
     </div>
   )
 }

@@ -197,8 +197,11 @@
   content: '|';
   position: absolute;
   right: -4px;
-  animation: cursor-blink 1s step-start infinite;
   opacity: 0;
+}
+
+.typing-complete span::after {
+  display: none;
 }
 
 .service-card-description {
@@ -326,6 +329,10 @@
   bottom: 0;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
   pointer-events: none;
+}
+
+.typing-complete::after {
+  display: none;
 }
 
 @media (max-width: 1200px) {

@@ -52,6 +52,15 @@ const Navbar = ({ onNavigate, currentSection }) => {
       return;
     }
 
+    if (window.location.pathname === '/partners' && !isPage) {
+      navigate('/', { replace: true });
+      setTimeout(() => {
+        const element = document.getElementById(href.replace('#', ''));
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+      return;
+    }
+
     if (window.location.pathname !== '/' && href === '#home') {
       navigate('/', { replace: true });
       return;

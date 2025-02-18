@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { FiMail, FiPhone, FiMapPin, FiArrowUpRight } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
-import LanguageToggle from '../../context/LanguageToggle';
 import './Footer.css';
 
 const Footer = () => {
@@ -36,7 +35,6 @@ const Footer = () => {
           <img src="/jpg_to_png-removebg-preview.png" alt="FM MECA" className="footer-logo" />
           <h3 className="modern-text">FM MECA</h3>
           <p className="subtitle">FM MECA is an engineering consulting agency with a team of experts in manufacturing engineering, custom machinery design, and technical documents management. We pride ourselves on building long-term relationships with clients and providing them with the support and guidance they need to succeed.</p>
-          <LanguageToggle />
         </div>
 
         <div className="footer-section">

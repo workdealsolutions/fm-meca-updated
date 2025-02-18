@@ -4,20 +4,23 @@ import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { FiSettings, FiBox, FiFileText } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../Modal/ModalDisplay';
 import "./Services.css";
 
 
 const TypeWriter = ({ text, delay = 50 }) => {
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    if (isTyping) {
+    if (isTyping && !isComplete) {
       let currentIndex = 0;
       const interval = setInterval(() => {
         if (currentIndex <= text.length) {
           setDisplayText(text.substring(0, currentIndex));
+          if (currentIndex === text.length) {
+            setIsComplete(true);
+          }
           currentIndex++;
         } else {
           clearInterval(interval);
@@ -26,10 +29,15 @@ const TypeWriter = ({ text, delay = 50 }) => {
 
       return () => clearInterval(interval);
     }
-  }, [text, delay, isTyping]);
+  }, [text, delay, isTyping, isComplete]);
 
   return (
-    <span onMouseEnter={() => setIsTyping(true)}>{displayText || text}</span>
+    <span 
+      onMouseEnter={() => !isComplete && setIsTyping(true)} 
+      className={isComplete ? 'typing-complete' : ''}
+    >
+      {displayText || text}
+    </span>
   );
 };
 
@@ -62,8 +70,6 @@ const Services = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, threshold: 0.2 });
   const navigate = useNavigate();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedModel, setSelectedModel] = useState(null);
 
   const themeStyles = {
     background: isDark 
@@ -121,8 +127,9 @@ const Services = () => {
   const { title, services, exploreButton } = translations[language].servicesSection;
 
   const handleExploreClick = (index) => {
-    setSelectedModel(index === 0 ? 'model1' : index === 1 ? 'model2' : index === 2 ? 'model3' : 'model4');
-    setModalOpen(true);
+    // Temporarily just log the action
+    console.log(`Clicked explore for service ${index}`);
+    // You can add navigation or other logic here later
   };
 
   return (
@@ -298,11 +305,6 @@ const Services = () => {
           ))}
         </div>
       </div>
-      <Modal 
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        modelType={selectedModel}
-      />
     </section>
   );
 };

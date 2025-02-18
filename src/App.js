@@ -240,7 +240,15 @@ const AppContent = ({ sendNotification }) => {
             />
           }
         />
-        <Route path="/partners" element={<PartnersPage />} />
+        <Route 
+          path="/partners" 
+          element={
+            <>
+              <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
+              <PartnersPage />
+            </>
+          } 
+        />
       </Routes>
     </Router>
   );

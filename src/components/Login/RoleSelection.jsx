@@ -16,13 +16,6 @@ const RoleSelection = ({ isSignUp = false }) => {
       path: isSignUp ? '/signup/client' : '/login/client'
     },
     { 
-      id: 'admin', 
-      icon: FaUserTie, 
-      label: 'Admin',
-      description: 'Manage projects and users',
-      path: isSignUp ? '/signup/admin' : '/login/admin'
-    },
-    { 
       id: 'coworker', 
       icon: FaUsers, 
       label: 'Coworker',
