@@ -281,22 +281,6 @@ body {
   gap: 1rem;
 }
 
-/* Remove these sections */
-.settings-container,
-.settings-toggle,
-.settings-dropdown,
-.language-toggle-container {
-  display: none;
-}
-
-/* Remove the following classes as they're now in LoginButton.css */
-.fm-login-button,
-.fm-login-button:hover,
-.fm-login-button:active,
-.fm-login-button::before {
-    display: none;
-}
-
 .navbar-login-button {
     position: relative;
     display: inline-block;

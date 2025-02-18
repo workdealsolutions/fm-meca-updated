@@ -12,7 +12,7 @@ const Footer = () => {
     {
       icon: <FiMapPin />,
       text: 'Avenue Yasser Arafet Imm Fraj2 Sahloul 1, Sousse 4054, Tunisia',
-      link: 'https://www.google.com/maps/search/?api=1&query=35.83145383768949+10.62516113902816'
+      link: 'https://maps.app.goo.gl/BZafJnKEm1Pbu5Q78'
     },
     {
       icon: <FiPhone />,

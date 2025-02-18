@@ -165,6 +165,11 @@
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;           /* Add this */
+  align-items: center;     /* Add this */
+  justify-content: center; /* Add this */
+  line-height: 1;          /* Add this */
+  padding: 0;              /* Add this */
 }
 
 .slider-button:hover {
@@ -173,6 +178,7 @@
 
 .slider-button.prev {
   left: -25px;
+  padding-right: 3px; /* Add this to offset the arrow position */
 }
 
 .slider-button.next {
