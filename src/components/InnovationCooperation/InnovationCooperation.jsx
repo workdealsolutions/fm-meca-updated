@@ -32,7 +32,7 @@ const InnovationCooperation = () => {
       const timer = setTimeout(() => {
         setIsModelAnimating(false);
         document.body.style.overflow = 'auto';
-      }, 3000); // Adjust this time to match your model animation duration
+      }, 5000); // Changed from 3000 to 5000 for 5 seconds
 
       return () => {
         clearTimeout(timer);
@@ -45,7 +45,7 @@ const InnovationCooperation = () => {
   const onSplineLoad = () => {
     setTimeout(() => {
       setIsModelAnimating(false);
-    }, 3000); // Match this with the animation duration
+    }, 4000); // Changed from 3000 to 5000 to match the above timeout
   };
 
   useEffect(() => {

@@ -41,7 +41,7 @@ body {
   overflow: hidden;
   display: flex;
   align-items: flex-start;
-  padding: 120px 5vw 20vh; /* Changed from 0 5vw 20vh - add top padding to prevent overlap */
+  padding: 20px 5vw 20vh; /* Reduced from 80px to 60px */
   background: var(--bg-color);
   perspective: 1000px;
   margin-top: 0; /* Remove negative margin */
@@ -509,7 +509,7 @@ body {
 
 @media (max-width: 768px) {
   .hero {
-    padding: 80px 1rem 2rem; /* Adjusted top padding for mobile */
+    padding: 45px 1rem 2rem; /* Reduced from 60px to 45px */
     margin-top: 0;
   }
 
@@ -549,7 +549,7 @@ body {
 
 @media (max-width: 768px) {
   .hero {
-    padding: 80px 1rem 2rem; /* Adjusted top padding for mobile */
+    padding: 45px 1rem 2rem; /* Reduced from 60px to 45px */
     margin-top: 0;
   }
 
@@ -600,7 +600,7 @@ body {
 
 @media (max-width: 480px) {
   .hero {
-    padding: 90px 1rem 2rem; /* Further adjusted for smaller screens */
+    padding: 35px 1rem 2rem; /* Reduced from 50px to 35px */
     margin-top: 0;
   }
 }
@@ -781,7 +781,7 @@ body {
 
 /* Mobile-specific styles */
 .hero.mobile {
-  padding: 80px 1rem 2rem;
+  padding: 45px 1rem 2rem; /* Reduced from 60px to 45px */
   min-height: auto;
 }
 
