@@ -210,12 +210,18 @@ const Reviews = () => {
       />
       <div className="reviews-hero-overlay" />
       
-      {/* Hero Title */}
+      {/* Hero Title with conditional styling */}
       <motion.h1 
         className={`reviews-hero-title ${isScrolled ? 'scrolled' : ''}`}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
+        style={{
+          left: isMobile ? '5%' : '15%',
+          transform: isMobile ? 'translateY(-50%)' : 'translate(0, -50%)',
+          width: isMobile ? '90%' : '600px',
+          textAlign: isMobile ? 'left' : 'left'
+        }}
       >
         REVIEWS & TESTIMONIALS
       </motion.h1>

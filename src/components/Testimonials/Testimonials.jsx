@@ -1,10 +1,13 @@
-import { motion } from 'framer-motion';
+import { motion, useMotionValue } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { Link } from 'react-router-dom';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import './Testimonials.css';
 
 const Testimonials = () => {
   const { isDark } = useTheme();
+  const isMobile = useIsMobile();
+  const x = useMotionValue(0);
 
   // Temporary static data
   const testimonials = [
@@ -32,6 +35,15 @@ const Testimonials = () => {
     // Add more testimonials as needed
   ];
 
+  // Add touch scroll handling
+  const handleDragStart = () => {
+    document.documentElement.style.overflow = 'hidden';
+  };
+
+  const handleDragEnd = () => {
+    document.documentElement.style.overflow = 'auto';
+  };
+
   return (
     <motion.section 
       className="testimonials-section"
@@ -39,15 +51,27 @@ const Testimonials = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       style={{
-        background: isDark ? '#000000' : 'var(--bg-primary)'
+        background: isDark ? '#000000' : 'var(--bg-primary)',
+        padding: isMobile ? '3rem 0' : '6rem 0'
       }}
     >
-      <motion.h2 className="testimonials-title">
+      <motion.h2 
+        className="testimonials-title"
+        style={{ fontSize: isMobile ? '2rem' : '3rem' }}
+      >
         What Our Clients Say
       </motion.h2>
 
       <div className="testimonials-scroll-container">
-        <div className="testimonials-container">
+        <motion.div 
+          className="testimonials-container"
+          drag={isMobile ? "x" : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.1}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          style={{ x }}
+        >
           <div className="testimonials-track">
             {testimonials.map((testimonial, index) => (
               <motion.div
@@ -56,13 +80,19 @@ const Testimonials = () => {
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ 
-                  delay: index * 0.2,
+                  delay: isMobile ? 0.1 : index * 0.2,
                   duration: 0.8,
                   type: "spring"
                 }}
-                whileHover={{ 
+                whileHover={!isMobile ? { 
                   scale: 1.02,
                   backgroundColor: isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.02)"
+                } : {}}
+                style={{
+                  width: isMobile ? 'auto' : '380px',
+                  padding: isMobile ? '1.5rem' : '2.5rem',
+                  flex: isMobile ? '0 0 85vw' : '0 0 380px',
+                  maxWidth: isMobile ? '300px' : 'none'
                 }}
               >
                 <motion.div 
@@ -112,7 +142,7 @@ const Testimonials = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <motion.div 
@@ -120,6 +150,7 @@ const Testimonials = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
+        style={{ marginTop: isMobile ? '2rem' : '3rem' }}
       >
         <Link to="/reviews" className="explore-more-button">
           Explore More Reviews

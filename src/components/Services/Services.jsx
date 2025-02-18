@@ -68,7 +68,11 @@ const Services = () => {
   const { language, translations } = useLanguage();
   const controls = useAnimation();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, threshold: 0.2 });
+  const inView = useInView(ref, { 
+    once: true, 
+    threshold: 0.2,
+    margin: "-50px"
+  });
   const navigate = useNavigate();
 
   const themeStyles = {
@@ -133,13 +137,14 @@ const Services = () => {
   };
 
   return (
-    <section className="services" style={{ background: themeStyles.background, paddingTop: '4rem' }}> {/* Reduced padding */}
+    <section ref={ref} className="services" style={{ background: themeStyles.background, paddingTop: '4rem' }}> {/* Reduced padding */}
       <div className="services-content">
         {/* Replace current title animations with simpler ones */}
         <motion.div 
           className="services-section-title"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
           <motion.h1 
@@ -150,6 +155,7 @@ const Services = () => {
             }}
             initial={{ opacity: 0, y: -30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             Our Services
@@ -159,6 +165,7 @@ const Services = () => {
             style={{ color: themeStyles.subtitleColor }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
             Discover our comprehensive range of professional services designed to meet your needs
@@ -167,6 +174,7 @@ const Services = () => {
             className="title-line"
             initial={{ width: 0, opacity: 0 }}
             whileInView={{ width: "100px", opacity: 1 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
           />
         </motion.div>
@@ -204,8 +212,7 @@ const Services = () => {
                 willChange: 'transform, opacity' // Add will-change for performance
               }}
               initial="hidden"
-              whileInView="visible"
-              viewport={{ margin: "-50px", once: true }} // Reduced margin and added once
+              animate={inView ? "visible" : "hidden"}
               variants={cardVariants}
               custom={index}
             >
@@ -218,9 +225,8 @@ const Services = () => {
                 }}
                 variants={cardVariants}
                 initial="hidden"
-                whileInView="visible"
+                animate={inView ? "visible" : "hidden"}
                 custom={index}
-                viewport={{ margin: "-100px" }}
               >
                 <motion.h3 
                   className="service-card-heading"
@@ -230,6 +236,7 @@ const Services = () => {
                   }}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
                 >
                   <TypeWriter text={service.title} />
@@ -253,6 +260,7 @@ const Services = () => {
                   }}
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
                   transition={{ delay: 0.3 }}
                 >
                   {service.description}
@@ -286,10 +294,8 @@ const Services = () => {
                 }}
                 variants={cardVariants}
                 initial="hidden"
-                whileInView="visible"
-                exit="exit"
+                animate={inView ? "visible" : "hidden"}
                 custom={index}
-                viewport={{ margin: "-100px" }}
                 whileHover={{ 
                   scale: 1.05,
                   boxShadow: "0 30px 60px rgba(0,0,0,0.5)"

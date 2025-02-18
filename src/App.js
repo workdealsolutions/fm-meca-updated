@@ -24,6 +24,7 @@ import RoleSelection from './components/Login/RoleSelection';
 import { NotificationProvider } from './context/NotificationContext';
 import HubSpotChat from './components/HubSpotChat/HubSpotChat';
 import PartnersPage from './components/Partners/Partners/PartnersPage';
+import InnovationCooperation from './components/InnovationCooperation/InnovationCooperation';
 
   
 
@@ -247,6 +248,23 @@ const AppContent = ({ sendNotification }) => {
               <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
               <PartnersPage />
             </>
+          } 
+        />
+        <Route 
+          path="/innovation" 
+          element={
+            <AnimatePresence mode="wait">
+              <motion.div
+                key="innovation"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
+                <InnovationCooperation />
+              </motion.div>
+            </AnimatePresence>
           } 
         />
       </Routes>

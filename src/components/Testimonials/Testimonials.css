@@ -12,6 +12,7 @@
   background: linear-gradient(to right, var(--accent-color), var(--text-primary));
   -webkit-background-clip: text;
   background-clip: text;
+  background-clip: text;
   color: transparent;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -30,7 +31,9 @@
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .testimonials-container::-webkit-scrollbar {
@@ -42,8 +45,9 @@
   flex-wrap: nowrap;
   justify-content: center;
   gap: 2rem;
-  padding: 0 2rem;
+  padding: 0 1rem;
   width: max-content;
+  scroll-behavior: smooth;
 }
 
 .testimonials-card {
@@ -69,6 +73,8 @@
   overflow: hidden;
   transform-style: preserve-3d;
   perspective: 1000px;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 
 .testimonials-card::before {
@@ -172,6 +178,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   background: linear-gradient(to right, rgb(88, 73, 73), #fff);
+  background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 0.4rem;
@@ -306,5 +313,71 @@
   .testimonials-project {
     max-width: 100%;
     text-align: left;
+  }
+
+  .testimonials-section {
+    padding: 3rem 0;
+  }
+
+  .testimonials-container {
+    padding: 1rem 0;
+    justify-content: flex-start;
+    scroll-padding: 0 1rem;
+  }
+
+  .testimonials-track {
+    gap: 1rem;
+    padding: 0 1rem;
+    justify-content: flex-start; /* Change to allow proper scrolling */
+    margin-left: 0.5rem; /* Add initial offset */
+  }
+
+  .testimonials-card {
+    flex: 0 0 85vw; /* Make cards take up most of the viewport width */
+    max-width: 300px; /* But limit their maximum width */
+    padding: 1.5rem;
+    margin: 0 0.5rem;
+    transform: none !important; /* Disable 3D effects on mobile */
+  }
+
+  .testimonials-card:hover {
+    transform: none !important; /* Disable hover effects on mobile */
+    box-shadow: 0 8px 32px var(--nav-shadow);
+  }
+
+  .testimonials-quote {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding-left: 1rem;
+  }
+
+  .testimonials-client-name {
+    font-size: 1.1rem;
+  }
+
+  .testimonials-client-location,
+  .testimonials-project {
+    font-size: 0.85rem;
+  }
+
+  .explore-more-button {
+    padding: 0.8rem 2rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonials-section {
+    padding: 2rem 0;
+  }
+
+  .testimonials-card {
+    flex: 0 0 80vw;
+    max-width: 260px;
+    padding: 1.2rem;
+  }
+
+  .testimonials-quote {
+    font-size: 0.9rem;
   }
 }
