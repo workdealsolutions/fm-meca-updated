@@ -95,6 +95,9 @@
     width: 120px;
     height: auto;
     transition: transform 0.3s ease;
+    background: linear-gradient(to right, #000000, rgba(255, 255, 255, 0.8));
+    padding: 10px;
+    border-radius: 8px;
 }
 
 .footer-logo:hover {
