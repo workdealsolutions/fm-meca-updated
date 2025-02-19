@@ -45,12 +45,14 @@ const Contact = () => {
         const Component = isTextarea ? 'textarea' : 'input';
         const delay = index * 0.1 + 0.2;
 
+        const formGroupClass = `fm-contact-form-group ${field.name === 'firstName' || field.name === 'lastName' ? '' : 'fm-contact-full-width'}`;
+
         return (
             <motion.div
-                className={`fm-contact-form-group ${index < 2 ? 'fm-contact-dual-inputs' : ''}`}
+                className={formGroupClass}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
                 transition={{
                     duration: 0.6,
                     delay,
@@ -65,7 +67,7 @@ const Contact = () => {
                     whileTap={{ scale: 0.98 }}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false }}
+                    viewport={{ once: true }}
                     transition={{
                         duration: 0.4,
                         delay: delay + 0.2,
@@ -73,17 +75,16 @@ const Contact = () => {
                         stiffness: 200
                     }}
                 >
+                    <label className="fm-contact-form-label">{field.label}</label>
                     <Component
                         {...register(field.name, {
                             required: true,
                             pattern: field.pattern
                         })}
-                        placeholder={field.label} // Add placeholder text
                         type={field.type}
                         className={`fm-contact-form-input ${isTextarea ? 'fm-contact-textarea' : ''} ${errors[field.name] ? 'fm-contact-error' : ''}`}
                         rows={isTextarea ? "5" : undefined}
                     />
-                    <label className="fm-contact-form-label">{field.label}</label>
                 </motion.div>
             </motion.div>
         );
@@ -94,7 +95,7 @@ const Contact = () => {
             className="fm-contact-section"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: false }}
+            viewport={{ once: true }}
             style={{
                 background: isDark ? 'var(--bg-secondary)' : 'var(--bg-primary)'
             }}
@@ -103,7 +104,7 @@ const Contact = () => {
                 className="fm-contact-container"
                 initial={{ y: 100, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 100, damping: 20 }}
                 style={{
                     background: isDark 
@@ -115,19 +116,22 @@ const Contact = () => {
                     className="fm-contact-subtitle"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
                     transition={{ delay: 0.2 }}
                 >
                     {contactSection.title}
                 </motion.p>
                 <form onSubmit={handleSubmit(onSubmit)} className="fm-contact-form">
-                    {contactSection.formFields.map((field, index) => renderFormField(field, index))}
-
+                    <div className="fm-contact-name-row">
+                        {contactSection.formFields.slice(0, 2).map((field, index) => renderFormField(field, index))}
+                    </div>
+                    {contactSection.formFields.slice(2).map((field, index) => renderFormField(field, index + 2))}
                     <motion.button
                         type="submit"
                         className="fm-contact-submit-button"
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false }}
+                        viewport={{ once: true }}
                         transition={{
                             duration: 0.8,
                             type: "spring",

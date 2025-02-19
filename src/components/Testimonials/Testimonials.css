@@ -1,6 +1,6 @@
 .testimonials-section {
   padding: 6rem 0;
-  background: var(--bg-primary); /* This will be overridden by the inline style in dark mode */
+  background: var(--bg-secondary); /* This will be overridden by the inline style in dark mode */
   position: relative;
   overflow: hidden;
 }
@@ -26,8 +26,12 @@
 
 .testimonials-container {
   width: 100%;
-  overflow-x: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 2rem 0;
+  overflow-x: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   display: flex;
@@ -239,6 +243,39 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
+.testimonial-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--accent-color), var(--text-primary));
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.testimonial-nav-button:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.testimonial-nav-button.prev {
+  left: 20px;
+}
+
+.testimonial-nav-button.next {
+  right: 20px;
+}
+
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -363,6 +400,20 @@
   .explore-more-button {
     padding: 0.8rem 2rem;
     font-size: 0.95rem;
+  }
+
+  .testimonial-nav-button {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+
+  .testimonial-nav-button.prev {
+    left: 10px;
+  }
+
+  .testimonial-nav-button.next {
+    right: 10px;
   }
 }
 

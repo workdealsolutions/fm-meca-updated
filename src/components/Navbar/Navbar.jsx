@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiMenu, FiX } from 'react-icons/fi';
-import { FaMoon, FaSun } from 'react-icons/fa';
+import { FaMoon, FaSun, FaHome, FaTools, FaHandshake, FaLightbulb, FaStar, FaEnvelope } from 'react-icons/fa';
 import './Navbar.css';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
@@ -14,6 +14,36 @@ const Navbar = ({ onNavigate, currentSection }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const { isDark, toggleTheme } = useTheme();
+  const [openDropdown, setOpenDropdown] = useState(null);
+  
+  const toggleDropdown = (linkName, e) => {
+    e.preventDefault();
+    if (window.innerWidth <= 768) {
+      setOpenDropdown(openDropdown === linkName ? null : linkName);
+    }
+  };
+
+  const scrollToServiceCard = (index) => {
+    const targetCard = document.getElementById(`service-${index}`);
+    
+    if (targetCard) {
+      const navbarHeight = 100; // Adjust based on your navbar height
+      const cardTop = targetCard.getBoundingClientRect().top;
+      const offsetPosition = window.pageYOffset + cardTop - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const servicesLinks = [
+    { name: 'Industrial Solutions', href: '1' },
+    { name: 'Product Development', href: '2' },
+    { name: 'Engineering Data', href: '3' },
+    { name: 'Technical Support', href: '4' }
+  ];
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -24,6 +54,13 @@ const Navbar = ({ onNavigate, currentSection }) => {
 
   const handleNavigation = (href, isPage) => {
     setIsOpen(false); // Close mobile menu
+
+    // Handle service card navigation
+    const serviceMatch = /^[1-4]$/.exec(href);
+    if (serviceMatch) {
+      scrollToServiceCard(href);
+      return;
+    }
 
     if (isPage) {
       navigate(href);
@@ -85,12 +122,25 @@ const Navbar = ({ onNavigate, currentSection }) => {
   };
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Services', href: '#services' },
-    { name: 'Partners', href: '/partners', isPage: true },
-    { name: 'Innovation & Cooperation', href: '/innovation', isPage: true },
-    { name: 'Testimonials', href: '#testimonials' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Home', href: '#home', icon: <FaHome /> },
+    { 
+      name: 'Services', 
+      href: '#services', 
+      icon: <FaTools />, 
+      dropdown: servicesLinks 
+    },
+    { name: 'Partners', href: '/partners', icon: <FaHandshake />, isPage: true },
+    { name: 'Innovation', href: '/innovation', icon: <FaLightbulb />, isPage: true },
+    { 
+      name: 'Testimonials', 
+      href: '#testimonials', 
+      icon: <FaStar />,
+      dropdown: [
+        { name: 'Testimonials Section', href: '#testimonials' },
+        { name: 'Reviews Page', href: '/reviews', isPage: true }
+      ]
+    },
+    { name: 'Contact', href: '#contact', icon: <FaEnvelope /> }
   ];
 
   const renderNavControls = () => (
@@ -153,18 +203,41 @@ const Navbar = ({ onNavigate, currentSection }) => {
               initial={{ opacity: 1 }}  // Start visible
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              className={link.dropdown ? 'has-dropdown' : ''}
             >
               <a 
                 href={link.href} 
-                className={isLinkActive(link.href) ? 'active' : ''}
+                className={`nav-link ${isLinkActive(link.href) ? 'active' : ''}`}
                 onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation(link.href, link.isPage);
+                  if (link.dropdown) {
+                    toggleDropdown(link.name, e);
+                  } else {
+                    e.preventDefault();
+                    handleNavigation(link.href, link.isPage);
+                  }
                 }}
               >
-                <span>{link.name}</span>
-                <span>{link.name}</span>
+                <div className="nav-icon">{link.icon}</div>
+                <span className="nav-text">{link.name}</span>
               </a>
+              {link.dropdown && (
+                <div className={`nav-dropdown ${openDropdown === link.name ? 'show' : ''}`}>
+                  {link.dropdown.map((dropItem, i) => (
+                    <a
+                      key={i}
+                      href={dropItem.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavigation(dropItem.href, dropItem.isPage);
+                        setOpenDropdown(null);
+                        setIsOpen(false);
+                      }}
+                    >
+                      {dropItem.name}
+                    </a>
+                  ))}
+                </div>
+              )}
             </motion.li>
           ))}
           {renderNavControls()}

@@ -164,7 +164,11 @@ const PartnersShowCase = () => {
           transform: `translate3d(${-mousePosition.x * 2}px, ${-mousePosition.y * 2}px, 0) scale(1.1)`,
         }}
       >
-        <img className="partners-showcase__bg-image" src="https://i.pinimg.com/736x/14/8c/a0/148ca016550ec52f775582d0fec759e7.jpg" alt="Background" />
+        <img
+          src="/e105c770-c564-49eb-a18c-d8737078d3dd.png"
+          alt="Partners background"
+          className="partners-showcase__bg-image"
+        />
         <div className="partners-showcase__overlay" />
       </div>
       <div
@@ -175,9 +179,14 @@ const PartnersShowCase = () => {
         }}
       >
         <div className="partners-showcase__hero-content">
-          <h1 className="partners-showcase__hero-title">Our Technology Partners</h1>
-          <p className="partners-showcase__hero-text">Discover how we're collaborating with industry leaders to shape the future of innovation</p>
-          <button className="partners-showcase__hero-btn" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}>
+          <h1 className="partners-showcase__hero-title">Our Partners</h1>
+          <p className="partners-showcase__hero-text">
+            Discover how we're collaborating with industry leaders to shape the future of innovation
+          </p>
+          <button 
+            className="partners-showcase__hero-btn" 
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
+          >
             Explore Partnerships
           </button>
         </div>

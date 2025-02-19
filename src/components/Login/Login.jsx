@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaGoogle, FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaGoogle, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -10,23 +10,7 @@ const Login = ({ onLogin, onGoogleLogin, onCompanyLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [focusedField, setFocusedField] = useState(null);
-
-  const handleGuestLogin = () => {
-    switch(role) {
-      case 'admin':
-        navigate('/admin-dashboard');
-        break;
-      case 'coworker':
-        navigate('/coworker-dashboard');
-        break;
-      case 'client':
-        navigate('/client-dashboard');
-        break;
-      default:
-        navigate('/login');
-        break;
-    }
-  };
+  const [showPassword, setShowPassword] = useState(false);
 
   const getRoleTitle = () => {
     switch(role) {
@@ -58,10 +42,11 @@ const Login = ({ onLogin, onGoogleLogin, onCompanyLogin }) => {
       
       <form onSubmit={(e) => { e.preventDefault(); onLogin({ role, email, password }); }}>
         <div className="input-group">
-          <FaEnvelope className="input-icon" />
+          <label className="input-label">Email Address</label>
           <motion.input
+            className="login-input email-input"
             type="email"
-            placeholder="Email"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onFocus={() => setFocusedField('email')}
@@ -77,11 +62,16 @@ const Login = ({ onLogin, onGoogleLogin, onCompanyLogin }) => {
           />
         </div>
         
+        <Link to="/forgot-password" className="forgot-password-link">
+          Forgot Password?
+        </Link>
+
         <div className="input-group">
-          <FaLock className="input-icon" />
+          <label className="input-label">Password</label>
           <motion.input
-            type="password"
-            placeholder="Password"
+            className="login-input password-input"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             onFocus={() => setFocusedField('password')}
@@ -95,12 +85,19 @@ const Login = ({ onLogin, onGoogleLogin, onCompanyLogin }) => {
             }}
             transition={{ delay: 0.6, duration: 0.5 }}
           />
+          <button
+            type="button"
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)}
+            tabIndex="-1"
+          >
+            {showPassword ? 
+              <FaEyeSlash className="password-toggle-icon hide-password" /> : 
+              <FaEye className="password-toggle-icon show-password" />
+            }
+          </button>
         </div>
 
-        <div className="auth-links">
-          <Link to="/forgot-password">Forgot Password?</Link>
-        </div>
-        
         <motion.button
           type="submit"
           className="submit-button"
@@ -114,19 +111,6 @@ const Login = ({ onLogin, onGoogleLogin, onCompanyLogin }) => {
           whileTap={{ scale: 0.98 }}
         >
           Login
-        </motion.button>
-
-        <motion.button
-          type="button"
-          className="guest-button"
-          onClick={handleGuestLogin}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          Continue as Guest
         </motion.button>
 
         <div className="social-login">

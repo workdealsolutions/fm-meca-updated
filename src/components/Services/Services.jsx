@@ -137,7 +137,7 @@ const Services = () => {
   };
 
   return (
-    <section ref={ref} className="services" style={{ background: themeStyles.background, paddingTop: '4rem' }}> {/* Reduced padding */}
+    <section ref={ref} id="services" className="services" style={{ background: themeStyles.background, paddingTop: '4rem' }}> {/* Reduced padding */}
       <div className="services-content">
         {/* Replace current title animations with simpler ones */}
         <motion.div 
@@ -179,33 +179,11 @@ const Services = () => {
           />
         </motion.div>
 
-        <motion.h2
-          className="services-title"
-          style={{ 
-            background: themeStyles.titleGradient,
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}
-          initial={{ opacity: 0, y: -50 }}
-          animate={controls}
-          variants={{
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: {
-                duration: 1.2,
-                ease: "easeOut"
-              }
-            }
-          }}
-        >
-          {title}
-        </motion.h2>
         <div className="services-list">
           {services.map((service, index) => (
             <motion.div
               key={index}
+              id={`service-${index + 1}`} // Add ID for each service card
               className="service-item"
               style={{ 
                 color: themeStyles.accentColor,

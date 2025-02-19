@@ -93,6 +93,7 @@
   will-change: transform, opacity;
   transition: transform 0.3s ease;
   pointer-events: auto; /* Ensure form group receives events */
+  flex: 1;
 }
 
 .fm-contact-form-group:hover {
@@ -104,23 +105,21 @@
 }
 
 .fm-contact-form-label {
-  position: absolute;
-  left: 1rem;
-  top: 1.2rem;
-  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
-  transition: all 0.3s ease;
-  pointer-events: none;
-  transform-origin: left top;
-  background: transparent;
-  z-index: 1;
   opacity: 0.8;
+  font-weight: 500;
+  position: relative;
+  pointer-events: none;
 }
 
 .fm-contact-dual-inputs {
   display: grid;
-  gap: 1.5rem;
   grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .fm-contact-form-input {
@@ -145,6 +144,7 @@
   z-index: 2;
   background: var(--glass-bg);
   pointer-events: auto; /* Ensure input receives events */
+  margin-top: 0.3rem;
 }
 
 .fm-contact-form-input:focus {
@@ -280,6 +280,17 @@
     text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.fm-contact-name-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.fm-contact-full-width {
+    width: 100%;
+}
+
 @media (max-width: 768px) {
   .fm-contact-section {
     padding: 4rem 1rem;
@@ -311,6 +322,11 @@
   .fm-contact-outside-title {
     font-size: 3.5rem; /* Increased from 2.8rem */
     margin-bottom: 2.5rem;
+  }
+
+  .fm-contact-name-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 
