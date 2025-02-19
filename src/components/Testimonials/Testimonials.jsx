@@ -2,14 +2,12 @@ import { motion, useMotionValue } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '../../hooks/useIsMobile';
-import React from 'react';
 import './Testimonials.css';
 
 const Testimonials = () => {
   const { isDark } = useTheme();
   const isMobile = useIsMobile();
   const x = useMotionValue(0);
-  const containerRef = React.useRef(null);
 
   // Temporary static data
   const testimonials = [
@@ -38,16 +36,12 @@ const Testimonials = () => {
   ];
 
   // Add touch scroll handling
-  const handleDragStart = (e) => {
-    if (containerRef.current) {
-      containerRef.current.style.cursor = 'grabbing';
-    }
+  const handleDragStart = () => {
+    document.documentElement.style.overflow = 'hidden';
   };
 
-  const handleDragEnd = (e) => {
-    if (containerRef.current) {
-      containerRef.current.style.cursor = 'grab';
-    }
+  const handleDragEnd = () => {
+    document.documentElement.style.overflow = 'auto';
   };
 
   return (
@@ -70,14 +64,13 @@ const Testimonials = () => {
 
       <div className="testimonials-scroll-container">
         <motion.div 
-          ref={containerRef}
           className="testimonials-container"
           drag={isMobile ? "x" : false}
-          dragConstraints={{ left: -1000, right: 0 }}
-          dragElastic={0.2}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.1}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
-          style={{ x, touchAction: 'pan-x' }}
+          style={{ x }}
         >
           <div className="testimonials-track">
             {testimonials.map((testimonial, index) => (
