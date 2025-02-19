@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiMenu, FiX } from 'react-icons/fi';
-import { FaMoon, FaSun, FaHome, FaTools, FaHandshake, FaLightbulb, FaStar, FaEnvelope } from 'react-icons/fa';
+import { FaMoon, FaSun } from 'react-icons/fa';
 import './Navbar.css';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
@@ -122,25 +122,23 @@ const Navbar = ({ onNavigate, currentSection }) => {
   };
 
   const navLinks = [
-    { name: 'Home', href: '#home', icon: <FaHome /> },
+    { name: 'Home', href: '#home' },
     { 
       name: 'Services', 
-      href: '#services', 
-      icon: <FaTools />, 
+      href: '#services',
       dropdown: servicesLinks 
     },
-    { name: 'Partners', href: '/partners', icon: <FaHandshake />, isPage: true },
-    { name: 'Innovation', href: '/innovation', icon: <FaLightbulb />, isPage: true },
+    { name: 'Partners', href: '/partners', isPage: true },
+    { name: 'Innovation', href: '/innovation', isPage: true },
     { 
       name: 'Testimonials', 
-      href: '#testimonials', 
-      icon: <FaStar />,
+      href: '#testimonials',
       dropdown: [
         { name: 'Testimonials Section', href: '#testimonials' },
         { name: 'Reviews Page', href: '/reviews', isPage: true }
       ]
     },
-    { name: 'Contact', href: '#contact', icon: <FaEnvelope /> }
+    { name: 'Contact', href: '#contact' }
   ];
 
   const renderNavControls = () => (
@@ -183,26 +181,10 @@ const Navbar = ({ onNavigate, currentSection }) => {
           </motion.div>
         </div>
 
-        <motion.ul 
-          className={`nav-links ${isOpen ? 'active' : ''}`}
-          initial={{ opacity: 1, x: 0 }}  // Start visible on desktop
-          animate={
-            window.innerWidth <= 768  // Only animate on mobile
-              ? { 
-                  x: isOpen ? 0 : "100%",
-                  opacity: isOpen ? 1 : 0,
-                  transition: { duration: 0.2 }  // Faster transition
-                }
-              : { opacity: 1, x: 0 }
-          }
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        >
+        <motion.ul className={`nav-links ${isOpen ? 'active' : ''}`}>
           {navLinks.map((link, index) => (
             <motion.li
               key={index}
-              initial={{ opacity: 1 }}  // Start visible
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               className={link.dropdown ? 'has-dropdown' : ''}
             >
               <a 
@@ -217,8 +199,7 @@ const Navbar = ({ onNavigate, currentSection }) => {
                   }
                 }}
               >
-                <div className="nav-icon">{link.icon}</div>
-                <span className="nav-text">{link.name}</span>
+                {link.name}
               </a>
               {link.dropdown && (
                 <div className={`nav-dropdown ${openDropdown === link.name ? 'show' : ''}`}>

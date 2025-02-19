@@ -65,7 +65,7 @@ const cardVariants = {
 
 const Services = () => {
   const { isDark } = useTheme();
-  const { language, translations } = useLanguage();
+  const { language } = useLanguage();
   const controls = useAnimation();
   const ref = useRef(null);
   const inView = useInView(ref, { 
@@ -128,13 +128,43 @@ const Services = () => {
   }, [controls, inView]);
 
   const serviceIcons = [<FiSettings />, <FiBox />, <FiFileText />];
-  const { title, services, exploreButton } = translations[language].servicesSection;
 
   const handleExploreClick = (index) => {
     // Temporarily just log the action
     console.log(`Clicked explore for service ${index}`);
     // You can add navigation or other logic here later
   };
+
+  const services = [
+    {
+      title: language === 'en' ? "Industrial & Production Solutions" : "Solutions Industrielles et de Production",
+      description: language === 'en' 
+        ? "⚙️Is your production too slow or facing quality problems? Inefficient processes waste time and increase costs.\n\n🔧We improve your production line to make manufacturing faster, more accurate, and more reliable—helping you produce more with fewer mistakes."
+        : "⚙️Votre production est-elle trop lente ou rencontre-t-elle des problèmes de qualité? Les processus inefficaces gaspillent du temps et augmentent les coûts.\n\n🔧Nous améliorons votre ligne de production pour rendre la fabrication plus rapide, plus précise et plus fiable, vous aidant à produire plus avec moins d'erreurs.",
+      buttonText: language === 'en' ? "Create Your Solution" : "Créez Votre Solution"
+    },
+    {
+      title: language === 'en' ? "Product Development & Innovation" : "Développement de Produits et Innovation",
+      description: language === 'en'
+        ? "💡 Have a great idea? We turn it into a real, manufacturable product—ready for production and success.\n\n🔧  From concept to production, we work side by side in a confidential, cooperative process.\n\n✨ 🔍 Our smart design approach ensures your product is easy to produce, high quality, and market-ready."
+        : "💡 Vous avez une excellente idée? Nous la transformons en un produit réel et fabricable.\n\n🛠️ Du concept à la production, nous travaillons à vos côtés dans un processus confidentiel et coopératif.\n\n✨ Notre approche de conception intelligente garantit que votre produit est facile à produire, de haute qualité et prêt pour le marché.",
+      buttonText: language === 'en' ? "Shape Your Vision" : "Façonnez Votre Vision"
+    },
+    {
+      title: language === 'en' ? "Engineering Data & Documentation" : "Données et Documentation d'Ingénierie",
+      description: language === 'en'
+        ? "📑 Lost in a mess of files and outdated drawings? We bring structure and clarity with 3Dexperience and SOLIDWORKS PDM.\n\n 📂 With our expertise, we help you organize, track, and maintain your technical documents efficiently, making teamwork smoother and your data more reliable."
+        : "📑 Besoin d'aide pour gérer votre documentation technique?\n\n🔍 Nous optimisons votre processus de documentation technique avec nos solutions de gestion expertes—vous aidant à rester organisé et conforme.",
+      buttonText: language === 'en' ? "Talk To An Expert" : "Parlez à un Expert"
+    },
+    {
+      title: language === 'en' ? "Engineering Data & Documentation" : "Données et Documentation d'Ingénierie",
+      description: language === 'en'
+        ? "📑 Lost in a mess of files and outdated drawings? We bring structure and clarity with 3Dexperience and SOLIDWORKS PDM.\n\n 📂 With our expertise, we help you organize, track, and maintain your technical documents efficiently, making teamwork smoother and your data more reliable."
+        : "📑 Besoin d'aide pour gérer votre documentation technique?\n\n🔍 Nous optimisons votre processus de documentation technique avec nos solutions de gestion expertes—vous aidant à rester organisé et conforme.",
+      buttonText: language === 'en' ? "Talk To An Expert" : "Parlez à un Expert"
+    }
+  ];
 
   return (
     <section ref={ref} id="services" className="services" style={{ background: themeStyles.background, paddingTop: '4rem' }}> {/* Reduced padding */}
@@ -234,7 +264,8 @@ const Services = () => {
                   className="service-card-description"
                   style={{ 
                     color: themeStyles.descriptionColor,
-                    borderLeft: `2px solid ${themeStyles.borderColor}`
+                    borderLeft: `2px solid ${themeStyles.borderColor}`,
+                    whiteSpace: 'pre-wrap' // Add this to preserve line breaks
                   }}
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
@@ -261,7 +292,7 @@ const Services = () => {
                   animate={{ opacity: 1 }}
                   onClick={() => handleExploreClick(index)}
                 >
-                  {index === 0 ? "Create Your Solution" : index === 2 ? "Talk To An Expert" : exploreButton}
+                  {service.buttonText}
                 </motion.button>
               </motion.div>
               <motion.div

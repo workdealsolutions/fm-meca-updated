@@ -261,6 +261,18 @@
   font-size: 1.5rem;
   opacity: 0.8;
   transition: all 0.3s ease;
+  padding: 0;
+}
+
+.testimonial-nav-button span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+  position: relative;
+  top: -1px; /* Fine-tune vertical alignment */
 }
 
 .testimonial-nav-button:hover {

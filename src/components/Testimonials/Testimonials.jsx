@@ -64,10 +64,10 @@ const Testimonials = () => {
 
       <div className="testimonials-scroll-container">
         <button className="testimonial-nav-button prev" onClick={prevTestimonial}>
-          ←
+          <span>&larr;</span>
         </button>
         <button className="testimonial-nav-button next" onClick={nextTestimonial}>
-          →
+          <span>&rarr;</span>
         </button>
 
         <div className="testimonials-container">
