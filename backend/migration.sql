@@ -1,6 +1,3 @@
--- Step 1: Create the database
-CREATE DATABASE IF NOT EXISTS dc_mecaa;
-USE dc_mecaa;
 
 -- Step 2: Create the Users Table
 CREATE TABLE IF NOT EXISTS users (
@@ -61,16 +58,3 @@ BEGIN
 END;
 //
 DELIMITER ;
-
--- Step 7: Insert Sample Users
-INSERT INTO users (username, email, password, role) VALUES
-('admin_user', 'admin@company.com', 'hashed_password', 'admin'),
-('client_user', 'client@company.com', 'hashed_password', 'client'),
-('coworker_user', 'coworker@company.com', 'hashed_password', 'coworker');
-
--- Step 8: Insert a Sample Project Request
-INSERT INTO project_requests (client_id, title, description, budget, requirements, status) VALUES
-(2, 'Website Redesign', 'Revamp the entire corporate website.', 5000.00, 'Modern UI, SEO optimization, fast loading', 'pending');
-
--- Step 9: Assign Project to a Coworker
-INSERT INTO project_assignments (project_id, coworker_id) VALUES (1, 3);

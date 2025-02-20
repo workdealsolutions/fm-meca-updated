@@ -13,7 +13,8 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key_here';
 router.post(
     '/register',
     [
-      body('username').notEmpty().withMessage('Username is required'),
+      body('firstName').notEmpty().withMessage('firstname is required'),
+        body('lastName').notEmpty().withMessage('lastname is required'),
       body('email')
         .isEmail().withMessage('Invalid email address')
         .custom((email) => {
@@ -38,7 +39,7 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
   
-      const { username, email, password, role } = req.body;
+      const { firstName, lastName, email, password, role } = req.body;
   
       try {
         // Check if the user already exists
@@ -52,8 +53,8 @@ router.post(
   
         // Insert the new user into the database
         await db.query(
-          'INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)',
-          [username, email, hashedPassword, role || 'client']
+          'INSERT INTO users (firstname, lastname, email, password, role) VALUES (?, ?, ?, ?, ?)',
+          [firstName, lastName, email, hashedPassword, role || 'client']
         );
   
         res.status(201).json({ message: 'User registered successfully' });

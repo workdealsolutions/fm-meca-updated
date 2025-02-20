@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
@@ -7,11 +7,11 @@ import Testimonials from './components/Testimonials/Testimonials';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Environment } from '@react-three/drei';
 import { ThemeProvider } from './context/ThemeContext';
 import './styles/theme.css';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Reviews from './components/pages/Reviews/Reviews';
 import Login from './components/Login/Login';
 import LoginBackground from './components/Login/LoginBackground';
@@ -25,25 +25,25 @@ import { NotificationProvider } from './context/NotificationContext';
 import HubSpotChat from './components/HubSpotChat/HubSpotChat';
 import PartnersPage from './components/Partners/Partners/PartnersPage';
 import InnovationCooperation from './components/InnovationCooperation/InnovationCooperation';
+import {jwtDecode} from 'jwt-decode';
 
-  
-
-// Add ScrollToTop component
+// ScrollToTop component
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
   return null;
 };
 
 const AppContent = ({ sendNotification }) => {
+  // useNavigate now works because we're under a single Router (from index.js)
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentSection, setCurrentSection] = useState('home'); // Fix state declaration
+  const [currentSection, setCurrentSection] = useState('home');
   const [isManualNavigation, setIsManualNavigation] = useState(false);
   const [projects, setProjects] = useState([]);
   const [coworkers] = useState([
@@ -59,10 +59,9 @@ const AppContent = ({ sendNotification }) => {
 
   useEffect(() => {
     const handleLoad = async () => {
-      // Decrease loading time to 3 seconds
+      // Simulate a loading delay
       await new Promise(resolve => setTimeout(resolve, 3000));
       setIsLoading(false);
-      
       // Wait for loading screen transition
       setTimeout(() => {
         setShowContent(true);
@@ -70,9 +69,9 @@ const AppContent = ({ sendNotification }) => {
     };
 
     handleLoad();
-    
+
     const handleScroll = () => {
-      if (!isManualNavigation) {  // Only update scroll state if not manually navigating
+      if (!isManualNavigation) {
         setIsScrolled(window.scrollY > 50);
       }
     };
@@ -84,27 +83,85 @@ const AppContent = ({ sendNotification }) => {
     setIsManualNavigation(true);
     const sectionId = href.replace('#', '');
     setCurrentSection(sectionId);
-    
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
-      
-      // Reset manual navigation after scroll completes
       setTimeout(() => {
         setIsManualNavigation(false);
       }, 1000);
     }
   };
 
-  const handleLogin = ({ role, email }) => {
-    // Add your login logic here
-    console.log('Logged in as:', role, email);
-    // Redirect to appropriate dashboard based on role
+  const handleLogin = async ({ role, email, password }) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, role })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message || 'Login failed'}`);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Login successful", data);
+
+      if (data.token) {
+        localStorage.setItem('authToken', data.token);
+      }
+      // Decode the token to extract the role
+      const decodedToken = jwtDecode(data.token);
+      const userRole = decodedToken.role; // Make sure your token includes this property
+
+      // Redirect based on the decoded role
+      switch (userRole) {
+        case 'admin':
+          navigate('/admin-dashboard');
+          break;
+        case 'coworker':
+          navigate('/coworker-dashboard');
+          break;
+        case 'client':
+          navigate('/client-dashboard');
+          break;
+        default:
+          navigate('/');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('An error occurred. Please try again later.');
+    }
   };
 
-  const handleSignUp = (formData) => {
-    console.log('Sign up data:', formData);
-    // Add your signup logic here
+  const handleSignUp = async (formData) => {
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert("Error: " + (errorData.message || "Failed to register"));
+        return;
+      }
+
+      const data = await response.json();
+      console.log("User registered successfully:", data);
+      navigate('/login');
+    } catch (error) {
+      console.error("Error during sign up:", error);
+      alert("An error occurred. Please try again later.");
+    }
   };
 
   const handleResetPassword = (email) => {
@@ -113,162 +170,110 @@ const AppContent = ({ sendNotification }) => {
   };
 
   return (
-    <Router>
-      <ScrollToTop />
-      <HubSpotChat />
-      <Routes>
-        <Route path="/" element={
-          <div className="App">
-            <LoadingScreen isLoading={isLoading} />
-            <AnimatePresence>
-              {showContent && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <motion.div
-                    className={`navbar ${isScrolled ? 'scrolled' : ''}`}
-                    initial={{ y: -100 }}
-                    animate={{ y: 0 }}
-                    transition={{ type: "spring", stiffness: 100 }}
-                  >
-                    <Navbar 
-                      onNavigate={handleSectionChange}
-                      currentSection={currentSection}
-                    />
-                  </motion.div>
-
-                  <main>
-                    <section id="home">
-                      <Hero />
-                    </section>
-                    
-
-                    <section id="services">
-                      <Services />
-                    </section>
-                    
-                    <section id="testimonials">
-                      <Testimonials />
-                    </section>
-                    
-                    <section id="contact">
-                      <Contact />
-                    </section>
-                  </main>
-
-                  <Footer />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        } />
-        <Route path="/reviews" element={<Reviews />} />
-        <Route 
-          path="/login" 
-          element={
+      <>
+        <ScrollToTop />
+        <HubSpotChat />
+        <Routes>
+          <Route path="/" element={
+            <div className="App">
+              <LoadingScreen isLoading={isLoading} />
+              <AnimatePresence>
+                {showContent && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+                      <motion.div
+                          className={`navbar ${isScrolled ? 'scrolled' : ''}`}
+                          initial={{ y: -100 }}
+                          animate={{ y: 0 }}
+                          transition={{ type: "spring", stiffness: 100 }}
+                      >
+                        <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
+                      </motion.div>
+                      <main>
+                        <section id="home"><Hero /></section>
+                        <section id="services"><Services /></section>
+                        <section id="testimonials"><Testimonials /></section>
+                        <section id="contact"><Contact /></section>
+                      </main>
+                      <Footer />
+                    </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          } />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/login" element={
             <>
               <LoginBackground />
               <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
               <Login onLogin={handleLogin} />
             </>
-          } 
-        />
-        <Route 
-          path="/signup" 
-          element={
+          } />
+          <Route path="/signup" element={
             <>
               <LoginBackground />
               <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
               <RoleSelection isSignUp={true} />
             </>
-          } 
-        />
-        <Route 
-          path="/signup/:role" 
-          element={
+          } />
+          <Route path="/signup/:role" element={
             <>
               <LoginBackground />
               <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
               <SignUp onSignUp={handleSignUp} />
             </>
-          } 
-        />
-        <Route 
-          path="/forgot-password" 
-          element={
+          } />
+          <Route path="/forgot-password" element={
             <>
               <LoginBackground />
               <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
               <ForgotPassword onResetPassword={handleResetPassword} />
             </>
-          } 
-        />
-        <Route 
-          path="/admin-dashboard" 
-          element={
-            <AdminDashboard 
-              projects={projects}
-              setProjects={setProjects}
-              coworkers={coworkers}
-              sendNotification={sendNotification}
+          } />
+          <Route path="/admin-dashboard" element={
+            <AdminDashboard
+                projects={projects}
+                setProjects={setProjects}
+                coworkers={coworkers}
+                sendNotification={sendNotification}
             />
-          }
-        />
-        
-        <Route 
-          path="/coworker-dashboard" 
-          element={
-            <>
-              <CoWorkerDashboard
+          } />
+          <Route path="/coworker-dashboard" element={
+            <CoWorkerDashboard
                 user={mockUser}
                 projects={projects}
                 setProjects={setProjects}
-              />
-            </>
-          }
-        />
-        
-        <Route 
-          path="/client-dashboard" 
-          element={
-            <ClientDashboard
-              user={mockUser}
-              projects={projects}
-              setProjects={setProjects}
-              sendNotification={sendNotification}
             />
-          }
-        />
-        <Route 
-          path="/partners" 
-          element={
+          } />
+          <Route path="/client-dashboard" element={
+            <ClientDashboard
+                user={mockUser}
+                projects={projects}
+                setProjects={setProjects}
+                sendNotification={sendNotification}
+            />
+          } />
+          <Route path="/partners" element={
             <>
               <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
               <PartnersPage />
             </>
-          } 
-        />
-        <Route 
-          path="/innovation" 
-          element={
+          } />
+          <Route path="/innovation" element={
             <AnimatePresence mode="wait">
               <motion.div
-                key="innovation"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                  key="innovation"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
               >
                 <Navbar onNavigate={handleSectionChange} currentSection={currentSection} />
                 <InnovationCooperation />
               </motion.div>
             </AnimatePresence>
-          } 
-        />
-      </Routes>
-    </Router>
+          } />
+        </Routes>
+      </>
   );
 };
 
@@ -278,11 +283,11 @@ const App = () => {
   };
 
   return (
-    <ThemeProvider>
-      <NotificationProvider>
-        <AppContent sendNotification={sendNotification} />
-      </NotificationProvider>
-    </ThemeProvider>
+      <ThemeProvider>
+        <NotificationProvider>
+          <AppContent sendNotification={sendNotification} />
+        </NotificationProvider>
+      </ThemeProvider>
   );
 };
 
