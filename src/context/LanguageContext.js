@@ -49,11 +49,11 @@ export const LanguageProvider = ({ children }) => {
         services: [
           {
             title: "Industrial & Production Solutions",
-            description: "Is your production too slow or facing quality problems? Inefficient processes waste time and increase costs. We improve your production line to make manufacturing faster, more accurate, and more reliable—helping you produce more with fewer mistakes.",
+            description: "⚙️Is your production too slow or facing quality problems? Inefficient processes waste time and increase costs. 🔧We improve your production line to make manufacturing faster, more accurate, and more reliable—helping you produce more with fewer mistakes.",
           },
           {
             title: "Product Development & Innovation",
-            description: "Have a great idea? We turn it into a real, manufacturable product—ready for production and success. From concept to production, we work side by side in a confidential, cooperative process to bring your vision to life. We focus on smart design to make your product easy to produce, high quality, and market-ready.",
+            description: "💡 Have a great idea? We turn it into a real, manufacturable product—ready for production and success. 🔧 From concept to production, we work side by side in a confidential, cooperative process to bring your vision to life. 🔍 We focus on smart design to make your product easy to produce, high quality, and market-ready.",
           },
           {
             title: "Engineering Data & Documentation",

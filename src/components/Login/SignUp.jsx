@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaUser, FaUserTie, FaUsers, FaEnvelope, FaLock, FaGoogle, FaBuilding } from 'react-icons/fa';
+import { FaUser, FaUserTie, FaUsers, FaEnvelope, FaLock, FaGoogle, FaBuilding, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import './Login.css';
+import './SignUp.css';
 
 const SignUp = ({ onSignUp, onGoogleSignUp, onCompanySignUp }) => {
   const { role } = useParams();
@@ -16,6 +17,8 @@ const SignUp = ({ onSignUp, onGoogleSignUp, onCompanySignUp }) => {
     lastName: '',
   });
   const [focusedField, setFocusedField] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -87,8 +90,62 @@ const SignUp = ({ onSignUp, onGoogleSignUp, onCompanySignUp }) => {
       </motion.h2>
 
       <form onSubmit={handleSubmit} className="signup-form">
+        <div className="name-inputs-container">
+          <motion.div
+            className="input-group"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <label className="input-label">First Name</label>
+            <div className="input-with-icon">
+              <FaUser className="input-icon" />
+              <motion.input
+                type="text"
+                placeholder="First Name"
+                name="firstName"
+                value={formData.firstName}
+                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                onFocus={() => setFocusedField('firstName')}
+                onBlur={() => setFocusedField(null)}
+                required
+                animate={{ 
+                  scale: focusedField === 'firstName' ? 1.02 : 1
+                }}
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="input-group"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <label className="input-label">Last Name</label>
+            <div className="input-with-icon">
+              <FaUser className="input-icon" />
+              <motion.input
+                type="text"
+                placeholder="Last Name"
+                name="lastName"
+                value={formData.lastName}
+                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                onFocus={() => setFocusedField('lastName')}
+                onBlur={() => setFocusedField(null)}
+                required
+                animate={{ 
+                  scale: focusedField === 'lastName' ? 1.02 : 1
+                }}
+              />
+            </div>
+          </motion.div>
+        </div>
+
         <div className="input-grid">
-          {inputFields.map(({ icon: Icon, ...field }, index) => (
+          {inputFields
+            .filter(field => !['firstName', 'lastName'].includes(field.name))
+            .map(({ icon: Icon, ...field }, index) => (
             <motion.div
               key={field.name}
               className="input-group"
@@ -96,17 +153,44 @@ const SignUp = ({ onSignUp, onGoogleSignUp, onCompanySignUp }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 * index }}
             >
-              <Icon className="input-icon" />
-              <motion.input
-                {...field}
-                value={formData[field.name]}
-                onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
-                onFocus={() => setFocusedField(field.name)}
-                onBlur={() => setFocusedField(null)}
-                animate={{ 
-                  scale: focusedField === field.name ? 1.02 : 1
-                }}
-              />
+              <label className="input-label">
+                {field.name === 'companyName' ? 'Company Name' : 
+                 field.name === 'confirmPassword' ? 'Confirm Password' :
+                 field.name.charAt(0).toUpperCase() + field.name.slice(1)}
+              </label>
+              <div className="input-with-icon">
+                <Icon className="input-icon" />
+                <motion.input
+                  {...field}
+                  type={
+                    field.type === 'password'
+                      ? (field.name === 'password' ? (showPassword ? 'text' : 'password') : (showConfirmPassword ? 'text' : 'password'))
+                      : field.type
+                  }
+                  value={formData[field.name]}
+                  onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
+                  onFocus={() => setFocusedField(field.name)}
+                  onBlur={() => setFocusedField(null)}
+                  animate={{ 
+                    scale: focusedField === field.name ? 1.02 : 1
+                  }}
+                />
+                {field.type === 'password' && (
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => field.name === 'password' 
+                      ? setShowPassword(!showPassword)
+                      : setShowConfirmPassword(!showConfirmPassword)
+                    }
+                  >
+                    {field.name === 'password' 
+                      ? (showPassword ? <FaEyeSlash /> : <FaEye />)
+                      : (showConfirmPassword ? <FaEyeSlash /> : <FaEye />)
+                    }
+                  </button>
+                )}
+              </div>
             </motion.div>
           ))}
         </div>

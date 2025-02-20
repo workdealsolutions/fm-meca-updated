@@ -14,6 +14,36 @@ const Navbar = ({ onNavigate, currentSection }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const { isDark, toggleTheme } = useTheme();
+  const [openDropdown, setOpenDropdown] = useState(null);
+  
+  const toggleDropdown = (linkName, e) => {
+    e.preventDefault();
+    if (window.innerWidth <= 768) {
+      setOpenDropdown(openDropdown === linkName ? null : linkName);
+    }
+  };
+
+  const scrollToServiceCard = (index) => {
+    const targetCard = document.getElementById(`service-${index}`);
+    
+    if (targetCard) {
+      const navbarHeight = 100; // Adjust based on your navbar height
+      const cardTop = targetCard.getBoundingClientRect().top;
+      const offsetPosition = window.pageYOffset + cardTop - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const servicesLinks = [
+    { name: 'Industrial Solutions', href: '1' },
+    { name: 'Product Development', href: '2' },
+    { name: 'Engineering Data', href: '3' },
+    { name: 'Technical Support', href: '4' }
+  ];
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -24,6 +54,13 @@ const Navbar = ({ onNavigate, currentSection }) => {
 
   const handleNavigation = (href, isPage) => {
     setIsOpen(false); // Close mobile menu
+
+    // Handle service card navigation
+    const serviceMatch = /^[1-4]$/.exec(href);
+    if (serviceMatch) {
+      scrollToServiceCard(href);
+      return;
+    }
 
     if (isPage) {
       navigate(href);
@@ -86,10 +123,21 @@ const Navbar = ({ onNavigate, currentSection }) => {
 
   const navLinks = [
     { name: 'Home', href: '#home' },
-    { name: 'Services', href: '#services' },
+    { 
+      name: 'Services', 
+      href: '#services',
+      dropdown: servicesLinks 
+    },
     { name: 'Partners', href: '/partners', isPage: true },
-    { name: 'Innovation & Cooperation', href: '/innovation', isPage: true },
-    { name: 'Testimonials', href: '#testimonials' },
+    { name: 'Innovation', href: '/innovation', isPage: true },
+    { 
+      name: 'Testimonials', 
+      href: '#testimonials',
+      dropdown: [
+        { name: 'Testimonials Section', href: '#testimonials' },
+        { name: 'Reviews Page', href: '/reviews', isPage: true }
+      ]
+    },
     { name: 'Contact', href: '#contact' }
   ];
 
@@ -133,38 +181,44 @@ const Navbar = ({ onNavigate, currentSection }) => {
           </motion.div>
         </div>
 
-        <motion.ul 
-          className={`nav-links ${isOpen ? 'active' : ''}`}
-          initial={{ opacity: 1, x: 0 }}  // Start visible on desktop
-          animate={
-            window.innerWidth <= 768  // Only animate on mobile
-              ? { 
-                  x: isOpen ? 0 : "100%",
-                  opacity: isOpen ? 1 : 0,
-                  transition: { duration: 0.2 }  // Faster transition
-                }
-              : { opacity: 1, x: 0 }
-          }
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        >
+        <motion.ul className={`nav-links ${isOpen ? 'active' : ''}`}>
           {navLinks.map((link, index) => (
             <motion.li
               key={index}
-              initial={{ opacity: 1 }}  // Start visible
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className={link.dropdown ? 'has-dropdown' : ''}
             >
               <a 
                 href={link.href} 
-                className={isLinkActive(link.href) ? 'active' : ''}
+                className={`nav-link ${isLinkActive(link.href) ? 'active' : ''}`}
                 onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation(link.href, link.isPage);
+                  if (link.dropdown) {
+                    toggleDropdown(link.name, e);
+                  } else {
+                    e.preventDefault();
+                    handleNavigation(link.href, link.isPage);
+                  }
                 }}
               >
-                <span>{link.name}</span>
-                <span>{link.name}</span>
+                {link.name}
               </a>
+              {link.dropdown && (
+                <div className={`nav-dropdown ${openDropdown === link.name ? 'show' : ''}`}>
+                  {link.dropdown.map((dropItem, i) => (
+                    <a
+                      key={i}
+                      href={dropItem.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavigation(dropItem.href, dropItem.isPage);
+                        setOpenDropdown(null);
+                        setIsOpen(false);
+                      }}
+                    >
+                      {dropItem.name}
+                    </a>
+                  ))}
+                </div>
+              )}
             </motion.li>
           ))}
           {renderNavControls()}

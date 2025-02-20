@@ -26,7 +26,24 @@ const Footer = () => {
     }
   ];
 
-  const services = translations[language].services;
+  const services = [
+    {
+      title: 'Industrial & Production Solutions',
+      link: '#service-1'
+    },
+    {
+      title: 'Product Development & Innovation',
+      link: '#service-2'
+    },
+    {
+      title: 'Engineering Data & Documentation',
+      link: '#service-3'
+    },
+    {
+      title: 'Engineering Data',
+      link: '#service-4'
+    }
+  ];
 
   return (
     <footer className="footer">
@@ -87,8 +104,15 @@ const Footer = () => {
                   backgroundColor: "rgba(88, 73, 73, 0.05)",
                 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  const element = document.querySelector(service.link);
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                style={{ cursor: 'pointer' }}
               >
-                <span>{service}</span>
+                <span>{service.title}</span>
                 <FiArrowUpRight className="arrow-icon" />
               </motion.li>
             ))}

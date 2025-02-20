@@ -165,11 +165,11 @@
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;           /* Add this */
-  align-items: center;     /* Add this */
-  justify-content: center; /* Add this */
-  line-height: 1;          /* Add this */
-  padding: 0;              /* Add this */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 0; /* Add this line */
 }
 
 .slider-button:hover {
@@ -178,7 +178,6 @@
 
 .slider-button.prev {
   left: -25px;
-  padding-right: 3px; /* Add this to offset the arrow position */
 }
 
 .slider-button.next {
@@ -284,7 +283,7 @@
   padding: 2rem;
   position: absolute;
   left: 0;
-  top: 45%; /* Changed from 50% to move cards up slightly */
+  top: 55%; /* Changed from 45% to 55% to move cards down */
   transform: translateY(-50%);
   width: fit-content;
   height: auto;
@@ -477,7 +476,7 @@
 
   .featured-testimonial {
     padding: 2rem 1rem;
-  }
+  } 
 
   .slider-button {
     width: 40px;

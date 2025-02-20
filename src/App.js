@@ -26,13 +26,21 @@ import HubSpotChat from './components/HubSpotChat/HubSpotChat';
 import PartnersPage from './components/Partners/Partners/PartnersPage';
 import InnovationCooperation from './components/InnovationCooperation/InnovationCooperation';
 import {jwtDecode} from 'jwt-decode';
+import IndustrialSolution from './components/ServicePages/IndustrialSolution/IndustrialSolution';
+import ProductDevelopment from './components/ServicePages/ProductDevelopment/ProductDevelopment';
+import EngineeringData from './components/ServicePages/EngineeringData/EngineeringData';
+import TechnicalSupport from './components/ServicePages/TechnicalSupport/TechnicalSupport';
 
-// ScrollToTop component
+  
+
+// Add ScrollToTop component
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
   return null;
 };
 
@@ -59,9 +67,10 @@ const AppContent = ({ sendNotification }) => {
 
   useEffect(() => {
     const handleLoad = async () => {
-      // Simulate a loading delay
+      // Decrease loading time to 3 seconds
       await new Promise(resolve => setTimeout(resolve, 3000));
       setIsLoading(false);
+      
       // Wait for loading screen transition
       setTimeout(() => {
         setShowContent(true);
@@ -69,9 +78,9 @@ const AppContent = ({ sendNotification }) => {
     };
 
     handleLoad();
-
+    
     const handleScroll = () => {
-      if (!isManualNavigation) {
+      if (!isManualNavigation) {  // Only update scroll state if not manually navigating
         setIsScrolled(window.scrollY > 50);
       }
     };
@@ -83,9 +92,12 @@ const AppContent = ({ sendNotification }) => {
     setIsManualNavigation(true);
     const sectionId = href.replace('#', '');
     setCurrentSection(sectionId);
+    
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      
+      // Reset manual navigation after scroll completes
       setTimeout(() => {
         setIsManualNavigation(false);
       }, 1000);
@@ -136,32 +148,9 @@ const AppContent = ({ sendNotification }) => {
     }
   };
 
-  const handleSignUp = async (formData) => {
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert("Error: " + (errorData.message || "Failed to register"));
-        return;
-      }
-
-      const data = await response.json();
-      console.log("User registered successfully:", data);
-      navigate('/login');
-    } catch (error) {
-      console.error("Error during sign up:", error);
-      alert("An error occurred. Please try again later.");
-    }
+  const handleSignUp = (formData) => {
+    console.log('Sign up data:', formData);
+    // Add your signup logic here
   };
 
   const handleResetPassword = (email) => {
@@ -272,6 +261,10 @@ const AppContent = ({ sendNotification }) => {
               </motion.div>
             </AnimatePresence>
           } />
+          <Route path="/services/industrial-solution" element={<IndustrialSolution />} />
+          <Route path="/services/product-development" element={<ProductDevelopment />} />
+          <Route path="/services/engineering-data" element={<EngineeringData />} />
+          <Route path="/services/technical-support" element={<TechnicalSupport />} />
         </Routes>
       </>
   );
