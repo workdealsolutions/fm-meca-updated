@@ -131,17 +131,18 @@ const Hero = () => {
           
           {/* Right column - Model and cards */}
           <div className={`hero-right-column ${isMobile ? 'mobile' : ''}`}>
-            {!isMobile && (
-              <motion.div 
-                className="spline-container"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 1 }}
-                style={{ background: 'transparent' }}  // Add this line
-              >
-                <Spline scene="https://prod.spline.design/Jz8-z0zKzsy0l7t8/scene.splinecode" />
-              </motion.div>
-            )}
+            <motion.div 
+              className="spline-container"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 1 }}
+              style={{ background: 'transparent' }}  // Add this line
+            >
+              <Spline scene="https://prod.spline.design/Jz8-z0zKzsy0l7t8/scene.splinecode" />
+              <div className="model-overlay-container">
+                <span className="overlay-text">Experience in 3D</span>
+              </div>
+            </motion.div>
 
             <motion.div 
               className="services-preview"

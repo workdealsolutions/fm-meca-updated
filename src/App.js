@@ -25,6 +25,10 @@ import { NotificationProvider } from './context/NotificationContext';
 import HubSpotChat from './components/HubSpotChat/HubSpotChat';
 import PartnersPage from './components/Partners/Partners/PartnersPage';
 import InnovationCooperation from './components/InnovationCooperation/InnovationCooperation';
+import IndustrialSolution from './components/ServicePages/IndustrialSolution/IndustrialSolution';
+import ProductDevelopment from './components/ServicePages/ProductDevelopment/ProductDevelopment';
+import EngineeringData from './components/ServicePages/EngineeringData/EngineeringData';
+import TechnicalSupport from './components/ServicePages/TechnicalSupport/TechnicalSupport';
 
   
 
@@ -267,6 +271,10 @@ const AppContent = ({ sendNotification }) => {
             </AnimatePresence>
           } 
         />
+        <Route path="/services/industrial-solution" element={<IndustrialSolution />} />
+        <Route path="/services/product-development" element={<ProductDevelopment />} />
+        <Route path="/services/engineering-data" element={<EngineeringData />} />
+        <Route path="/services/technical-support" element={<TechnicalSupport />} />
       </Routes>
     </Router>
   );

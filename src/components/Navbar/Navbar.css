@@ -71,6 +71,12 @@ body {
 
 .nav-links li a {
     position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 5px 0;
     color: var(--text-color);
     text-decoration: none;
     font-size: 0.9rem;
@@ -79,9 +85,6 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     letter-spacing: 0.5px;
     font-family: 'EB Garamond', serif;
-    overflow: hidden;
-    display: inline-block;
-    padding: 5px 0;
 }
 
 .nav-links li a span {
@@ -353,29 +356,30 @@ body {
     .nav-links {
         position: fixed;
         top: 0;
-        right: -100%;
-        width: 85%; /* Increased from 75% */
-        height: 100vh;
-        max-height: 100vh; /* Ensure full height */
+        right: -50%; /* Start off-screen */
+        width: 50%; /* Set to exactly half the screen width */
+        height: 600px; /* Changed from 100vh to 500px */
+        max-height: 600px; /* Added explicit max-height */
         background: var(--nav-bg);
         backdrop-filter: blur(10px);
-        padding: 4rem 1rem 2rem 1rem; /* Adjusted padding */
+        padding: 4rem 1rem 2rem 1rem;
         display: flex;
         flex-direction: column;
-        align-items: flex-start; /* Changed from center */
-        gap: 1rem; /* Reduced gap */
-        transition: all 0.3s ease;
+        align-items: flex-start;
+        gap: 1rem;
         z-index: 1000;
-        overflow-y: auto; /* Enable scrolling */
-        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
     }
 
     .nav-links.active {
         right: 0;
-        transform: translateX(0);
-        opacity: 1;  /* Show when menu is open */
-        background: rgba(0, 0, 0, 0.95);  /* Ensure background is visible */
-        padding-bottom: 6rem; /* Add extra padding at bottom */
+        opacity: 1;
+        visibility: visible;
+        background: rgba(0, 0, 0, 0.95);
     }
 
     .nav-links li:first-child {
@@ -402,12 +406,11 @@ body {
         flex-direction: row;
         gap: 1rem;
         margin-top: 0.8rem;
-        padding-bottom: 0.5rem;
+        padding: 1rem 0 0 0; /* Remove bottom padding */
         width: 100%;
-        margin-top: 1rem;
-        padding: 1rem 0;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         justify-content: space-between;
+        margin-bottom: 0; /* Add this to remove bottom margin */
     }
 
     .navbar-theme-toggle {
@@ -620,12 +623,8 @@ body {
     }
 
     .nav-links {
-        width: 100%; /* Full width on very small screens */
-        max-height: 70vh; /* Slightly smaller for mobile */
-        padding: 4rem 1rem 1.2rem 1rem; /* Reduced top padding from 3rem to 2rem */
-        padding-top: 2.5rem; /* Even less padding for smaller screens */
-        width: 100%; /* Full width on very small screens */
-        padding: 4rem 1rem 2rem 1rem;
+        width: 50%; /* Keep the half-width even on smaller screens */
+        padding: 4rem 0.8rem 2rem 0.8rem; /* Slightly reduce padding */
     }
 
     .nav-links li a {
@@ -878,7 +877,7 @@ body {
 .has-dropdown .nav-link {
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
   padding: 0.8rem;
   gap: 0.2rem;
 }
@@ -891,6 +890,8 @@ body {
   margin-left: 0;
   transform: none;
 }
+
+
 
 @media (max-width: 768px) {
   .has-dropdown .nav-link {
@@ -1007,3 +1008,5 @@ body {
     transform: translateX(-50%) translateY(10px);
   }
 }
+
+/* Update the nav-link styles for dropdown items */

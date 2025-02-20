@@ -130,9 +130,22 @@ const Services = () => {
   const serviceIcons = [<FiSettings />, <FiBox />, <FiFileText />];
 
   const handleExploreClick = (index) => {
-    // Temporarily just log the action
-    console.log(`Clicked explore for service ${index}`);
-    // You can add navigation or other logic here later
+    switch(index) {
+      case 0:
+        navigate('/services/industrial-solution');
+        break;
+      case 1:
+        navigate('/services/product-development');
+        break;
+      case 2:
+        navigate('/services/engineering-data');
+        break;
+      case 3:
+        navigate('/services/technical-support');
+        break;
+      default:
+        break;
+    }
   };
 
   const services = [
@@ -146,7 +159,7 @@ const Services = () => {
     {
       title: language === 'en' ? "Product Development & Innovation" : "Développement de Produits et Innovation",
       description: language === 'en'
-        ? "💡 Have a great idea? We turn it into a real, manufacturable product—ready for production and success.\n\n🔧  From concept to production, we work side by side in a confidential, cooperative process.\n\n✨ 🔍 Our smart design approach ensures your product is easy to produce, high quality, and market-ready."
+        ? "💡 Have a great idea? We turn it into a real, manufacturable product—ready for production and success.\n\n🔧  From concept to production, we work side by side in a confidential, cooperative process.\n\n 🔍 Our smart design approach ensures your product is easy to produce, high quality, and market-ready."
         : "💡 Vous avez une excellente idée? Nous la transformons en un produit réel et fabricable.\n\n🛠️ Du concept à la production, nous travaillons à vos côtés dans un processus confidentiel et coopératif.\n\n✨ Notre approche de conception intelligente garantit que votre produit est facile à produire, de haute qualité et prêt pour le marché.",
       buttonText: language === 'en' ? "Shape Your Vision" : "Façonnez Votre Vision"
     },
