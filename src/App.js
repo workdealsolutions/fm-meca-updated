@@ -148,9 +148,32 @@ const AppContent = ({ sendNotification }) => {
     }
   };
 
-  const handleSignUp = (formData) => {
-    console.log('Sign up data:', formData);
-    // Add your signup logic here
+  const handleSignUp = async (formData) => {
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert("Error: " + (errorData.message || "Failed to register"));
+        return;
+      }
+
+      const data = await response.json();
+      console.log("User registered successfully:", data);
+      navigate('/login');
+    } catch (error) {
+      console.error("Error during sign up:", error);
+      alert("An error occurred. Please try again later.");
+    }
   };
 
   const handleResetPassword = (email) => {

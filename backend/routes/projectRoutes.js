@@ -333,7 +333,36 @@ router.get(
       }
     }
   );
-  
-        
+
+// GET /api/coworkers - Fetch all coworkers (admin only)
+router.get(
+    '/coworkers',
+    authenticateToken,
+    authorizeRole('admin'),
+    async (req, res) => {
+        try {
+            const [coworkers] = await db.query('SELECT * FROM users WHERE role = ?', ['coworker']);
+            res.json({ coworkers });
+        } catch (err) {
+            console.error('Error fetching coworkers:', err);
+            res.status(500).json({ error: 'Server error' });
+        }
+    }
+);
+
+router.get(
+    '/clients',
+    authenticateToken,
+    authorizeRole('admin'),
+    async (req, res) => {
+        try {
+            const [clients] = await db.query('SELECT * FROM users where role = ?', ['client']);
+            res.json({ clients });
+        } catch (err) {
+            console.error('Error fetching clients:', err);
+            res.status(500).json({ error: 'Server error' });
+        }
+    }
+);
 
 module.exports = router;

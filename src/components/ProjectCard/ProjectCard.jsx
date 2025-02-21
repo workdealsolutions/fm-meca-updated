@@ -25,7 +25,7 @@ const ProjectCard = ({ project, getStatusColor, getProgressColor, formatDate }) 
         </div>
         <div className="info-row">
           <span>Submitted:</span>
-          <strong>{formatDate(project.submittedDate)}</strong>
+          <strong>{formatDate(project.created_at)}</strong>
         </div>
       </div>
 
