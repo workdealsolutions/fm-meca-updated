@@ -32,10 +32,6 @@
   filter: brightness(0.7);
 }
 
-/* Remove or comment out the video-related styles */
-/* .partners-showcase__bg-video {
-  ...existing video styles...
-} */
 
 .partners-showcase__overlay {
   position: absolute;
@@ -91,7 +87,7 @@
 .partners-showcase__hero-title {
   font-size: clamp(3rem, 8vw, 5rem);
   font-weight: 800;
-  background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -111,7 +107,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #666666 0%, #333333 100%);
   border-radius: 50px;
   border: none;
   cursor: pointer;
@@ -144,9 +140,8 @@
 .partners-showcase__section {
   position: relative;
   z-index: 10;
-  min-height: 150vh;
-  padding: 5rem 2rem;
-  padding-bottom: 0; /* Remove bottom padding */
+  min-height: 100vh; /* Changed from 150vh to 100vh */
+  padding: 5rem 2rem 2rem; /* Adjusted padding */
   background-color: #000000; /* Added black background */
 }
 
@@ -163,7 +158,7 @@
   margin: 0 auto;
   background-color: #000000; /* Added black background */
   padding: 2rem;
-  padding-bottom: 6rem; /* Add more padding at bottom for pagination dots */
+  padding-bottom: 4rem; /* Reduced from 6rem */
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -204,7 +199,7 @@
 .partners-showcase__title {
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 800;
-  background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -235,9 +230,14 @@
 }
 
 .partners-showcase__card-inner.light {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: #e5e7eb;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 1);
+  border-color: #e5e5e5;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.partners-showcase__card-inner.light:hover {
+  border-color: #cccccc;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .partners-showcase__card-inner.dark {
@@ -263,6 +263,10 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
+.partners-showcase__logo-wrapper.light {
+  background: #f5f5f5; /* Changed to light grey */
+}
+
 .partners-showcase__logo-wrapper::after {
   content: '';
   position: absolute;
@@ -271,6 +275,14 @@
     to bottom,
     transparent,
     rgba(17, 24, 39, 0.8)
+  );
+}
+
+.partners-showcase__logo-wrapper.light::after {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #f0f0f0 /* Changed to slightly darker grey */
   );
 }
 
@@ -301,9 +313,10 @@
 .partners-showcase__content.light {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0.95)
+    rgba(250, 250, 250, 1),
+    rgba(255, 255, 255, 1)
   );
+  color: #666666;
 }
 
 .partners-showcase__content.dark {
@@ -317,7 +330,7 @@
 .partners-showcase__partner-name {
   font-size: 1.5rem; /* Slightly reduced size */
   font-weight: 700;
-  background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -333,8 +346,19 @@
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   border-radius: 2px;
+}
+
+.partners-showcase__partner-name.light {
+  background: linear-gradient(135deg, #333333 0%, #666666 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.partners-showcase__partner-name.light::after {
+  background: linear-gradient(135deg, #333333 0%, #666666 100%);
 }
 
 .partners-showcase__description {
@@ -368,7 +392,7 @@
 
 .partners-showcase__stat-label {
   font-size: 0.875rem;
-  color: #60a5fa;
+  color: #cccccc;
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
@@ -376,7 +400,7 @@
 .partners-showcase__stat-value {
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -391,7 +415,7 @@
 .partners-showcase__view-btn {
   flex: 1;
   padding: 0.875rem;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #666666 0%, #333333 100%);
   color: white;
   border-radius: 12px;
   font-weight: 600;
@@ -422,7 +446,7 @@
 .partners-showcase__share-btn {
   width: 3.5rem;
   background: rgba(255, 255, 255, 0.05);
-  color: #60a5fa;
+  color: #cccccc;
   border-radius: 12px;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -435,12 +459,12 @@
 .partners-showcase__share-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
-  color: #c084fc;
+  color: #ffffff;
 }
 
 /* Add these new styles for Swiper pagination */
 .partners-showcase__swiper {
-  padding-bottom: 4rem !important; /* Add space for pagination dots */
+  padding-bottom: 3rem !important; /* Reduced from 4rem */
 }
 
 .partners-showcase__swiper .swiper-pagination {
@@ -456,7 +480,7 @@
 }
 
 .partners-showcase__swiper .swiper-pagination-bullet-active {
-  background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   width: 32px;
   border-radius: 6px;
 }

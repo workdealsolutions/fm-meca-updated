@@ -107,7 +107,7 @@ body {
 }
 
 .hero-text-container {
-  padding-top: 0; /* Remove top padding */
+  padding-top: 80px; /* Add padding to move content below navbar */
   max-width: 900px; /* Limit width of text container */
 }
 
@@ -117,7 +117,7 @@ body {
   line-height: 0.9;
   font-weight: 900;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: var(--primary-color); /* Changed from var(--text-primary) to var(--primary-color) */
   margin-bottom: 2rem;
   animation: fadeInUp 1s ease-out forwards;
 }
@@ -149,7 +149,7 @@ body {
   font-family: var(--font-main);
   font-size: clamp(1.125rem, 2vw, 1.5rem);
   font-weight: 400;
-  color: var(--text-secondary);
+  color: rgba(0, 0, 0, 0.7); /* Changed from var(--text-secondary) to dark semi-transparent */
   margin-bottom: 3rem;
   line-height: 1.5;
   max-width: 650px;
@@ -216,7 +216,7 @@ body {
   font-family: var(--font-main);
   font-size: 1.1rem;
   font-weight: 500;
-  color: var(--text-primary);
+  color: var(--primary-color); /* Changed from var(--text-primary) to var(--primary-color) */
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
 }
@@ -450,7 +450,7 @@ body {
 .spline-container {
   width: 120%;
   height: 500px;
-  margin: 2rem -15% 2rem -25%; /* Changed from -5% to -25% to move 20px more to the left */
+  margin: 4rem -15% 2rem -25%; /* Increased top margin from 2rem to 4rem */
   position: relative;
   overflow: visible; /* Changed from hidden to allow overflow */
   border-radius: 10px;
@@ -498,7 +498,7 @@ body {
 
   .spline-container {
     width: 110%; /* Slightly less expansion on smaller screens */
-    margin: 2rem -5%;
+    margin: 4rem -5%; /* Increased top margin from 2rem to 4rem */
   }
 
   .spline-container canvas {
@@ -533,7 +533,7 @@ body {
   .spline-container {
     height: 400px; /* Increased from 300px to 400px */
     width: 100%;
-    margin: 3rem 0; /* Increased margin for better spacing */
+    margin: 5rem 0; /* Increased top margin from 3rem to 5rem */
   }
 
   .spline-container canvas {
@@ -567,6 +567,11 @@ body {
   .services-preview {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+  
+  .hero-text-container.mobile {
+    padding-top: 100px; /* Increase padding for mobile */
+    text-align: center;
   }
 }
 
@@ -617,7 +622,7 @@ body {
 
   .spline-container {
     height: 400px; /* Increased from 300px to 400px */
-    margin: 3rem 0; /* Increased margin for better spacing */
+    margin: 5rem 0; /* Increased top margin from 3rem to 5rem */
   }
 }
 
@@ -776,20 +781,6 @@ body {
   animation-delay: 3.5s;
 }
 
-/* Remove or comment out the delay classes as they're no longer needed */
-/* 
-.delay-1 {
-  animation-delay: 0.5s;
-}
-
-.delay-2 {
-  animation-delay: 1s;
-}
-
-.delay-3 {
-  animation-delay: 1.5s;
-}
-*/
 
 @keyframes fadeInUp {
   from {
@@ -891,4 +882,18 @@ body {
   .overlay-text {
     font-size: 0.8rem;
   }
+}
+
+/* Add this new section for dark mode overrides */
+[data-theme='dark'] .hero-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .hero-subtitle {
+  color: var(--text-secondary);
+}
+
+/* Add dark mode override for button text */
+[data-theme='dark'] .button-text {
+  color: var(--text-primary);
 }

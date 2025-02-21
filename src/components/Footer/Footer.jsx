@@ -51,7 +51,7 @@ const Footer = () => {
         <div className="footer-section brand-section">
           <img src="/jpg_to_png-removebg-preview.png" alt="FM MECA" className="footer-logo" />
           <h3 className="modern-text">FM MECA</h3>
-          <p className="subtitle">FM MECA is an engineering consulting agency with a team of experts in manufacturing engineering, custom machinery design, and technical documents management. We pride ourselves on building long-term relationships with clients and providing them with the support and guidance they need to succeed.</p>
+          <p className="subtitle footer-description">FM MECA is an engineering consulting agency with a team of experts in manufacturing engineering, custom machinery design, and technical documents management. We pride ourselves on building long-term relationships with clients and providing them with the support and guidance they need to succeed.</p>
         </div>
 
         <div className="footer-section">
