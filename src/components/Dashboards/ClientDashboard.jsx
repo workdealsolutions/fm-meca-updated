@@ -5,6 +5,7 @@ import ProjectCard from '../ProjectCard/ProjectCard';
 import Messages from '../Messages/Messages';
 import Profile from '../Profile/Profile';
 import SampleProjects from '../SampleProjects/SampleProjects';
+import ProjectStepsDisplay from '../ProjectStepsDisplay/ProjectStepsDisplay'; // Import the new component
 import './ClientDashboard.css';
 
 const getProgressColor = (progress) => {
@@ -160,6 +161,14 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
     });
   };
 
+  const calculateProgress = (project) => {
+    if (!project.steps || project.steps.length === 0) {
+      return 0;
+    }
+    const completedStepsCount = project.completedSteps ? project.completedSteps.length : 0;
+    return (completedStepsCount / project.steps.length) * 100;
+  };
+
   const renderNewProjectSection = () => (
       <div className={`new-project-section ${theme}`}>
         <h2>Submit New Project</h2>
@@ -260,13 +269,17 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
         return (
             <div className="progress-tracking-section">
               <h2>Project Progress Tracking</h2>
-              <SampleProjects
-                  user={user}
-                  projects={sortProjects(projects)}
-                  getStatusColor={getStatusColor}
-                  getProgressColor={getProgressColor}
-                  formatDate={formatDate}
-              />
+              {projects.map(project => (
+                  <div key={project.id}>
+                    <h3>{project.title}</h3>
+                    <p>Progress: {calculateProgress(project).toFixed(2)}%</p>
+                    <ProjectStepsDisplay
+                        theme={theme}
+                        steps={project.steps}
+                        completedSteps={project.completedSteps || []}
+                    />
+                  </div>
+              ))}
             </div>
         );
       case 'new':

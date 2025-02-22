@@ -1,0 +1,41 @@
+.steps-display {
+  margin-top: 20px;
+}
+
+.steps-list {
+  list-style: none;
+  padding: 0;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.step-number {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.step-description {
+  flex-grow: 1;
+}
+
+.step-status {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8em;
+}
+
+.step-status.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.step-status.pending {
+  background-color: #f8d7da;
+  color: #721c24;
+}

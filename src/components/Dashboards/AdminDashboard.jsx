@@ -176,7 +176,8 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
             status: 'in-progress',
             assignedTo: coworkerId,
             deadline: deadline,
-            assignedDate: new Date().toISOString()
+            assignedDate: new Date().toISOString(),
+            completedSteps: [] // Initialize completedSteps array
           }
         : project
     ));
