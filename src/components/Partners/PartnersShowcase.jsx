@@ -2,17 +2,19 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Pagination, Autoplay } from "swiper/modules"
+import { Pagination, Autoplay, EffectCoverflow } from "swiper/modules"
 import { useTheme } from "../../context/ThemeContext"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/autoplay"
+import "swiper/css/effect-coverflow"
 import "./PartnersShowcase.css"
 
 const partners = [
     {
         name: 'SMARTEC',
-        logo: 'https://www.smartec.tn/css/front/images/logo-mobile-white.png'
+        logo: 'https://www.smartec.tn/css/front/images/logo-mobile-white.png',
+        lightModeLogo: 'https://www.smartec.tn/css/front/images/logo-mobile.png' // Add light version
     },
     {
         name: 'Markabte',
@@ -28,11 +30,13 @@ const partners = [
     },
     {
         name: 'TransitFare',
-        logo: '/TransitFare3-300x76.png'
+        logo: '/TransitFare3-300x76.png',
+        darkModeLogo: '/TransitFare3-white.png' // Add dark version of logo if available
     },
     {
         name: 'MEEK',
-        logo: '/db8bea_d9649bde5512477e997b373b242c4427~mv2.avif'
+        logo: '/db8bea_d9649bde5512477e997b373b242c4427~mv2.avif',
+        darkModeLogo: '/meek-white.png' // Add dark version of logo if available
     },
     {
         name: 'ABBK PhysicsWorks',
@@ -40,7 +44,8 @@ const partners = [
     },
     {
         name: 'OIT',
-        logo: 'https://www.ilo.org/themes/custom/ilo/node_modules/@ilo-org/brand-assets/dist/assets/logo_fr_horizontal_white.svg'
+        logo: '/oit-dark.svg', // Add dark version
+        darkModeLogo: 'https://www.ilo.org/themes/custom/ilo/node_modules/@ilo-org/brand-assets/dist/assets/logo_fr_horizontal_white.svg'
     },
     {
         name: '3DExperience',
@@ -54,29 +59,52 @@ const partners = [
 
 const PartnersSection = () => {
   const [isVisible, setIsVisible] = useState(false)
+  const [isGrid, setIsGrid] = useState(window.innerWidth >= 1600)
   const sectionRef = useRef(null)
   const { isDark } = useTheme()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting)
-      },
-      {
-        threshold: 0.1,
-      },
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 }
     )
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
+    const handleResize = () => setIsGrid(window.innerWidth >= 1600)
+
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
-      }
+      if (sectionRef.current) observer.unobserve(sectionRef.current)
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  const renderPartnerCard = (partner, index) => (
+    <div
+      className={`partners-showcase__card ${isVisible ? "visible" : ""}`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className={`partners-showcase__card-inner ${isDark ? 'dark' : 'light'}`}>
+        <div className={`partners-showcase__logo-wrapper ${isDark ? 'dark' : 'light'}`}>
+          <img 
+            className="partners-showcase__logo-image" 
+            src={isDark ? 
+              (partner.darkModeLogo || partner.logo) : 
+              (partner.lightModeLogo || partner.logo)
+            } 
+            alt={partner.name}
+            loading="lazy"
+          />
+        </div>
+        <div className={`partners-showcase__content ${isDark ? 'dark' : 'light'}`}>
+          <h3 className={`partners-showcase__partner-name ${isDark ? 'dark' : 'light'}`}>
+            {partner.name}
+          </h3>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <div ref={sectionRef} className={`partners-showcase__section ${isDark ? 'dark' : 'light'}`}>
@@ -87,45 +115,43 @@ const PartnersSection = () => {
             Collaborating with industry leaders to shape the future of technology and innovation.
           </p>
         </div>
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          spaceBetween={30}
-          slidesPerView={1}
-          breakpoints={{
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 4 },
-          }}
-          pagination={{
-            clickable: true,
-            bulletClass: 'swiper-pagination-bullet',
-            bulletActiveClass: 'swiper-pagination-bullet-active',
-          }}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          className="partners-showcase__swiper"
-        >
-          {partners.map((partner, index) => (
-            <SwiperSlide key={partner.name}>
-              <div
-                className={`partners-showcase__card ${isVisible ? "visible" : ""}`}
-                style={{ transitionDelay: `${index * 150}ms` }}
-              >
-                <div className="partners-showcase__card-inner">
-                  <div className="partners-showcase__logo-wrapper">
-                    <img 
-                      className="partners-showcase__logo-image" 
-                      src={partner.logo || "/placeholder.svg"} 
-                      alt={partner.name} 
-                    />
-                  </div>
-                  <div className="partners-showcase__content">
-                    <h3 className="partners-showcase__partner-name">{partner.name}</h3>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        
+        {isGrid ? (
+          <div className="partners-showcase__grid">
+            {partners.map((partner, index) => renderPartnerCard(partner, index))}
+          </div>
+        ) : (
+          <Swiper
+            modules={[Pagination, Autoplay, EffectCoverflow]}
+            effect="coverflow"
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            spaceBetween={30}
+            slidesPerView={1}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+              1280: { slidesPerView: 4 },
+            }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            className="partners-showcase__swiper"
+          >
+            {partners.map((partner, index) => (
+              <SwiperSlide key={partner.name}>
+                {renderPartnerCard(partner, index)}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
     </div>
   )

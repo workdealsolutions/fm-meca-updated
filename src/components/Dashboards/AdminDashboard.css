@@ -734,6 +734,70 @@
   .review-buttons {
     flex-direction: column;
   }
+
+  .modal {
+    align-items: flex-start;
+    padding: 20px 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+  }
+
+  .modal-content {
+    width: 95%;
+    max-height: none;
+    margin: 0 auto;
+    border-radius: 12px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .steps-list {
+    max-height: 60vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .project-steps {
+    padding: 15px;
+    overflow: visible;
+  }
+
+  .assignment-details {
+    margin: 20px 0;
+    padding: 15px;
+  }
+
+  /* Ensure select dropdown appears above other elements */
+  .select-wrapper {
+    position: relative;
+    z-index: 1001;
+  }
+
+  .select-coworker {
+    max-height: 50vh;
+    position: relative;
+  }
+
+  /* Improve scrolling for the entire modal */
+  .modal::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .modal::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+
+  /* Ensure modal content stays within viewport */
+  body.modal-open {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 /* Client Details Styles */
@@ -1052,4 +1116,317 @@
 .url-indicator.dark {
   background: rgba(25, 118, 210, 0.2);
   color: #90caf9;
+}
+
+.project-steps {
+  padding: 20px;
+}
+
+.step-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.step-item textarea {
+  flex: 1;
+  min-height: 100px; /* Increased height */
+  padding: 15px;
+  border-radius: 8px;
+  resize: vertical;
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 100%;
+}
+
+.remove-step {
+  min-width: 80px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.step-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.add-step, .save-steps, .remove-step {
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-step.light, .save-steps.light {
+  background: #f0f0f0;
+  border: 1px solid #dddddd;
+  color: #333333;
+}
+
+.add-step.dark, .save-steps.dark {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.remove-step.light {
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+}
+
+.remove-step.dark {
+  background: rgba(198, 40, 40, 0.2);
+  border: 1px solid rgba(198, 40, 40, 0.3);
+  color: #ef5350;
+}
+
+.steps-list {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.steps-list h4 {
+  margin-bottom: 15px;
+}
+
+.step-number {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.define-steps-button {
+  width: 100%;
+  margin-bottom: 15px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.define-steps-button:hover {
+  background: #43a047;
+}
+
+/* Updated Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content.light {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.modal-content.dark {
+  background: rgba(26, 26, 26, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-modal {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.close-modal.light {
+  background: #f0f0f0;
+  border: 1px solid #dddddd;
+  color: #333333;
+}
+
+.close-modal.dark {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.assignment-details {
+  margin: 30px 0;
+  padding: 20px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.assignment-details h4 {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.select-wrapper,
+.deadline-wrapper {
+  margin-bottom: 15px;
+}
+
+.select-wrapper label,
+.deadline-wrapper label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: inherit;
+  opacity: 0.8;
+}
+
+.save-steps:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Theme variations */
+.assignment-details.light {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+}
+
+.assignment-details.dark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+  .step-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .step-item textarea {
+    min-height: 120px; /* Even taller on mobile */
+    font-size: 16px; /* Prevent zoom on mobile */
+    width: 100%;
+  }
+
+  .remove-step {
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+    margin: 10px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .step-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .add-step, .save-steps {
+    width: 100%;
+    height: 44px;
+  }
+}
+
+/* Updated select coworker styles */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-coworker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 15px;
+  padding-right: 30px;
+  margin: 10px 0;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.select-wrapper::after {
+  content: '↓';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+/* Mobile specific styles */
+@media screen and (max-width: 768px) {
+  .select-coworker {
+    font-size: 16px; /* Prevent zoom on iOS */
+    padding: 12px 35px 12px 15px; /* Increased touch target */
+    margin: 8px 0;
+  }
+
+  .select-wrapper::after {
+    font-size: 1.2rem; /* Larger dropdown indicator */
+    right: 12px;
+  }
+
+  /* Fix for better mobile dropdown appearance */
+  select::-ms-expand {
+    display: none;
+  }
+
+  /* Styling the dropdown options for better mobile visibility */
+  .select-coworker option {
+    font-size: 16px;
+    padding: 12px;
+    background: var(--option-bg-color, #fff);
+    color: var(--option-text-color, #333);
+  }
+
+  /* Light theme dropdown */
+  .select-coworker.light option {
+    --option-bg-color: #ffffff;
+    --option-text-color: #333333;
+  }
+
+  /* Dark theme dropdown */
+  .select-coworker.dark option {
+    --option-bg-color: #282828;
+    --option-text-color: #E0E0E0;
+  }
+
+  /* Active/focus states for better touch feedback */
+  .select-coworker:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
+  }
 }

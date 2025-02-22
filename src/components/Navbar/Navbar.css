@@ -782,12 +782,20 @@
   color: rgb(88, 73, 73);
 }
 
+/* Remove or comment out this block as it's causing the duplicate arrow */
 .has-dropdown .nav-link::after {
-  content: '▼';
+  display: none; /* This removes the duplicate arrow */
+}
+
+/* Keep only the dropdown-arrow styles */
+.dropdown-arrow {
+  margin-left: 0.5rem;
   font-size: 0.7em;
-  margin-left: 0.5em;
-  display: inline-block;
   transition: transform 0.3s ease;
+}
+
+.dropdown-open .dropdown-arrow {
+  transform: rotate(180deg);
 }
 
 .has-dropdown:hover .nav-link::after {
@@ -887,7 +895,121 @@
   transform: none;
 }
 
+/* Dropdown styles */
+.has-dropdown {
+  position: relative;
+}
 
+.dropdown-arrow {
+  margin-left: 0.5rem;
+  font-size: 0.7em;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--nav-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.5rem;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.8rem 1rem;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.dropdown-item:hover {
+  background: rgba(88, 73, 73, 0.1);
+  color: rgb(88, 73, 73);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .nav-dropdown {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    width: 100%;
+    min-width: unset;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 8px;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .nav-dropdown.show {
+    max-height: 500px;
+    padding: 0.5rem;
+  }
+
+  .dropdown-item {
+    text-align: left;
+    padding: 0.8rem 1.5rem;
+    margin: 0.2rem 0;
+    border-radius: 6px;
+  }
+
+  .has-dropdown {
+    width: 100%;
+  }
+
+  .has-dropdown .nav-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.8rem;
+  }
+
+  .dropdown-arrow {
+    margin-left: auto;
+  }
+
+  .dropdown-open .nav-dropdown {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0.5rem;
+  }
+}
+
+/* Desktop hover behavior */
+@media (min-width: 769px) {
+  .has-dropdown:hover .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(10px);
+  }
+  
+  .has-dropdown:hover .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+}
 
 @media (max-width: 768px) {
   .has-dropdown .nav-link {

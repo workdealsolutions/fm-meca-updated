@@ -5,6 +5,7 @@ import FeedbackModal from '../FeedbackModal';
 import { sampleProjects } from '../../utils/sampleProjects';
 import './AdminDashboard.css';
 import ProfileSettings from '../pages/ProfileSettings';
+import ProjectSteps from '../ProjectSteps';
 
 const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) => {
   const { isDark } = useTheme();
@@ -17,6 +18,8 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showStepsModal, setShowStepsModal] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   // Add sample clients data
   const sampleClients = [
@@ -59,6 +62,20 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
   useEffect(() => {
     closeMobileMenu();
   }, [activeTab]);
+
+  useEffect(() => {
+    // Add or remove modal-open class on body when modal is shown/hidden
+    if (showStepsModal) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [showStepsModal]);
 
   const handleInitialReview = (projectId, isApproved, feedback = '') => {
     setProjects(prevProjects => prevProjects.map(project =>
@@ -158,6 +175,31 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
     closeMobileMenu();
   };
 
+  const handleSaveSteps = (projectId, { steps, coworkerId, deadline }) => {
+    setProjects(prevProjects => prevProjects.map(project =>
+      project.id === projectId 
+        ? { 
+            ...project, 
+            steps,
+            status: 'in-progress',
+            assignedTo: coworkerId,
+            deadline: deadline,
+            assignedDate: new Date().toISOString()
+          }
+        : project
+    ));
+    
+    // Send notification to coworker
+    sendNotification({
+      userId: coworkerId,
+      message: 'A new project has been assigned to you',
+      type: 'info'
+    });
+
+    setShowStepsModal(false);
+    setSelectedProjectId(null);
+  };
+
   const renderProjectCard = (project) => (
     <div className={`project-card ${theme}`} key={project.id}>
       <div className="project-header">
@@ -221,32 +263,14 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
 
         {project.status === 'admin-approved' && (
           <div className="assignment-section">
-            <select 
-              onChange={(e) => project.selectedCoworker = e.target.value}
-              className="select-coworker"
-            >
-              <option value="">Select Coworker</option>
-              {coworkers.map(coworker => (
-                <option key={coworker.id} value={coworker.id}>
-                  {coworker.name}
-                </option>
-              ))}
-            </select>
-            <input 
-              type="date"
-              onChange={(e) => project.deadline = e.target.value}
-              min={new Date().toISOString().split('T')[0]}
-              className="deadline-input"
-            />
             <button 
-              className="button approve-button"
-              onClick={() => handleAssignToCoworker(
-                project.id,
-                project.selectedCoworker,
-                project.deadline
-              )}
+              className="button define-steps-button"
+              onClick={() => {
+                setSelectedProjectId(project.id);
+                setShowStepsModal(true);
+              }}
             >
-              Assign to Coworker
+              Define Steps & Assign Project
             </button>
           </div>
         )}
@@ -495,6 +519,24 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
           }}
           theme={theme}
         />
+      )}
+
+      {showStepsModal && (
+        <div className={`modal ${theme}`}>
+          <div className="modal-content">
+            <ProjectSteps 
+              theme={theme}
+              coworkers={coworkers}
+              onSaveSteps={(data) => handleSaveSteps(selectedProjectId, data)}
+            />
+            <button 
+              className={`close-modal ${theme}`}
+              onClick={() => setShowStepsModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

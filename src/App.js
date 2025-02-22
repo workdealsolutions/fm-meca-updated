@@ -30,6 +30,7 @@ import IndustrialSolution from './components/ServicePages/IndustrialSolution/Ind
 import ProductDevelopment from './components/ServicePages/ProductDevelopment/ProductDevelopment';
 import EngineeringData from './components/ServicePages/EngineeringData/EngineeringData';
 import TechnicalSupport from './components/ServicePages/TechnicalSupport/TechnicalSupport';
+import Statistics from './components/Statistics/Statistics';
 
   
 
@@ -180,6 +181,7 @@ const AppContent = ({ sendNotification }) => {
                       <main>
                         <section id="home"><Hero /></section>
                         <section id="services"><Services /></section>
+                        <section id="statistics"><Statistics /></section>
                         <section id="testimonials"><Testimonials /></section>
                         <section id="contact"><Contact /></section>
                       </main>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import './CoworkerSettings.css';
 
@@ -23,6 +23,9 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
     adminMessages: true
   });
 
+  const fileInputRef = useRef(null);
+  const [imagePreview, setImagePreview] = useState(user.avatar || '/default-avatar.png');
+
   const handleProfileUpdate = (e) => {
     e.preventDefault();
     onUpdateProfile({ ...profileData, notifications });
@@ -45,6 +48,25 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
     }));
   };
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+        setProfileData(prev => ({
+          ...prev,
+          avatar: reader.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
   return (
     <div className="coworker-settings" data-theme={theme}>
       <div className="settings-header">
@@ -61,16 +83,21 @@ const CoworkerSettings = ({ user, onUpdateProfile }) => {
               Personal Information
             </h3>
             <div className="profile-picture-upload">
-              <div className="profile-picture">
-                <img src={user.avatar || '/default-avatar.png'} alt="Profile" />
+              <div className="profile-picture" onClick={triggerFileInput}>
+                <img src={imagePreview} alt="Profile" />
                 <div className="upload-overlay">
                   <span>📷</span>
-                  <input type="file" accept="image/*" style={{ display: 'none' }} />
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    style={{ display: 'none' }}
+                  />
                 </div>
               </div>
               <div className="upload-info">
                 <h4>{user.name}</h4>
-                <p>Upload a new profile picture</p>
               </div>
             </div>
             

@@ -216,13 +216,6 @@
 }
 
 .profile-picture-upload {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 12px;
-  margin-bottom: 30px;
   position: relative;
   width: 150px;
   height: 150px;
@@ -230,26 +223,46 @@
   border-radius: 50%;
   background: linear-gradient(135deg, #3B82F6, #2563EB);
   padding: 3px;
+  cursor: pointer;
 }
 
 .profile-picture {
-  position: relative;
-  width: 120px;
-  height: 120px;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+  background: #f8f8f8;
 }
 
 .profile-picture img {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
   object-fit: cover;
-  padding: 20px;
-  border-radius: 12px;
+  border-radius: 50%;
+}
+
+.upload-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.upload-overlay span {
+  font-size: 24px;
+  color: white;
+}
+
+.profile-picture:hover .upload-overlay {
+  opacity: 1;
 }
 
 .avatar-upload {

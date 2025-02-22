@@ -46,11 +46,12 @@ export const CoworkerSidebar = ({ activeTab, setActiveTab, user, isOpen, setIsOp
       <div className="sidebar-header">
         <div className="user-info">
           <div className="user-avatar">
-            <img src={user.avatar || '/default-avatar.png'} alt="Profile" />
-            <span className="status-indicator"></span>
+            <img src={user?.avatar || '/default-avatar.png'} alt="Profile" />
           </div>
-          <h3>{user.name}</h3>
-          <p>{user.role}</p>
+          <div className="user-details">
+            <h3>{user?.name || 'User Name'}</h3>
+            <p>{user?.role || 'Member'}</p>
+          </div>
         </div>
       </div>
 

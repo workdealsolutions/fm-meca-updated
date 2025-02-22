@@ -18,9 +18,8 @@ const Navbar = ({ onNavigate, currentSection }) => {
   
   const toggleDropdown = (linkName, e) => {
     e.preventDefault();
-    if (window.innerWidth <= 768) {
-      setOpenDropdown(openDropdown === linkName ? null : linkName);
-    }
+    e.stopPropagation();
+    setOpenDropdown(prevOpen => prevOpen === linkName ? null : linkName);
   };
 
   const scrollToServiceCard = (index) => {
@@ -185,7 +184,7 @@ const Navbar = ({ onNavigate, currentSection }) => {
           {navLinks.map((link, index) => (
             <motion.li
               key={index}
-              className={link.dropdown ? 'has-dropdown' : ''}
+              className={`${link.dropdown ? 'has-dropdown' : ''} ${openDropdown === link.name ? 'dropdown-open' : ''}`}
             >
               <a 
                 href={link.href} 
@@ -200,6 +199,7 @@ const Navbar = ({ onNavigate, currentSection }) => {
                 }}
               >
                 {link.name}
+                {link.dropdown && <span className="dropdown-arrow">▼</span>}
               </a>
               {link.dropdown && (
                 <div className={`nav-dropdown ${openDropdown === link.name ? 'show' : ''}`}>
@@ -207,6 +207,7 @@ const Navbar = ({ onNavigate, currentSection }) => {
                     <a
                       key={i}
                       href={dropItem.href}
+                      className="dropdown-item"
                       onClick={(e) => {
                         e.preventDefault();
                         handleNavigation(dropItem.href, dropItem.isPage);
