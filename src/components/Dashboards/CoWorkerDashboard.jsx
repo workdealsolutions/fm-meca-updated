@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import CoworkerSidebar from '../Sidebar/CoworkerSidebar';
 import CoworkerSettings from '../Settings/CoworkerSettings';
-import { sampleProjects } from '../../mockData/sampleProjects';
 import './CoWorkerDashboard.css';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -16,25 +15,10 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
   const [stepContent, setStepContent] = useState({});
   const [projects, setProjects] = useState([]); // Initialize with empty array
 
-  // Load sample projects when component mounts
+  // Replace sample projects loading with empty useEffect
   useEffect(() => {
-    try {
-      // Set a default user ID if not provided
-      const defaultUserId = 'coworker1';
-      const currentUserId = user?.id || defaultUserId;
-      
-      // Assign the user ID to the sample projects
-      const projectsWithAssignee = sampleProjects.map(project => ({
-        ...project,
-        assignedTo: currentUserId
-      }));
-      
-      setProjects(projectsWithAssignee);
-      console.log('Loaded sample projects:', projectsWithAssignee);
-    } catch (error) {
-      console.error('Error loading projects:', error);
-      setProjects([]); // Set empty array on error
-    }
+    // This is where you would typically fetch projects from an API
+    console.log('Component mounted - ready to fetch projects');
   }, [user?.id]);
 
   const handleStepComplete = (projectId, stepIndex, content, projectUrl) => {
