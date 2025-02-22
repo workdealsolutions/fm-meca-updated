@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import Sidebar from '../Sidebar';
 import FeedbackModal from '../FeedbackModal';
-import { sampleProjects } from '../../utils/sampleProjects';
 import './AdminDashboard.css';
 import ProfileSettings from '../pages/ProfileSettings';
 import ProjectSteps from '../ProjectSteps';
@@ -38,13 +37,6 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
       latestFeedback: "Outstanding work quality and great communication throughout the project."
     }
   ];
-
-  // Initialize with sample projects if no projects are provided
-  useEffect(() => {
-    if (!projects || projects.length === 0) {
-      setProjects(sampleProjects);
-    }
-  }, [setProjects, projects]);
 
   // Add this effect to handle body scroll when menu is open
   useEffect(() => {
@@ -236,11 +228,13 @@ const AdminDashboard = ({ projects, setProjects, coworkers, sendNotification }) 
         )}
 
         <div className="requirements-section">
-          <strong>Requirements:</strong>
+          <strong>Requirement:</strong>
           <ul className="requirements-list">
-            {project.requirements.map((req, index) => (
-              <li key={index}>{req}</li>
-            ))}
+            {project.requirements.length > 0 ? (
+              <li>{project.requirements[0]}</li>
+            ) : (
+              <li>No requirements specified</li>
+            )}
           </ul>
         </div>
 
