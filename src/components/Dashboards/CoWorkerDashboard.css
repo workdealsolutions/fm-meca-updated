@@ -534,3 +534,71 @@ button:hover {
 .dashboard-container[data-theme="dark"] .step-card.revision-needed p {
   color: #000000;
 }
+
+.dashboard-container[data-theme="dark"] .step-card {
+  color: #ffffff;
+}
+
+.dashboard-container[data-theme="dark"] .step-card h4,
+.dashboard-container[data-theme="dark"] .step-card p {
+  color: #ffffff;
+}
+
+/* Override colors for specific status cards to maintain readability */
+.dashboard-container[data-theme="dark"] .step-card.completed,
+.dashboard-container[data-theme="dark"] .step-card.in-progress,
+.dashboard-container[data-theme="dark"] .step-card.pending-review,
+.dashboard-container[data-theme="dark"] .step-card.revision-needed {
+  color: #000000;
+}
+
+.dashboard-container[data-theme="dark"] .step-card.completed h4,
+.dashboard-container[data-theme="dark"] .step-card.in-progress h4,
+.dashboard-container[data-theme="dark"] .step-card.pending-review h4,
+.dashboard-container[data-theme="dark"] .step-card.revision-needed h4 {
+  color: #000000;
+}
+
+.dashboard-container[data-theme="dark"] .step-card.in-progress h4,
+.dashboard-container[data-theme="dark"] .step-card.in-progress p {
+  color: #000000;
+}
+
+/* Add these styles for dark mode project cards */
+.dashboard-container[data-theme="dark"] .project-card .step-card {
+  color: #000000;
+}
+
+.dashboard-container[data-theme="dark"] .project-card .step-card h4,
+.dashboard-container[data-theme="dark"] .project-card .step-card p {
+  color: #000000;
+}
+
+.dashboard-container[data-theme="dark"] .project-description,
+.dashboard-container[data-theme="dark"] .project-description p {
+  color: #000000;
+}
+
+/* Ensure step descriptions are black in all states */
+.dashboard-container[data-theme="dark"] .step-card,
+.dashboard-container[data-theme="dark"] .step-card.in-progress,
+.dashboard-container[data-theme="dark"] .step-card.completed,
+.dashboard-container[data-theme="dark"] .step-card.pending-review,
+.dashboard-container[data-theme="dark"] .step-card.revision-needed {
+  color: #000000;
+}
+
+.dashboard-container[data-theme="dark"] .step-card h4,
+.dashboard-container[data-theme="dark"] .step-card p {
+  color: #000000;
+}
+
+.dashboard-container[data-theme="dark"] .project-card .project-description,
+.dashboard-container[data-theme="dark"] .project-card .project-description p {
+  color: #ffffff;
+}
+
+/* Make sure we also handle the project header text */
+.dashboard-container[data-theme="dark"] .project-card .project-header h3 {
+  color: #ffffff;
+}
