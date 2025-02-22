@@ -74,7 +74,7 @@ const Sidebar = ({
                     className={`coworker-item ${theme}`}
                     onClick={() => onCoworkerSelect(coworker)}
                   >
-                    <span className={`coworker-name ${theme}`}>{coworker.name}</span>
+                    <span className={`coworker-name ${theme}`}>{coworker.firstname+" "+coworker.lastname }</span>
                     <span className={`coworker-status ${theme}`}></span>
                   </div>
                 ))}
@@ -98,7 +98,7 @@ const Sidebar = ({
                     onClick={() => onClientSelect(client)}
                   >
                     <div className="client-info">
-                      <span className={`client-name ${theme}`}>{client.name}</span>
+                      <span className={`client-name ${theme}`}>{client.firstname +" "+ client.lastname}</span>
                     </div>
                   </div>
                 ))}
