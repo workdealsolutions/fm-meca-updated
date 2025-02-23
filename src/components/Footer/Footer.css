@@ -4,8 +4,13 @@
     background: #000000;
     color: #ffffff;
     overflow: hidden;
-    margin-top: 2rem; /* Reduced from 4rem to 2rem */
+    margin: 2rem 2rem;  /* Changed from margin-top to margin */
     isolation: isolate;
+    border-radius: 32px;  /* Added rounded corners */
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.2),
+        0 -5px 20px rgba(0, 0, 0, 0.1);  /* Added floating shadow effect */
+    transform: translateY(-10px);  /* Slight lift effect */
 }
 
 .footer::before {
@@ -71,11 +76,12 @@
     gap: 4rem;
     padding: 3rem;
     background: linear-gradient(to bottom right, #000000, #0A0A0A);
-    border-radius: 24px;
+    border-radius: 20px;  /* Slightly reduced from footer's border-radius */
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* Added visible border */
     box-shadow: 
-        0 30px 60px rgba(88, 73, 73, 0.05),
-        0 10px 30px rgba(0, 0, 0, 0.15);
-    --footer-hover: rgba(88, 73, 73, 0.05);
+        0 15px 30px rgba(88, 73, 73, 0.05),
+        0 5px 15px rgba(0, 0, 0, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);  /* Added inner glow */
 }
 
 .footer-container.dark {
@@ -83,6 +89,29 @@
     --footer-text-secondary: rgba(255, 255, 255, 0.8);
     --footer-border: rgba(88, 73, 73, 0.1);
     --footer-hover: rgba(88, 73, 73, 0.05);
+}
+
+.footer-section {
+    position: relative;
+    padding: 2rem;
+    border-radius: 16px;
+    background: transparent; /* Changed from rgba(255, 255, 255, 0.02) */
+}
+
+.footer-section:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -2rem;
+    top: 10%;
+    height: 80%;
+    width: 2px; /* Increased from 1px for better visibility */
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.15),
+        transparent
+    );
 }
 
 .brand-section {
@@ -235,12 +264,14 @@
     background: linear-gradient(145deg, #000000, #0A0A0A);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(88, 73, 73, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* Enhanced border */
     color: rgba(255, 255, 255, 0.4);
     font-size: 0.9rem;
     border-radius: 24px;
     box-shadow: 
         0 30px 60px rgba(88, 73, 73, 0.05),
-        0 10px 30px rgba(0, 0, 0, 0.12);
+        0 10px 30px rgba(0, 0, 0, 0.12),
+        inset 0 0 20px rgba(255, 255, 255, 0.03);  /* Added inner glow */
 }
 
 @media (max-width: 768px) {
@@ -248,5 +279,21 @@
         grid-template-columns: 1fr;
         gap: 3rem;
         padding: 2rem;
+    }
+    .footer {
+        margin: 1rem;  /* Reduced margin for mobile */
+        border-radius: 24px;  /* Slightly reduced border-radius for mobile */
+    }
+    .footer-section:not(:last-child)::after {
+        display: none;  /* Remove vertical separator on mobile */
+    }
+    .footer-section {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Added horizontal separator for mobile */
+    }
+
+    .footer-section:last-child {
+        border-bottom: none; /* Remove border from last section */
+        margin-bottom: 0;
     }
 }
