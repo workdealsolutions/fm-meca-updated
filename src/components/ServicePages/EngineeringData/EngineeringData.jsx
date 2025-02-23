@@ -16,5 +16,6 @@ const EngineeringData = () => {
     </div>
   );
 };
+export default EngineeringData;
 
 
