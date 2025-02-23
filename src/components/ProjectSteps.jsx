@@ -73,7 +73,7 @@ const ProjectSteps = ({ theme, onSaveSteps, coworkers }) => {
             <option value="">Choose a coworker</option>
             {coworkers.map(coworker => (
               <option key={coworker.id} value={coworker.id}>
-                {coworker.name}
+                {coworker.firstname+" "+coworker.lastname}
               </option>
             ))}
           </select>
