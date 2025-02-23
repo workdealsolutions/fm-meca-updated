@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 .coming-soon-container {
   display: flex;
   flex-direction: column;
@@ -42,48 +42,3 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-=======
-.coming-soon-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-  text-align: center;
-  background-color: #f9f9f9; /* Lighter background */
-  padding: 30px; /* Increased padding */
-  border-radius: 12px; /* More rounded corners */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
-  border: 1px solid #eee; /* Subtle border */
-}
-
-.coming-soon-title {
-  font-size: 3em; /* Larger title */
-  font-weight: 600; /* Slightly lighter font weight */
-  color: #333;
-  margin-bottom: 20px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
-}
-
-.coming-soon-message {
-  font-size: 1.3em; /* Slightly larger message */
-  color: #555; /* Darker color for the message */
-  margin-bottom: 30px;
-  line-height: 1.6; /* Improved line height for readability */
-}
-
-/* Spinner Animation */
-.spinner {
-  border: 5px solid #e0e0e0; /* Light grey */
-  border-top: 5px solid #4CAF50; /* Green accent color */
-  border-radius: 50%;
-  width: 60px; /* Slightly larger spinner */
-  height: 60px; /* Slightly larger spinner */
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
->>>>>>> d0fbf00912b44b96081dd9e02dd29abed141b98d
