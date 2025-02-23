@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { FiSettings, FiBox, FiFileText, FiArrowRight } from 'react-icons/fi';
+import { FiSettings, FiBox, FiFileText, FiArrowRight, FiCpu, FiServer, FiHardDrive } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useIsMobile } from '../../hooks/useIsMobile';
@@ -127,6 +127,7 @@ const Hero = () => {
               <span className="button-gradient" />
               <span className="hover-effect" style={{ background: `linear-gradient(45deg, ${themeStyles.iconColor}, transparent)` }} />
             </motion.button>
+
           </motion.div>
           
           {/* Right column - Model and cards */}

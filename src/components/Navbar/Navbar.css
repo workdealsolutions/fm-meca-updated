@@ -121,14 +121,14 @@
 
 .nav-links li a:hover,
 .nav-links li a.active {
-    color: rgb(88, 73, 73);
+    color: white;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Added shadow for better visibility */
 }
 
 .nav-links li a.active {
-    color: rgb(88, 73, 73);
+    color: white;
     font-weight: 600;
-    text-shadow: 0 0 10px rgba(88, 73, 73, 0.3);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .nav-links li a.active::before {
@@ -680,17 +680,18 @@
 
 .nav-link:hover .nav-icon {
   transform: translateY(-4px);
-  color: rgb(88, 73, 73);
+  color: white;
 }
 
 .nav-link:hover .nav-text {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
+  color: white;
 }
 
 .nav-link.active .nav-icon {
-  color: rgb(88, 73, 73);
+  color: white;
 }
 
 .nav-link.active::after {
@@ -728,19 +729,20 @@
 }
 
 .nav-link:hover .nav-text {
-  color: rgb(88, 73, 73);
+  color: white;
 }
 
 .nav-link.active .nav-text {
-  color: rgb(88, 73, 73);
+  color: white;
 }
 
 .nav-link.active {
-  color: rgb(88, 73, 73);
+  color: white;
+  font-weight: 600;
 }
 
 .nav-link.active .nav-icon {
-  color: rgb(88, 73, 73);
+  color: white;
 }
 
 .has-dropdown {
@@ -779,7 +781,7 @@
 
 .nav-dropdown a:hover {
   background: rgba(88, 73, 73, 0.1);
-  color: rgb(88, 73, 73);
+  color: white;
 }
 
 /* Remove or comment out this block as it's causing the duplicate arrow */
@@ -821,7 +823,7 @@
 
 .nav-dropdown a:hover {
   background: rgba(88, 73, 73, 0.1);
-  color: rgb(88, 73, 73);
+  color: white;
 }
 
 .nav-link {
@@ -848,11 +850,11 @@
 }
 
 .nav-link:hover {
-  color: rgb(88, 73, 73);
+  color: white;
 }
 
 .nav-link.active {
-  color: rgb(88, 73, 73);
+  color: white;
   font-weight: 600;
 }
 
@@ -941,8 +943,8 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(88, 73, 73, 0.1);
-  color: rgb(88, 73, 73);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 /* Mobile styles */

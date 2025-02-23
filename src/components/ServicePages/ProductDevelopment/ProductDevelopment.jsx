@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../../Navbar/Navbar';
 import Footer from '../../Footer/Footer';
+import ComingSoon from '../ComingSoon';
 import './ProductDevelopment.css';
 
 const ProductDevelopment = () => {
@@ -8,7 +9,7 @@ const ProductDevelopment = () => {
     <div className="service-page">
       <Navbar />
       <main className="service-content">
-        {/* Content will go here */}
+        <ComingSoon />
       </main>
       <Footer />
     </div>

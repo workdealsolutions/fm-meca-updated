@@ -41,7 +41,7 @@ body {
   overflow: hidden;
   display: flex;
   align-items: flex-start;
-  padding: 20px 5vw 20vh; /* Reduced from 80px to 60px */
+  padding: 120px 5vw 20vh; /* Increased top padding from 20px to 120px */
   background: var(--bg-color);
   perspective: 1000px;
   margin-top: 0; /* Remove negative margin */
@@ -107,7 +107,7 @@ body {
 }
 
 .hero-text-container {
-  padding-top: 80px; /* Add padding to move content below navbar */
+  padding-top: 40px; /* Reduced from 80px to 40px since we increased hero padding */
   max-width: 900px; /* Limit width of text container */
 }
 
@@ -450,7 +450,7 @@ body {
 .spline-container {
   width: 120%;
   height: 500px;
-  margin: 4rem -15% 2rem -25%; /* Increased top margin from 2rem to 4rem */
+  margin: 80px -15% 2rem -25%; /* Increased top margin from 4rem to 80px */
   position: relative;
   overflow: visible; /* Changed from hidden to allow overflow */
   border-radius: 10px;
@@ -508,7 +508,7 @@ body {
 
 @media (max-width: 768px) {
   .hero {
-    padding: 45px 1rem 2rem; /* Reduced from 60px to 45px */
+    padding: 100px 1rem 2rem; /* Increased top padding from 45px to 100px */
     margin-top: 0;
   }
 
@@ -533,7 +533,7 @@ body {
   .spline-container {
     height: 400px; /* Increased from 300px to 400px */
     width: 100%;
-    margin: 5rem 0; /* Increased top margin from 3rem to 5rem */
+    margin: 60px 0; /* Increased top margin from 5rem to 60px */
   }
 
   .spline-container canvas {
@@ -570,14 +570,14 @@ body {
   }
   
   .hero-text-container.mobile {
-    padding-top: 100px; /* Increase padding for mobile */
+    padding-top: 60px; /* Adjusted from 100px to 60px since we increased hero padding */
     text-align: center;
   }
 }
 
 @media (max-width: 768px) {
   .hero {
-    padding: 45px 1rem 2rem; /* Reduced from 60px to 45px */
+    padding: 100px 1rem 2rem; /* Increased top padding from 45px to 100px */
     margin-top: 0;
   }
 
@@ -622,13 +622,13 @@ body {
 
   .spline-container {
     height: 400px; /* Increased from 300px to 400px */
-    margin: 5rem 0; /* Increased top margin from 3rem to 5rem */
+    margin: 60px 0; /* Increased top margin from 5rem to 60px */
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    padding: 35px 1rem 2rem; /* Reduced from 50px to 35px */
+    padding: 90px 1rem 2rem; /* Increased from 35px to 90px */
     margin-top: 0;
   }
 }
@@ -846,21 +846,21 @@ body {
   position: absolute;
   bottom: 10px;
   right: -5px;
-  background: rgba(40, 40, 40, 0.8);
+  background: rgba(255, 255, 255, 0.8); /* Changed from dark to light background */
   backdrop-filter: blur(8px);
   padding: 1rem 1.5rem;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Changed border color */
+  color: #000000; /* Changed to black */
   z-index: 10;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 .model-overlay-container:hover {
-  background: rgba(50, 50, 50, 0.9);
+  background: rgba(255, 255, 255, 0.9); /* Changed from dark to light background */
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
 }
 
 .overlay-text {
@@ -896,4 +896,15 @@ body {
 /* Add dark mode override for button text */
 [data-theme='dark'] .button-text {
   color: var(--text-primary);
+}
+
+/* Add dark mode specific styles */
+[data-theme='dark'] .model-overlay-container {
+  background: rgba(40, 40, 40, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+[data-theme='dark'] .model-overlay-container:hover {
+  background: rgba(50, 50, 50, 0.9);
 }

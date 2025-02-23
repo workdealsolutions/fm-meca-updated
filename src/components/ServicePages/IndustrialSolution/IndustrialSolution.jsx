@@ -2,13 +2,14 @@ import React from 'react';
 import Navbar from '../../Navbar/Navbar';
 import Footer from '../../Footer/Footer';
 import './IndustrialSolution.css';
+import ComingSoon from '../ComingSoon';
 
 const IndustrialSolution = () => {
   return (
     <div className="service-page">
       <Navbar />
       <main className="service-content">
-        {/* Content will go here */}
+        <ComingSoon />
       </main>
       <Footer />
     </div>

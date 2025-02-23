@@ -310,7 +310,7 @@
 
 /* Add new rule for the third service image */
 .service-item:nth-child(3) .service-image {
-  width: 600px; /* Set a fixed width */
+  width: 601px; /* Set a fixed width */
   height: 450px; /* Set a fixed height */
   display: flex;
   align-items: center;
