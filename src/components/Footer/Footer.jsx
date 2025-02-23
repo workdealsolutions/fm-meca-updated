@@ -123,6 +123,7 @@ const Footer = () => {
       <div className="footer-bottom glass-effect">
         <div className="footer-bottom-content">
           <p>© {new Date().getFullYear()} FM MECA. {translations[language].rights}</p>
+          <p>Created by <a>workdealsolution@gmail.com</a></p>
         </div>
       </div>
     </footer>
