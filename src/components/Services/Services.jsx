@@ -325,7 +325,7 @@ const Services = () => {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <img 
-                  src={index === 0 ? "Alu profile equipment.6.png" : index === 1 ? "EVC-C3.1.png" : index === 2 ? "Docs mng.png" : "EVC-C2.1.png"} 
+                  src={index === 0 ? "Alu profile equipment.6.png" : index === 1 ? "EVC-C3.1.png" : index === 2 ? "" : "EVC-C2.1.png"} 
                   alt={service.title} 
                 />
               </motion.div>
