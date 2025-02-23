@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import React from 'react';
 import './ComingSoon.css'; // Import the CSS file
 
