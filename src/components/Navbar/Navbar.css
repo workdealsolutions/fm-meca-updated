@@ -20,19 +20,13 @@
   }
 
 .navbar.scrolled {
-    background: linear-gradient(
-        135deg,
-        rgba(30, 30, 30, 0.98) 0%,
-        rgba(10, 10, 10, 0.98) 50%,
-        rgba(0, 0, 0, 0.98) 100%
-    );
+    background: var(--nav-bg);
     box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.3),
         0 10px 40px -10px rgba(0, 0, 0, 0.4),
         inset 0 1px 1px rgba(255, 255, 255, 0.05);
     top: 10px; /* Slightly adjust position when scrolled */
     transform: translateY(-10px) scale(0.98);
-    background: rgba(0, 0, 0, 0.95);
 }
 
 .navbar-container {
@@ -55,17 +49,23 @@
     transform: scale(1.08);
 }
 
+/* Update nav links container to ensure single line */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 3rem;
+    gap: 2rem;
     align-items: center;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-    opacity: 1;  /* Ensure links are visible by default */
-    transform: translateX(0);  /* Reset default position */
+    justify-content: center;
+    height: 40px; /* Fixed height for the navbar */
 }
 
+/* Adjust individual nav items */
 .nav-links li a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.5rem;
+    white-space: nowrap;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -153,16 +153,14 @@
     }
 }
 
-.nav-links li a.active::before {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: rgb(88, 73, 73);
-    box-shadow: 0 0 8px rgb(88, 73, 73);
-    border-radius: 4px;
+/* Remove the arrow under active nav links */
+.nav-link.active::after {
+  display: none; /* This removes the underline arrow */
+}
+
+/* If you want to keep the hover effect but remove only the active state arrow */
+.nav-link.active::before {
+  display: none; /* This removes the underline arrow glow effect */
 }
 
 .nav-links button {
@@ -516,7 +514,7 @@
         background: transparent;
         border: none;
         box-shadow: none;
-        padding: 0;
+        padding: 0.5rem;
         margin: 0.5rem 0;
         width: 100%;
         position: static;
@@ -721,6 +719,14 @@
   min-height: 40px;
 }
 
+/* Remove column direction and adjust spacing */
+.nav-link {
+    flex-direction: row !important;
+    gap: 0.5rem;
+    height: 100%;
+    padding: 0 0.5rem !important;
+}
+
 .nav-text {
   position: relative;
   font-size: 0.9rem;
@@ -780,8 +786,8 @@
 }
 
 .nav-dropdown a:hover {
-  background: rgba(88, 73, 73, 0.1);
-  color: white;
+  background: rgba(255, 255, 255, 0.8); /* Keep background white with slight transparency */
+  color: rgb(88, 73, 73); /* Change text color to a darker shade */
 }
 
 /* Remove or comment out this block as it's causing the duplicate arrow */
@@ -822,8 +828,8 @@
 }
 
 .nav-dropdown a:hover {
-  background: rgba(88, 73, 73, 0.1);
-  color: white;
+  background: rgba(255, 255, 255, 0.8); /* Keep background white with slight transparency */
+  color: rgb(88, 73, 73); /* Change text color to a darker shade */
 }
 
 .nav-link {
@@ -839,14 +845,22 @@
   min-height: 40px;
 }
 
+/* Reset any absolute positioning of nav-text */
 .nav-text {
-  display: block;
-  font-size: 0.9rem;
-  color: var(--text-color);
-  transition: all 0.3s ease;
-  font-family: 'EB Garamond', serif;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+    position: relative !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    padding: 0 !important;
+    bottom: auto !important;
+    left: auto !important;
+    background: none !important;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
 .nav-link:hover {
@@ -860,6 +874,14 @@
 
 .has-dropdown .nav-link {
   padding-right: 1.5rem; /* Add space for the dropdown arrow */
+}
+
+/* Adjust dropdown positioning */
+.has-dropdown .nav-link {
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem !important;
 }
 
 .has-dropdown .nav-link::after {
@@ -943,8 +965,8 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: rgba(255, 255, 255, 0.8); /* Keep background white with slight transparency */
+  color: rgb(88, 73, 73); /* Change text color to a darker shade */
 }
 
 /* Mobile styles */
@@ -1127,6 +1149,18 @@
     visibility: visible;
     transform: translateX(-50%) translateY(10px);
   }
+}
+
+/* Remove arrow indicators under nav items */
+.nav-link.active::after,
+.nav-link.active::before,
+.has-dropdown .nav-link::after {
+    display: none !important;
+}
+
+/* Keep only the dropdown arrow */
+.dropdown-arrow {
+    display: inline-block;
 }
 
 /* Update the nav-link styles for dropdown items */
