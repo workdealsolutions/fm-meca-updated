@@ -29,7 +29,9 @@ router.post(
         const { title, description, budget, requirements } = req.body;
         try {
             await db.query(
-                'INSERT INTO project_requests (client_id, title, description, budget, requirements, status, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())',
+                `INSERT INTO project_requests
+                 (client_id, title, description, budget, requirements, status, created_at)
+                 VALUES (?, ?, ?, ?, ?, ?, NOW())`,
                 [req.user.id, title, description, budget, requirements, 'pending']
             );
             res.status(201).json({ message: 'Project request submitted successfully' });
@@ -50,8 +52,8 @@ router.patch(
     authorizeRole('admin'),
     [
         body('status')
-            .isIn(['approved', 'declined'])
-            .withMessage('Status must be either "approved" or "declined"'),
+            .isIn(['admin-approved', 'declined'])
+            .withMessage('Status must be either "admin-approved" or "declined"'),
         // adminFeedback is optional
     ],
     async (req, res) => {
@@ -76,7 +78,7 @@ router.patch(
 );
 
 /**
- * 3. Admin Final Review (Approve or Request Revision)
+ * 3. Admin Final Review (Mark as Completed or Revision Needed)
  *    PATCH /api/projects/:id/final-review
  */
 router.patch(
@@ -113,7 +115,7 @@ router.patch(
 /**
  * 4. Admin Assigns a Project with Steps
  *    PATCH /api/projects/:id/steps
- *    Here, we update the project with assignment details and store steps (as JSON)
+ *    Stores the steps as JSON in the project_requests table along with assignment details.
  */
 router.patch(
     '/projects/:id/steps',
@@ -133,7 +135,9 @@ router.patch(
         const projectId = req.params.id;
         try {
             await db.query(
-                'UPDATE project_requests SET steps = ?, status = ?, assignedTo = ?, deadline = ?, assignedDate = NOW() WHERE id = ?',
+                `UPDATE project_requests
+                 SET steps = ?, status = ?, assignedTo = ?, deadline = ?, assignedDate = NOW()
+                 WHERE id = ?`,
                 [JSON.stringify(steps), 'in-progress', coworkerId, deadline, projectId]
             );
             const [updatedProject] = await db.query('SELECT * FROM project_requests WHERE id = ?', [projectId]);
@@ -176,7 +180,7 @@ router.get(
         try {
             const [projects] = await db.query(
                 `SELECT pr.id, pr.title, pr.description, pr.budget, pr.requirements, pr.status, pr.created_at,
-                        pr.deadline, pr.assignedBy, pr.assignedDate
+                        pr.deadline, pr.assignedBy, pr.assignedDate, pr.steps
                  FROM project_requests pr
                  WHERE pr.assignedTo = ?`,
                 [req.user.id]
@@ -189,7 +193,6 @@ router.get(
     }
 );
 
-
 /**
  * 7. Client Views Their Own Project Requests
  *    GET /api/projects/my-requests
@@ -201,8 +204,7 @@ router.get(
     async (req, res) => {
         try {
             const [projects] = await db.query(
-                `SELECT id, title, description, budget, requirements, status, created_at
-                 FROM project_requests
+                `SELECT * FROM project_requests
                  WHERE client_id = ?`,
                 [req.user.id]
             );
@@ -215,8 +217,36 @@ router.get(
 );
 
 /**
- * 8. Coworker Submits a Step for Approval
+ * 8. Client Tracks Progress for All Their Projects
+ *    GET /api/projects/my-progress
+ *    Returns all projects (with steps stored as JSON) for the client.
+ */
+router.get(
+    '/projects/my-progress',
+    authenticateToken,
+    authorizeRole('client'),
+    async (req, res) => {
+        try {
+            const clientId = req.user.id;
+            const [projects] = await db.query(
+                `SELECT * FROM project_requests
+                 WHERE client_id = ?
+                 ORDER BY created_at`,
+                [clientId]
+            );
+            // Optionally, you can parse the steps JSON before sending, but many clients can parse JSON.
+            res.json({ projects });
+        } catch (err) {
+            console.error('Error fetching projects with progress:', err);
+            res.status(500).json({ error: 'Server error' });
+        }
+    }
+);
+
+/**
+ * 9. Coworker Submits a Step for Approval
  *    PUT /api/projects/:id/steps/:stepNumber
+ *    Updates the steps JSON in project_requests by modifying the step with the given stepNumber.
  */
 router.put(
     '/projects/:id/steps/:stepNumber',
@@ -224,34 +254,52 @@ router.put(
     authorizeRole('coworker'),
     async (req, res) => {
         const { id, stepNumber } = req.params;
+        const { content, projectUrl } = req.body;
         try {
-            const [step] = await db.query(
-                `SELECT ps.status FROM project_steps ps
-                                           JOIN project_assignments pa ON ps.project_id = pa.project_id
-                 WHERE ps.project_id = ? AND ps.step_number = ? AND pa.coworker_id = ?`,
-                [id, stepNumber, req.user.id]
-            );
-            if (step.length === 0) {
-                return res.status(404).json({ error: 'Step not found or not assigned to you' });
+            // Fetch the project
+            const [rows] = await db.query('SELECT steps FROM project_requests WHERE id = ?', [id]);
+            if (rows.length === 0) {
+                return res.status(404).json({ error: 'Project not found' });
             }
-            if (step[0].status !== 'pending') {
-                return res.status(400).json({ error: 'Step already completed or submitted' });
+            let steps = [];
+            if (rows[0].steps) {
+                try {
+                    steps = JSON.parse(rows[0].steps);
+                } catch (parseErr) {
+                    console.error('Error parsing steps JSON:', parseErr);
+                    return res.status(500).json({ error: 'Error parsing steps data' });
+                }
             }
+            // Find the step by step_number (assuming step_number is 1-indexed)
+            const stepIndex = steps.findIndex(step => step.step_number === parseInt(stepNumber, 10));
+            if (stepIndex === -1) {
+                return res.status(404).json({ error: 'Step not found' });
+            }
+            // Only update if current status is not already pending-review or approved
+            if (steps[stepIndex].status === 'pending-review' || steps[stepIndex].status === 'approved') {
+                return res.status(400).json({ error: 'Step already submitted or approved' });
+            }
+            // Update the step details
+            steps[stepIndex].status = 'pending-review';
+            steps[stepIndex].description = content; // update description with submitted content
+            steps[stepIndex].projectUrl = projectUrl;
+            // Update the project row with the new steps JSON
             await db.query(
-                `UPDATE project_steps SET status = 'pending' WHERE project_id = ? AND step_number = ?`,
-                [id, stepNumber]
+                'UPDATE project_requests SET steps = ? WHERE id = ?',
+                [JSON.stringify(steps), id]
             );
-            res.json({ message: `Step ${stepNumber} submitted for admin approval` });
+            res.json({ message: `Step ${stepNumber} submitted for review` });
         } catch (err) {
-            console.error('Error updating step:', err);
+            console.error('Error submitting step for review:', err);
             res.status(500).json({ error: 'Server error' });
         }
     }
 );
 
 /**
- * 9. Admin Approves a Step
- *    PUT /api/projects/:id/steps/:stepNumber/approve
+ * 10. Admin Approves a Step
+ *     PUT /api/projects/:id/steps/:stepNumber/approve
+ *     Updates the corresponding step's status to 'approved'. If this is the final step, update project status to 'completed'.
  */
 router.put(
     '/projects/:id/steps/:stepNumber/approve',
@@ -260,24 +308,39 @@ router.put(
     async (req, res) => {
         const { id, stepNumber } = req.params;
         try {
-            const [step] = await db.query(
-                `SELECT * FROM project_steps WHERE project_id = ? AND step_number = ?`,
-                [id, stepNumber]
-            );
-            if (step.length === 0) {
+            // Fetch the project
+            const [rows] = await db.query('SELECT steps FROM project_requests WHERE id = ?', [id]);
+            if (rows.length === 0) {
+                return res.status(404).json({ error: 'Project not found' });
+            }
+            let steps = [];
+            if (rows[0].steps) {
+                try {
+                    steps = JSON.parse(rows[0].steps);
+                } catch (parseErr) {
+                    console.error('Error parsing steps JSON:', parseErr);
+                    return res.status(500).json({ error: 'Error parsing steps data' });
+                }
+            }
+            const stepIndex = steps.findIndex(step => step.step_number === parseInt(stepNumber, 10));
+            if (stepIndex === -1) {
                 return res.status(404).json({ error: 'Step not found' });
             }
-            if (step[0].status === 'approved') {
+            if (steps[stepIndex].status === 'approved') {
                 return res.status(400).json({ error: 'Step already approved' });
             }
+            steps[stepIndex].status = 'approved';
+            // Update the project row with the new steps JSON
             await db.query(
-                `UPDATE project_steps SET status = 'approved' WHERE project_id = ? AND step_number = ?`,
-                [id, stepNumber]
+                'UPDATE project_requests SET steps = ? WHERE id = ?',
+                [JSON.stringify(steps), id]
             );
-            if (parseInt(stepNumber) === 5) {
+            // Optionally, if this is the final step (e.g., step_number equals the number of steps),
+            // update the project status to 'completed'.
+            if (parseInt(stepNumber, 10) === steps.length) {
                 await db.query(
-                    `UPDATE project_requests SET status = 'completed' WHERE id = ?`,
-                    [id]
+                    'UPDATE project_requests SET status = ? WHERE id = ?',
+                    ['completed', id]
                 );
             }
             res.json({ message: `Step ${stepNumber} approved` });
@@ -287,106 +350,6 @@ router.put(
         }
     }
 );
-
-/**
- * 10. Coworker Views Steps for a Project
- *     GET /api/projects/:id/steps
- */
-router.get(
-    '/projects/:id/steps',
-    authenticateToken,
-    authorizeRole('coworker'),
-    async (req, res) => {
-        const { id } = req.params;
-        try {
-            const [steps] = await db.query(
-                `SELECT ps.step_number, ps.status
-                 FROM project_steps ps
-                          JOIN project_assignments pa ON ps.project_id = pa.project_id
-                 WHERE ps.project_id = ? AND pa.coworker_id = ?`,
-                [id, req.user.id]
-            );
-            res.json({ steps });
-        } catch (err) {
-            console.error('Error fetching project steps:', err);
-            res.status(500).json({ error: 'Server error' });
-        }
-    }
-);
-
-/**
- * 11. Admin Views Pending Steps
- *     GET /api/projects/pending-steps
- */
-router.get(
-    '/projects/pending-steps',
-    authenticateToken,
-    authorizeRole('admin'),
-    async (req, res) => {
-        try {
-            const [pendingSteps] = await db.query(
-                `SELECT ps.id, ps.project_id, ps.step_number, ps.status,
-                        pr.title AS project_title, u.username AS coworker_name
-                 FROM project_steps ps
-                          JOIN project_requests pr ON ps.project_id = pr.id
-                          JOIN project_assignments pa ON ps.project_id = pa.project_id
-                          JOIN users u ON pa.coworker_id = u.id
-                 WHERE ps.status = 'pending'`
-            );
-            res.json({ pendingSteps });
-        } catch (err) {
-            console.error('Error fetching pending steps:', err);
-            res.status(500).json({ error: 'Server error' });
-        }
-    }
-);
-
-/**
- * 12. Client Views Steps for Their Project
- *     GET /api/projects/:id/steps/client-view
- */
-router.get(
-    '/projects/:id/steps/client-view',
-    authenticateToken,
-    authorizeRole('client'),
-    async (req, res) => {
-        const { id } = req.params;
-        try {
-            const [project] = await db.query(
-                `SELECT * FROM project_requests WHERE id = ? AND client_id = ?`,
-                [id, req.user.id]
-            );
-            if (project.length === 0) {
-                return res.status(404).json({ error: 'Project not found or not assigned to you' });
-            }
-            const [steps] = await db.query(
-                `SELECT step_number, status 
-         FROM project_steps
-         WHERE project_id = ?
-         ORDER BY step_number ASC`,
-                [id]
-            );
-            let currentStep = null;
-            for (let step of steps) {
-                if (step.status === 'pending') {
-                    currentStep = step.step_number;
-                    break;
-                }
-            }
-            res.json({
-                project_id: id,
-                title: project[0].title,
-                status: project[0].status,
-                steps,
-                currentStep: currentStep ? `Step ${currentStep} is in progress` : 'Project completed'
-            });
-        } catch (err) {
-            console.error('Error fetching project steps for client:', err);
-            res.status(500).json({ error: 'Server error' });
-        }
-    }
-);
-
 /**
  * 13. Fetch All Coworkers (Admin Only)
  *     GET /api/coworkers
@@ -424,5 +387,6 @@ router.get(
         }
     }
 );
+
 
 module.exports = router;

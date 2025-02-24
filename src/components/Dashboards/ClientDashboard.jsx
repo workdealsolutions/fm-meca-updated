@@ -5,7 +5,7 @@ import ProjectCard from '../ProjectCard/ProjectCard';
 import Messages from '../Messages/Messages';
 import Profile from '../Profile/Profile';
 import SampleProjects from '../SampleProjects/SampleProjects';
-import ProjectStepsDisplay from '../ProjectStepsDisplay/ProjectStepsDisplay'; // Import the new component
+import ProjectStepsDisplay from '../ProjectStepsDisplay/ProjectStepsDisplay';
 import './ClientDashboard.css';
 
 const getProgressColor = (progress) => {
@@ -14,11 +14,18 @@ const getProgressColor = (progress) => {
   return '#FF5722';
 };
 
+// Updated to calculate progress using the steps in the project (using "approved" as completed)
+const calculateProgress = (project) => {
+  if (!project.steps || project.steps.length === 0) return 0;
+  const completedStepsCount = project.steps.filter(step => step.status === 'approved').length;
+  return (completedStepsCount / project.steps.length) * 100;
+};
+
 const ClientDashboard = ({ user, setProjects, sendNotification }) => {
   const { isDark } = useTheme();
   const theme = isDark ? 'dark' : 'light';
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('projects'); // default tab
+  const [activeTab, setActiveTab] = useState('projects'); // default tab remains "projects"
   const [projects, setLocalProjects] = useState([]); // dynamic projects state
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [inputMethod, setInputMethod] = useState('manual');
@@ -49,7 +56,19 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
         }
 
         const data = await response.json();
-        setLocalProjects(data.projects);
+        // If steps are stored as a JSON string, parse them
+        const parsedProjects = data.projects.map(project => {
+          if (project.steps && typeof project.steps === 'string') {
+            try {
+              project.steps = JSON.parse(project.steps);
+            } catch (e) {
+              console.error('Error parsing steps for project', project.id, e);
+              project.steps = [];
+            }
+          }
+          return project;
+        });
+        setLocalProjects(parsedProjects);
       } catch (error) {
         console.error("Error fetching projects:", error);
       } finally {
@@ -161,14 +180,6 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
     });
   };
 
-  const calculateProgress = (project) => {
-    if (!project.steps || project.steps.length === 0) {
-      return 0;
-    }
-    const completedStepsCount = project.completedSteps ? project.completedSteps.length : 0;
-    return (completedStepsCount / project.steps.length) * 100;
-  };
-
   const renderNewProjectSection = () => (
       <div className={`new-project-section ${theme}`}>
         <h2>Submit New Project</h2>
@@ -259,6 +270,9 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
       </div>
   );
 
+  // Render content based on the active tab.
+  // The "projects" tab remains as originally provided (using SampleProjects),
+  // and the "progress" tab shows each project's progress with completion percentage.
   const renderContent = () => {
     switch (activeTab) {
       case 'profile':
@@ -276,7 +290,7 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
                     <ProjectStepsDisplay
                         theme={theme}
                         steps={project.steps}
-                        completedSteps={project.completedSteps || []}
+                        completedSteps={project.steps ? project.steps.filter(step => step.status === 'approved').map(step => step.id) : []}
                     />
                   </div>
               ))}
@@ -284,7 +298,7 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
         );
       case 'new':
         return renderNewProjectSection();
-      default: // 'projects' tab
+      default: // 'projects' tab remains unchanged
         return (
             <div className="projects-section">
               <h2>My Projects</h2>

@@ -28,8 +28,19 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
       try {
         const config = getAuthConfig();
         const response = await axios.get('http://localhost:5000/api/projects/assigned', config);
-        // Assuming response.data.projects contains an array of projects
-        setProjects(response.data.projects);
+        // If steps are stored as JSON strings, parse them here
+        const projectsData = response.data.projects.map((project) => {
+          if (project.steps && typeof project.steps === 'string') {
+            try {
+              project.steps = JSON.parse(project.steps);
+            } catch (e) {
+              console.error(`Error parsing steps for project ${project.id}:`, e);
+              project.steps = [];
+            }
+          }
+          return project;
+        });
+        setProjects(projectsData);
       } catch (error) {
         console.error('Error fetching assigned projects:', error);
       }
@@ -51,9 +62,7 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
   const handleStepComplete = async (projectId, stepIndex, content, projectUrl) => {
     try {
       const config = getAuthConfig();
-      // Assuming your backend endpoint to update a step is:
-      // PUT /api/projects/:id/steps/:stepNumber
-      // We add 1 to stepIndex (since steps are numbered starting at 1)
+      // Endpoint expects stepNumber to be 1-indexed.
       await axios.put(
           `http://localhost:5000/api/projects/${projectId}/steps/${stepIndex + 1}`,
           { content, projectUrl },
@@ -84,16 +93,23 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
     }
   };
 
+  // Helper to safely format dates; returns "N/A" if date is missing
+  const formatDate = (dateStr) => {
+    return dateStr ? new Date(dateStr).toLocaleDateString() : 'N/A';
+  };
+
   // Render the project card for each project
   const renderProjectContent = (project) => {
-    const completedSteps = project.steps ? project.steps.filter(step => step.status === 'completed').length : 0;
-    const progress = project.steps && project.steps.length ? (completedSteps / project.steps.length) * 100 : 0;
+    const completedStepsCount = project.steps ? project.steps.filter(step => step.status === 'approved').length : 0;
+    const progress = project.steps && project.steps.length ? (completedStepsCount / project.steps.length) * 100 : 0;
     return (
         <div className="project-card" key={project.id}>
           <div className="project-header">
             <h3>{project.title}</h3>
             <div className="project-details">
-              <span className="deadline">Deadline: {new Date(project.deadline).toLocaleDateString()}</span>
+            <span className="deadline">
+              Deadline: {formatDate(project.deadline)}
+            </span>
               <span className="project-status" data-status={project.status}>
               Status: {project.status}
             </span>
@@ -103,8 +119,8 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
             <p>{project.description}</p>
           </div>
           <div className="project-meta">
-            <span>Assigned by: {project.assignedBy}</span>
-            <span>Date Assigned: {new Date(project.assignedDate).toLocaleDateString()}</span>
+            <span>Assigned by: {project.assignedBy || 'N/A'}</span>
+            <span>Date Assigned: {formatDate(project.assignedDate)}</span>
           </div>
           {/* Display progress and steps if the project is not pending */}
           {project.status !== 'pending' && project.steps && (
