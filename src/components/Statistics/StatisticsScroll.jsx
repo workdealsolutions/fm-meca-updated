@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf6d65c27f3ff2eb03eaa3207fec06cd90ed5f1b
 
 import ScrollReveal from 'scrollreveal';
 
@@ -37,4 +41,9 @@ const initializeScrollReveal = () => {
   });
 };
 
+<<<<<<< HEAD
 export default initializeScrollReveal;
+=======
+
+export default initializeScrollReveal;
+>>>>>>> cf6d65c27f3ff2eb03eaa3207fec06cd90ed5f1b

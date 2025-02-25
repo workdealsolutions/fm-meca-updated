@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf6d65c27f3ff2eb03eaa3207fec06cd90ed5f1b
 import React from 'react';
 import Navbar from '../../Navbar/Navbar';
 import Footer from '../../Footer/Footer';
@@ -17,3 +21,7 @@ const IndustrialSolution = () => {
 };
 
 export default IndustrialSolution;
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf6d65c27f3ff2eb03eaa3207fec06cd90ed5f1b

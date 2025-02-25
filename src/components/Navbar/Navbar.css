@@ -860,7 +860,11 @@
     font-size: 0.9rem;
     color: var(--text-color);
     transition: all 0.3s ease;
+<<<<<<< HEAD
     font-family: 'Montserrat', sans-serif;
+=======
+    font-family: 'EB Garamond', serif;
+>>>>>>> cf6d65c27f3ff2eb03eaa3207fec06cd90ed5f1b
     font-weight: 500;
     letter-spacing: 0.5px;
 }
