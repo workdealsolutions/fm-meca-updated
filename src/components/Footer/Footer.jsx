@@ -3,10 +3,12 @@ import { FiMail, FiPhone, FiMapPin, FiArrowUpRight } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
 import './Footer.css';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const Footer = () => {
   const { isDark } = useTheme();
   const { language, translations } = useLanguage();
+  const isMobile = useIsMobile();
 
   const contactInfo = [
     {
@@ -46,7 +48,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="footer">
+    <footer className={`footer ${isMobile ? 'footer-mobile' : ''}`}>
       <div className={`footer-container ${isDark ? 'dark' : 'light'}`}>
         <div className="footer-section brand-section">
           <img src="/jpg_to_png-removebg-preview.png" alt="FM MECA" className="footer-logo" />
@@ -123,6 +125,7 @@ const Footer = () => {
       <div className="footer-bottom glass-effect">
         <div className="footer-bottom-content">
           <p>© {new Date().getFullYear()} FM MECA. {translations[language].rights}</p>
+          <p>Created by <a>workdealsolution@gmail.com</a></p>
         </div>
       </div>
     </footer>

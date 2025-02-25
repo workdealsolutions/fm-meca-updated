@@ -622,6 +622,16 @@ h2, h3, h4, p, strong {
   text-align: center;
 }
 
+.dashboard-container.light .progress-tracking-section h3,
+.dashboard-container.light .progress-tracking-section p {
+  color: #000000;
+}
+
+.dashboard-container.dark .progress-tracking-section h3,
+.dashboard-container.dark .progress-tracking-section p {
+  color: #ffffff;
+}
+
 @media (max-width: 768px) {
   .dashboard-container.mobile {
     flex-direction: column;

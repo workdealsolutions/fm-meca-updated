@@ -15,6 +15,7 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
   const [activeTab, setActiveTab] = useState('projects'); // Tabs: 'projects', 'inProgress', 'pending', 'completed', 'profile'
   const [projects, setProjects] = useState([]); // Fetched from backend
   const [stepContent, setStepContent] = useState({}); // To hold submission text, URL, and files
+  const [expandedSteps, setExpandedSteps] = useState({});
 
   // Helper: Get auth configuration
   const getAuthConfig = () => {
@@ -84,6 +85,14 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
     }
   };
 
+  // Add this new function to toggle step expansion
+  const toggleStepExpansion = (projectId, stepIndex) => {
+    setExpandedSteps(prev => ({
+      ...prev,
+      [`${projectId}-${stepIndex}`]: !prev[`${projectId}-${stepIndex}`]
+    }));
+  };
+
   // Render the project card for each project
   const renderProjectContent = (project) => {
     const completedSteps = project.steps ? project.steps.filter(step => step.status === 'completed').length : 0;
@@ -118,84 +127,137 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
                 <div className="project-steps">
                   {project.steps.map((step, index) => (
                       <div key={index} className={`step-card ${step.status}`}>
-                        <h4>Step {index + 1}: {step.title}</h4>
-                        <p>{step.description}</p>
-                        {step.status === 'in-progress' && (
-                            <div className="step-submission">
-                      <textarea
-                          placeholder="Describe your work for this step..."
-                          onChange={(e) =>
-                              setStepContent(prev => ({
-                                ...prev,
-                                [project.id]: { ...prev[project.id], text: e.target.value }
-                              }))
-                          }
-                      />
-                              <input
-                                  type="url"
-                                  placeholder="Enter project URL"
-                                  onChange={(e) =>
+                        <div 
+                          className="step-header" 
+                          onClick={() => toggleStepExpansion(project.id, index)}
+                        >
+                          <h4>Step {index + 1}: {step.title}</h4>
+                          <span className="expand-icon">
+                            {expandedSteps[`${project.id}-${index}`] ? '▼' : '▶'}
+                          </span>
+                        </div>
+                        
+                        {expandedSteps[`${project.id}-${index}`] && (
+                          <div className="step-content">
+                            <p>{step.description}</p>
+                            {step.requirements && (
+                              <div className="step-requirements">
+                                <h5>Requirements:</h5>
+                                <ul>
+                                  {step.requirements.map((req, reqIndex) => (
+                                    <li key={reqIndex}>{req}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            
+                            {step.status === 'in-progress' && (
+                              <div className="step-submission">
+                                <div className="submission-form">
+                                  <label>Description of Work:</label>
+                                  <textarea
+                                    placeholder="Describe how you completed this step..."
+                                    onChange={(e) =>
                                       setStepContent(prev => ({
                                         ...prev,
-                                        [project.id]: { ...prev[project.id], projectUrl: e.target.value }
+                                        [project.id]: { 
+                                          ...prev[project.id], 
+                                          text: e.target.value 
+                                        }
                                       }))
-                                  }
-                              />
-                              <input
-                                  type="file"
-                                  multiple
-                                  onChange={(e) => handleFileUpload(project.id, e.target.files)}
-                              />
-                              <button
-                                  onClick={() =>
+                                    }
+                                    value={stepContent[project.id]?.text || ''}
+                                  />
+                                  
+                                  <label>Project URL:</label>
+                                  <input
+                                    type="url"
+                                    placeholder="https://..."
+                                    onChange={(e) =>
+                                      setStepContent(prev => ({
+                                        ...prev,
+                                        [project.id]: { 
+                                          ...prev[project.id], 
+                                          projectUrl: e.target.value 
+                                        }
+                                      }))
+                                    }
+                                    value={stepContent[project.id]?.projectUrl || ''}
+                                  />
+                                  
+                                  <label>Supporting Files (optional):</label>
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={(e) => handleFileUpload(project.id, e.target.files)}
+                                  />
+                                  
+                                  <button
+                                    className="submit-step-btn"
+                                    onClick={() =>
                                       handleStepComplete(
-                                          project.id,
-                                          index,
-                                          stepContent[project.id]?.text,
-                                          stepContent[project.id]?.projectUrl
+                                        project.id,
+                                        index,
+                                        stepContent[project.id]?.text,
+                                        stepContent[project.id]?.projectUrl
                                       )
-                                  }
-                              >
-                                Submit for Review
-                              </button>
-                            </div>
-                        )}
-                        {step.status === 'pending-review' && (
-                            <div className="step-status">
-                              <p>Waiting for admin review...</p>
-                              {step.projectUrl && (
-                                  <p>
-                                    Project URL:{' '}
-                                    <a href={step.projectUrl} target="_blank" rel="noopener noreferrer">
-                                      {step.projectUrl}
-                                    </a>
-                                  </p>
-                              )}
-                            </div>
-                        )}
-                        {step.status === 'revision-needed' && (
-                            <div className="step-feedback">
-                              <p>Revision needed: {step.feedback}</p>
-                              <button
-                                  onClick={() => {
-                                    // Reset step status to in-progress for revision
-                                    setProjects(prevProjects =>
+                                    }
+                                    disabled={
+                                      !stepContent[project.id]?.text || 
+                                      !stepContent[project.id]?.projectUrl
+                                    }
+                                  >
+                                    Submit for Review
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+
+                            {step.status === 'pending-review' && (
+                              <div className="step-status pending">
+                                <p>Under Review</p>
+                                <div className="submission-details">
+                                  <p>Submitted work: {step.submission}</p>
+                                  {step.projectUrl && (
+                                    <p>
+                                      Project URL:{' '}
+                                      <a href={step.projectUrl} target="_blank" rel="noopener noreferrer">
+                                        {step.projectUrl}
+                                      </a>
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {step.status === 'revision-needed' && (
+                              <div className="step-feedback">
+                                <div className="feedback-content">
+                                  <h5>Revision Required</h5>
+                                  <p>{step.feedback}</p>
+                                  <button
+                                    className="revision-btn"
+                                    onClick={() => {
+                                      setProjects(prevProjects =>
                                         prevProjects.map(p =>
-                                            p.id === project.id
-                                                ? {
-                                                  ...p,
-                                                  steps: p.steps.map((s, i) =>
-                                                      i === index ? { ...s, status: 'in-progress' } : s
-                                                  )
-                                                }
-                                                : p
+                                          p.id === project.id
+                                            ? {
+                                                ...p,
+                                                steps: p.steps.map((s, i) =>
+                                                  i === index ? { ...s, status: 'in-progress' } : s
+                                                )
+                                              }
+                                            : p
                                         )
-                                    );
-                                  }}
-                              >
-                                Start Revision
-                              </button>
-                            </div>
+                                      );
+                                    }}
+                                  >
+                                    Start Revision
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         )}
                       </div>
                   ))}

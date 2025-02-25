@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaUser, FaUserTie, FaUsers, FaEnvelope, FaLock, FaGoogle, FaBuilding, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaUser, FaUserTie, FaUsers, FaEnvelope, FaLock, FaGoogle, FaBuilding } from 'react-icons/fa';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import './Login.css';
 import './SignUp.css';
@@ -17,8 +17,6 @@ const SignUp = ({ onSignUp, onGoogleSignUp, onCompanySignUp }) => {
     lastName: '',
   });
   const [focusedField, setFocusedField] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -162,11 +160,7 @@ const SignUp = ({ onSignUp, onGoogleSignUp, onCompanySignUp }) => {
                 <Icon className="input-icon" />
                 <motion.input
                   {...field}
-                  type={
-                    field.type === 'password'
-                      ? (field.name === 'password' ? (showPassword ? 'text' : 'password') : (showConfirmPassword ? 'text' : 'password'))
-                      : field.type
-                  }
+                  type={field.type}
                   value={formData[field.name]}
                   onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
                   onFocus={() => setFocusedField(field.name)}
@@ -175,21 +169,6 @@ const SignUp = ({ onSignUp, onGoogleSignUp, onCompanySignUp }) => {
                     scale: focusedField === field.name ? 1.02 : 1
                   }}
                 />
-                {field.type === 'password' && (
-                  <button
-                    type="button"
-                    className="password-toggle"
-                    onClick={() => field.name === 'password' 
-                      ? setShowPassword(!showPassword)
-                      : setShowConfirmPassword(!showConfirmPassword)
-                    }
-                  >
-                    {field.name === 'password' 
-                      ? (showPassword ? <FaEyeSlash /> : <FaEye />)
-                      : (showConfirmPassword ? <FaEyeSlash /> : <FaEye />)
-                    }
-                  </button>
-                )}
               </div>
             </motion.div>
           ))}

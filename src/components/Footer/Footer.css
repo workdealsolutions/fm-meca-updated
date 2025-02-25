@@ -296,4 +296,58 @@
         border-bottom: none; /* Remove border from last section */
         margin-bottom: 0;
     }
+
+    .footer {
+        padding: 1rem; /* Reduced padding for mobile */
+        margin: 1rem 0; /* Reduced margin for mobile */
+        border-radius: 16px; /* Further reduced border-radius for mobile */
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 2rem; /* Reduced gap for mobile */
+        padding: 1.5rem; /* Reduced padding for mobile */
+    }
+
+    .footer-section {
+        margin-bottom: 1.5rem; /* Reduced margin for mobile */
+        padding: 1rem; /* Reduced padding for mobile */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Added horizontal separator for mobile */
+    }
+
+    .footer-section:not(:last-child)::after {
+        display: none; /* Remove vertical separator on mobile */
+    }
+
+    .footer-section:last-child {
+        border-bottom: none; /* Remove border from last section */
+        margin-bottom: 0;
+    }
+
+    .modern-text {
+        font-size: 1.5rem; /* Reduced font size for mobile */
+    }
+
+    .subtitle {
+        font-size: 0.9rem; /* Reduced font size for mobile */
+    }
+
+    .section-title {
+        font-size: 1.1rem; /* Reduced font size for mobile */
+        margin-bottom: 1rem; /* Reduced margin for mobile */
+    }
+
+    .contact-item {
+        padding: 0.75rem; /* Reduced padding for mobile */
+    }
+
+    .service-item {
+        padding: 0.75rem; /* Reduced padding for mobile */
+    }
+
+    .footer-bottom {
+        padding: 1rem; /* Reduced padding for mobile */
+        font-size: 0.8rem; /* Reduced font size for mobile */
+        border-radius: 16px; /* Reduced border-radius for mobile */
+    }
 }

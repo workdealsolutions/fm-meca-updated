@@ -131,7 +131,7 @@ const Hero = () => {
           </motion.div>
           
           {/* Right column - Model and cards */}
-          <div className={`hero-right-column ${isMobile ? 'mobile' : ''}`}>
+          <div className={`hero-right-column ${isMobile ? 'mobile' : ''}`} style={{ gap: isMobile ? '10px' : '20px' }}>
             <motion.div 
               className="spline-container"
               initial={{ opacity: 0 }}

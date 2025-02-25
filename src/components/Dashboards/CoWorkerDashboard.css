@@ -602,3 +602,103 @@ button:hover {
 .dashboard-container[data-theme="dark"] .project-card .project-header h3 {
   color: #ffffff;
 }
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.step-header:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.expand-icon {
+  font-size: 0.8em;
+  transition: transform 0.2s ease;
+}
+
+.step-content {
+  padding: 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.step-requirements {
+  margin: 15px 0;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
+
+.step-requirements h5 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.step-requirements ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.step-requirements li {
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.step-requirements li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #3498db;
+}
+
+.submission-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.submission-form label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #2c3e50;
+}
+
+.submit-step-btn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+.step-status.pending {
+  background: #fff8e1;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.submission-details {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+}
+
+.feedback-content {
+  background: #ffebee;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.revision-btn {
+  margin-top: 10px;
+  background: #e74c3c;
+}
+
+.revision-btn:hover {
+  background: #c0392b;
+}
