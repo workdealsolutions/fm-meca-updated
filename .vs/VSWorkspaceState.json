@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\Hero",
+    "\\src\\components\\Navbar",
+    "\\src\\components\\ProjectStepsDisplay",
+    "\\src\\components\\ServicePages",
+    "\\src\\components\\ServicePages\\EngineeringData",
+    "\\src\\components\\ServicePages\\IndustrialSolution",
+    "\\src\\components\\ServicePages\\ProductDevelopment"
+  ],
+  "SelectedNode": "\\src\\components\\Hero\\Hero.css",
+  "PreviewInSolutionExplorer": false
+}

@@ -94,18 +94,12 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
     }
   };
 
-<<<<<<< HEAD
   // Add this new function to toggle step expansion
   const toggleStepExpansion = (projectId, stepIndex) => {
     setExpandedSteps(prev => ({
       ...prev,
       [`${projectId}-${stepIndex}`]: !prev[`${projectId}-${stepIndex}`]
     }));
-=======
-  // Helper to safely format dates; returns "N/A" if date is missing
-  const formatDate = (dateStr) => {
-    return dateStr ? new Date(dateStr).toLocaleDateString() : 'N/A';
->>>>>>> cf6d65c27f3ff2eb03eaa3207fec06cd90ed5f1b
   };
 
   // Render the project card for each project
