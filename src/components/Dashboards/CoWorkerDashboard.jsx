@@ -34,6 +34,11 @@ const CoWorkerDashboard = ({
   const [expandedSteps, setExpandedSteps] = useState({});
   const [currentStep, setCurrentStep] = useState({}); // Track current active step for each project
 
+// Define the formatDate function at the top of the CoWorkerDashboard component
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   // Helper: Get auth configuration
   const getAuthConfig = () => {
     const token = localStorage.getItem('authToken');
@@ -171,6 +176,7 @@ const CoWorkerDashboard = ({
       }
     }
   };
+  
 
   // Add this new function to toggle step expansion
   const toggleStepExpansion = (projectId, stepIndex) => {
@@ -292,6 +298,9 @@ const CoWorkerDashboard = ({
   );
 
   // Update the renderProjectContent function to use the new renderSteps
+  };
+
+  // Render the project card for each project
   const renderProjectContent = (project) => {
     const completedStepsCount = project.steps ? project.steps.filter(step => step.status === 'approved').length : 0;
     const progress = project.steps && project.steps.length ? (completedStepsCount / project.steps.length) * 100 : 0;
@@ -393,6 +402,6 @@ const CoWorkerDashboard = ({
       </div>
     </div>
   );
-};
+;
 
 export default CoWorkerDashboard;
