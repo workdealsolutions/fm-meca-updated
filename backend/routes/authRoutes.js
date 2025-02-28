@@ -113,11 +113,6 @@ router.post(
     }
 );
 
-// **3. Protected Route Example**
-router.get('/profile', authenticateToken, (req, res) => {
-    res.json({ message: 'This is a protected route', user: req.user });
-});
-
 // ------------------- MIDDLEWARE ------------------- //
 
 // **Authenticate Token**
@@ -149,8 +144,75 @@ function authorizeRole(requiredRole) {
 }
 
 // **Example Admin-only Route**
-router.get('/admin-dashboard', authenticateToken, authorizeRole('admin'), (req, res) => {
-    res.json({ message: 'Welcome to the admin dashboard!' });
+router.put('/update-profile', authenticateToken, async (req, res) => {
+    const { name, email, avatar, currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    try {
+        // Get current user data
+        const [users] = await db.query('SELECT * FROM users WHERE id = ?', [userId]);
+        if (users.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const user = users[0];
+        let updates = {};
+
+        // Validate current password if attempting to change password
+        if (currentPassword && newPassword) {
+            const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+            if (!isValidPassword) {
+                return res.status(400).json({ error: 'Current password is incorrect' });
+            }
+            updates.password = await bcrypt.hash(newPassword, 10);
+        }
+
+        // Update basic info
+        if (name) {
+            const [firstName, ...lastNameParts] = name.split(' ');
+            updates.firstname = firstName;
+            updates.lastname = lastNameParts.join(' ');
+        }
+        if (email) updates.email = email;
+        if (avatar) updates.avatar = avatar;
+
+        // Build the SQL query dynamically
+        const entries = Object.entries(updates);
+        if (entries.length === 0) {
+            return res.status(400).json({ error: 'No updates provided' });
+        }
+
+        const query = `
+      UPDATE users 
+      SET ${entries.map(([key]) => `${key} = ?`).join(', ')}
+      WHERE id = ?
+    `;
+
+        await db.query(query, [...entries.map(([_, value]) => value), userId]);
+
+        res.json({ message: 'Profile updated successfully' });
+    } catch (err) {
+        console.error('Error updating profile:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+router.get('/profile', authenticateToken, async (req, res) => {
+    try {
+        const [users] = await db.query('SELECT * FROM users WHERE id = ?', [req.user.id]);
+
+        if (users.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const user = users[0];
+        // Remove sensitive information
+        delete user.password;
+
+        res.json(user);
+    } catch (err) {
+        console.error('Error fetching profile:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
 });
 
 module.exports = router;

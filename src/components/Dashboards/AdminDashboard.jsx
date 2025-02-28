@@ -206,18 +206,44 @@ const AdminDashboard = ({ sendNotification }) => {
   const handleTabChange = (tab) => { setActiveTab(tab); closeMobileMenu(); };
 
   // Sample admin info (replace with your actual admin data)
-  const adminInfo = {
-    name: "David Smith",
-    email: "david.smith@example.com",
-    avatar: "/path-to-admin-image.jpg",
-    role: "Administrator"
-  };
+  const [adminData, setAdminData] = useState({
+    name: "",
+    email: "",
+    avatar: "",
+    role: "admin"
+  });
+
+// Add a new useEffect to fetch admin data
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        const response = await axios.get('http://localhost:5000/api/auth/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const user = response.data;
+        setAdminData({
+          name: `${user.firstname} ${user.lastname}`,
+          email: user.email,
+          avatar: user.avatar || "/default-avatar.png",
+          role: user.role
+        });
+      } catch (error) {
+        console.error('Error fetching admin data:', error);
+      }
+    };
+
+    fetchAdminData();
+  }, []);
 
   // Render project card
   const renderProjectCard = (project) => (
       <div className={`project-card ${theme}`} key={project.id}>
         <div className="project-header">
-          <h4 className={theme}>{project.client}</h4>
+          <h4 className={theme}>{project.title}</h4>
           <div className="header-right">
             {project.status === 'completed-pending-review' && project.completedWorkUrl && (
                 <span className={`url-indicator ${theme}`}>📎 Work Attached</span>
@@ -258,8 +284,11 @@ const AdminDashboard = ({ sendNotification }) => {
     if (showSettings) {
       return (
           <ProfileSettings
-              admin={adminInfo}
-              onSave={() => setShowSettings(false)}
+              admin={adminData}
+              onSave={(updatedData) => {
+                setAdminData(updatedData);
+                setShowSettings(false);
+              }}
               onBack={() => setShowSettings(false)}
           />
       );
@@ -294,8 +323,8 @@ const AdminDashboard = ({ sendNotification }) => {
         <Sidebar
             activeTab={activeTab}
             setActiveTab={handleTabChange}
-            adminName={adminInfo.name}
-            adminImage={adminInfo.avatar}
+            adminName={adminData.name}
+            adminImage={adminData.avatar}
             coworkers={coworkers}
             clients={clients}
             onCoworkerSelect={(cw) => { setSelectedCoworker(cw); closeMobileMenu(); }}

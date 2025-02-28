@@ -16,7 +16,11 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
   const [projects, setProjects] = useState([]); // Fetched from backend
   const [stepContent, setStepContent] = useState({}); // To hold submission text, URL, and files
   const [expandedSteps, setExpandedSteps] = useState({});
-
+// Define the formatDate function at the top of the CoWorkerDashboard component
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   // Helper: Get auth configuration
   const getAuthConfig = () => {
     const token = localStorage.getItem('authToken');
