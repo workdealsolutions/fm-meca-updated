@@ -6,6 +6,7 @@ import Messages from '../Messages/Messages';
 import Profile from '../Profile/Profile';
 import SampleProjects from '../SampleProjects/SampleProjects';
 import ProjectStepsDisplay from '../ProjectStepsDisplay/ProjectStepsDisplay';
+import NotificationIcon from '../Notifications/NotificationIcon';
 import './ClientDashboard.css';
 
 const getProgressColor = (progress) => {
@@ -36,6 +37,7 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
     budget: '',
     requirements: ''
   });
+  const [notifications, setNotifications] = useState([]);
 
   // Fetch projects from the backend endpoint
   useEffect(() => {
@@ -78,6 +80,47 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
 
     fetchProjects();
   }, []);
+
+  // Add this useEffect for fetching notifications
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        const response = await fetch('http://localhost:5000/api/notifications', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+        setNotifications(data.notifications);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleNotificationRead = async (notificationId) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      await fetch(`http://localhost:5000/api/notifications/${notificationId}/read`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setNotifications(prev => 
+        prev.map(notif => 
+          notif.id === notificationId ? { ...notif, read: true } : notif
+        )
+      );
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -333,6 +376,13 @@ const ClientDashboard = ({ user, setProjects, sendNotification }) => {
             setIsOpen={setSidebarOpen}
         />
         <div className={`main-content ${theme}`}>
+          <div className="dashboard-header">
+            <h2>{activeTab === 'profile' ? 'Profile Settings' : 'My Projects'}</h2>
+            <NotificationIcon 
+              notifications={notifications}
+              onNotificationRead={handleNotificationRead}
+            />
+          </div>
           {renderContent()}
         </div>
       </div>

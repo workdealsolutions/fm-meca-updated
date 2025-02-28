@@ -1124,30 +1124,59 @@
 
 .step-item {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   margin-bottom: 20px;
   align-items: flex-start;
   width: 100%;
+  position: relative;
 }
 
 .step-item textarea {
   flex: 1;
-  min-height: 100px; /* Increased height */
-  padding: 15px;
+  min-height: 50px;
+  padding: 12px;
   border-radius: 8px;
   resize: vertical;
   font-size: 1rem;
   line-height: 1.5;
-  width: 100%;
+  min-width: 400px;
+  width: 50%; /* Adjusted to account for remove button */
 }
 
 .remove-step {
-  min-width: 80px;
+  min-width: 60px;
+  width: 60px;
   height: 36px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  border-radius: 6px;
+  margin-left: auto; /* Push button to the right */
+  position: relative;
+  top: 0;
+}
+
+/* Theme variations for the step items */
+.step-item textarea.light {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  color: #333333;
+}
+
+.step-item textarea.dark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.step-item textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 .step-actions {
@@ -1233,26 +1262,49 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow: hidden;
 }
 
 .modal-content {
   width: 90%;
-  max-width: 600px;
+  max-width: 800px;
+  max-height: 90vh;
   border-radius: 12px;
   padding: 20px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal-content.light {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+.project-steps {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  max-height: calc(90vh - 200px); /* Adjust based on your header/footer height */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
 }
 
-.modal-content.dark {
-  background: rgba(26, 26, 26, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.project-steps::-webkit-scrollbar {
+  width: 8px;
+}
+
+.project-steps::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.project-steps::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
 }
 
 .close-modal {
@@ -1320,20 +1372,19 @@
 
 @media screen and (max-width: 768px) {
   .step-item {
-    flex-direction: column;
+    flex-direction: row; /* Keep items side by side even on mobile */
     gap: 10px;
   }
 
   .step-item textarea {
-    min-height: 120px; /* Even taller on mobile */
-    font-size: 16px; /* Prevent zoom on mobile */
-    width: 100%;
+    min-height: 120px;
+    font-size: 16px;
+    width: calc(100% - 90px); /* Adjust for mobile */
   }
 
   .remove-step {
-    width: 100%;
-    height: 40px;
-    margin-top: 5px;
+    width: 80px;
+    height: 36px;
   }
 
   .modal-content {

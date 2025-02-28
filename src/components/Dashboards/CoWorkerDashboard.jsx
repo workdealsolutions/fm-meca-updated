@@ -5,8 +5,24 @@ import CoworkerSidebar from '../Sidebar/CoworkerSidebar';
 import CoworkerSettings from '../Settings/CoworkerSettings';
 import './CoWorkerDashboard.css';
 import { useTheme } from '../../context/ThemeContext';
+import NotificationIcon from '../Notifications/NotificationIcon';
 
-const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
+// Add this helper function before the component
+const formatDate = (dateString) => {
+  if (!dateString) return 'N/A';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+
+const CoWorkerDashboard = ({ 
+  user = {}, 
+  sendNotification = () => {}, // Provide default empty function
+  notifications = [] 
+}) => {
   const isMobile = useIsMobile();
   const { isDark } = useTheme();
   const theme = isDark ? 'dark' : 'light';
@@ -16,6 +32,7 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
   const [projects, setProjects] = useState([]); // Fetched from backend
   const [stepContent, setStepContent] = useState({}); // To hold submission text, URL, and files
   const [expandedSteps, setExpandedSteps] = useState({});
+  const [currentStep, setCurrentStep] = useState({}); // Track current active step for each project
 
   // Helper: Get auth configuration
   const getAuthConfig = () => {
@@ -51,6 +68,41 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
     }
   }, [user?.id]);
 
+  // Add this useEffect for fetching notifications
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const config = getAuthConfig();
+        const response = await axios.get('http://localhost:5000/api/notifications', config);
+        setNotifications(response.data.notifications);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleNotificationRead = async (notificationId) => {
+    try {
+      const config = getAuthConfig();
+      await axios.patch(
+        `http://localhost:5000/api/notifications/${notificationId}/read`,
+        {},
+        config
+      );
+      setNotifications(prev => 
+        prev.map(notif => 
+          notif.id === notificationId ? { ...notif, read: true } : notif
+        )
+      );
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+
   // Handle file upload for a given project (update local state)
   const handleFileUpload = (projectId, files) => {
     setStepContent(prev => ({
@@ -59,38 +111,64 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
     }));
   };
 
-  // Handle submission of a step
+  // Add this helper function
+  const canAccessStep = (steps, index) => {
+    if (index === 0) return true;
+    return steps[index - 1]?.status === 'approved';
+  };
+
+  // Fix the handleStepComplete function
   const handleStepComplete = async (projectId, stepIndex, content, projectUrl) => {
     try {
       const config = getAuthConfig();
-      // Endpoint expects stepNumber to be 1-indexed.
-      await axios.put(
-          `http://localhost:5000/api/projects/${projectId}/steps/${stepIndex + 1}`,
-          { content, projectUrl },
-          config
+      const response = await axios.put(
+        `http://localhost:5000/api/projects/${projectId}/steps/${stepIndex + 1}`,
+        { 
+          content, 
+          projectUrl,
+          status: 'pending-review'
+        },
+        config
       );
-      // Update local state: mark the step as "pending-review" and store submission data
-      setProjects(prevProjects =>
+
+      if (response.data.success) {
+        setProjects(prevProjects =>
           prevProjects.map(project =>
-              project.id === projectId
-                  ? {
-                    ...project,
-                    steps: project.steps.map((step, idx) =>
-                        idx === stepIndex
-                            ? { ...step, status: 'pending-review', submission: content, projectUrl }
-                            : step
-                    )
-                  }
-                  : project
+            project.id === projectId
+              ? {
+                  ...project,
+                  steps: project.steps.map((step, idx) =>
+                    idx === stepIndex
+                      ? { 
+                          ...step, 
+                          status: 'pending-review', 
+                          submission: content, 
+                          projectUrl 
+                        }
+                      : step
+                  )
+                }
+              : project
           )
-      );
-      sendNotification({
-        userId: 'admin',
-        message: `Step ${stepIndex + 1} completed for project ${projectId}`,
-        type: 'info'
-      });
+        );
+        
+        if (typeof sendNotification === 'function') {
+          sendNotification({
+            userId: 'admin',
+            message: `Step ${stepIndex + 1} submitted for review`,
+            type: 'info'
+          });
+        }
+      }
     } catch (error) {
       console.error('Error submitting step for review:', error);
+      if (typeof sendNotification === 'function') {
+        sendNotification({
+          userId: user.id,
+          message: 'Error submitting step. Please try again.',
+          type: 'error'
+        });
+      }
     }
   };
 
@@ -102,180 +180,144 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
     }));
   };
 
-  // Render the project card for each project
+  // Clean up the renderSteps function
+  const renderSteps = (project) => (
+    <div className="project-steps">
+      {project.steps.map((step, index) => (
+        <div 
+          key={index} 
+          className={`step-card ${step.status} ${!canAccessStep(project.steps, index) ? 'locked' : ''}`}
+        >
+          <div className="step-header">
+            <div className="step-title">
+              <span className="step-number">Step {index + 1}</span>
+              <h4>{step.title}</h4>
+            </div>
+            <div className="step-status-indicator">
+              {step.status === 'approved' && <span className="status-approved">✓</span>}
+              {step.status === 'pending-review' && <span className="status-pending">⋯</span>}
+              {step.status === 'revision-needed' && <span className="status-revision">⚠</span>}
+            </div>
+          </div>
+
+          <div className="step-content">
+            <p className="step-description">{step.description}</p>
+            
+            {canAccessStep(project.steps, index) && (
+              <div className="step-submission-area">
+                <div className="url-input-container">
+                  <input
+                    type="url"
+                    placeholder="Enter work URL"
+                    value={stepContent[`${project.id}-${index}`]?.url || ''}
+                    onChange={(e) =>
+                      setStepContent(prev => ({
+                        ...prev,
+                        [`${project.id}-${index}`]: { 
+                          ...prev[`${project.id}-${index}`],
+                          url: e.target.value 
+                        }
+                      }))
+                    }
+                    className="url-input"
+                  />
+                  <button
+                    className="submit-url-btn"
+                    onClick={() => handleStepComplete(
+                      project.id,
+                      index,
+                      step.description,
+                      stepContent[`${project.id}-${index}`]?.url
+                    )}
+                    disabled={!stepContent[`${project.id}-${index}`]?.url}
+                  >
+                    Submit for Review
+                  </button>
+                </div>
+
+                {step.status === 'pending-review' && (
+                  <div className="step-pending">
+                    <p>Under review by admin</p>
+                    <p>Submitted URL: <a href={step.projectUrl} target="_blank" rel="noopener noreferrer">{step.projectUrl}</a></p>
+                  </div>
+                )}
+
+                {step.status === 'approved' && (
+                  <div className="step-approved">
+                    <p>✓ Completed</p>
+                    <p>Approved URL: <a href={step.projectUrl} target="_blank" rel="noopener noreferrer">{step.projectUrl}</a></p>
+                  </div>
+                )}
+
+                {step.status === 'revision-needed' && (
+                  <div className="step-revision">
+                    <p className="revision-message">{step.feedback}</p>
+                    <div className="url-input-container">
+                      <input
+                        type="url"
+                        placeholder="Enter revised work URL"
+                        value={stepContent[`${project.id}-${index}`]?.url || ''}
+                        onChange={(e) =>
+                          setStepContent(prev => ({
+                            ...prev,
+                            [`${project.id}-${index}`]: { 
+                              ...prev[`${project.id}-${index}`],
+                              url: e.target.value 
+                            }
+                          }))
+                        }
+                        className="url-input"
+                      />
+                      <button
+                        className="submit-url-btn"
+                        onClick={() => handleStepComplete(
+                          project.id,
+                          index,
+                          step.description,
+                          stepContent[`${project.id}-${index}`]?.url
+                        )}
+                        disabled={!stepContent[`${project.id}-${index}`]?.url}
+                      >
+                        Submit Revision
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  // Update the renderProjectContent function to use the new renderSteps
   const renderProjectContent = (project) => {
     const completedStepsCount = project.steps ? project.steps.filter(step => step.status === 'approved').length : 0;
     const progress = project.steps && project.steps.length ? (completedStepsCount / project.steps.length) * 100 : 0;
     return (
-        <div className="project-card" key={project.id}>
-          <div className="project-header">
-            <h3>{project.title}</h3>
-            <div className="project-details">
+      <div className="project-card" key={project.id}>
+        <div className="project-header">
+          <h3>{project.title}</h3>
+          <div className="project-details">
             <span className="deadline">
               Deadline: {formatDate(project.deadline)}
             </span>
-              <span className="project-status" data-status={project.status}>
+            <span className="project-status" data-status={project.status}>
               Status: {project.status}
             </span>
-            </div>
           </div>
-          <div className="project-description">
-            <p>{project.description}</p>
-          </div>
-          <div className="project-meta">
-            <span>Assigned by: {project.assignedBy || 'N/A'}</span>
-            <span>Date Assigned: {formatDate(project.assignedDate)}</span>
-          </div>
-          {/* Display progress and steps if the project is not pending */}
-          {project.status !== 'pending' && project.steps && (
-              <>
-                <div className="project-progress">
-                  <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-                  </div>
-                  <span>{Math.round(progress)}% Complete</span>
-                </div>
-                <div className="project-steps">
-                  {project.steps.map((step, index) => (
-                      <div key={index} className={`step-card ${step.status}`}>
-                        <div 
-                          className="step-header" 
-                          onClick={() => toggleStepExpansion(project.id, index)}
-                        >
-                          <h4>Step {index + 1}: {step.title}</h4>
-                          <span className="expand-icon">
-                            {expandedSteps[`${project.id}-${index}`] ? '▼' : '▶'}
-                          </span>
-                        </div>
-                        
-                        {expandedSteps[`${project.id}-${index}`] && (
-                          <div className="step-content">
-                            <p>{step.description}</p>
-                            {step.requirements && (
-                              <div className="step-requirements">
-                                <h5>Requirements:</h5>
-                                <ul>
-                                  {step.requirements.map((req, reqIndex) => (
-                                    <li key={reqIndex}>{req}</li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                            
-                            {step.status === 'in-progress' && (
-                              <div className="step-submission">
-                                <div className="submission-form">
-                                  <label>Description of Work:</label>
-                                  <textarea
-                                    placeholder="Describe how you completed this step..."
-                                    onChange={(e) =>
-                                      setStepContent(prev => ({
-                                        ...prev,
-                                        [project.id]: { 
-                                          ...prev[project.id], 
-                                          text: e.target.value 
-                                        }
-                                      }))
-                                    }
-                                    value={stepContent[project.id]?.text || ''}
-                                  />
-                                  
-                                  <label>Project URL:</label>
-                                  <input
-                                    type="url"
-                                    placeholder="https://..."
-                                    onChange={(e) =>
-                                      setStepContent(prev => ({
-                                        ...prev,
-                                        [project.id]: { 
-                                          ...prev[project.id], 
-                                          projectUrl: e.target.value 
-                                        }
-                                      }))
-                                    }
-                                    value={stepContent[project.id]?.projectUrl || ''}
-                                  />
-                                  
-                                  <label>Supporting Files (optional):</label>
-                                  <input
-                                    type="file"
-                                    multiple
-                                    onChange={(e) => handleFileUpload(project.id, e.target.files)}
-                                  />
-                                  
-                                  <button
-                                    className="submit-step-btn"
-                                    onClick={() =>
-                                      handleStepComplete(
-                                        project.id,
-                                        index,
-                                        stepContent[project.id]?.text,
-                                        stepContent[project.id]?.projectUrl
-                                      )
-                                    }
-                                    disabled={
-                                      !stepContent[project.id]?.text || 
-                                      !stepContent[project.id]?.projectUrl
-                                    }
-                                  >
-                                    Submit for Review
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-
-                            {step.status === 'pending-review' && (
-                              <div className="step-status pending">
-                                <p>Under Review</p>
-                                <div className="submission-details">
-                                  <p>Submitted work: {step.submission}</p>
-                                  {step.projectUrl && (
-                                    <p>
-                                      Project URL:{' '}
-                                      <a href={step.projectUrl} target="_blank" rel="noopener noreferrer">
-                                        {step.projectUrl}
-                                      </a>
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                            )}
-
-                            {step.status === 'revision-needed' && (
-                              <div className="step-feedback">
-                                <div className="feedback-content">
-                                  <h5>Revision Required</h5>
-                                  <p>{step.feedback}</p>
-                                  <button
-                                    className="revision-btn"
-                                    onClick={() => {
-                                      setProjects(prevProjects =>
-                                        prevProjects.map(p =>
-                                          p.id === project.id
-                                            ? {
-                                                ...p,
-                                                steps: p.steps.map((s, i) =>
-                                                  i === index ? { ...s, status: 'in-progress' } : s
-                                                )
-                                              }
-                                            : p
-                                        )
-                                      );
-                                    }}
-                                  >
-                                    Start Revision
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                  ))}
-                </div>
-              </>
-          )}
         </div>
+        <div className="project-description">
+          <p>{project.description}</p>
+        </div>
+        <div className="project-meta">
+          <span>Assigned by: {project.assignedBy || 'N/A'}</span>
+          <span>Date Assigned: {formatDate(project.assignedDate)}</span>
+        </div>
+        {/* Display progress and steps if the project is not pending */}
+        {project.status !== 'pending' && project.steps && renderSteps(project)}
+      </div>
     );
   };
 
@@ -300,49 +342,56 @@ const CoWorkerDashboard = ({ user = {}, sendNotification }) => {
   const renderContent = () => {
     if (filteredProjects.length === 0) {
       return (
-          <div className="no-projects">
-            <h3>No projects found</h3>
-            <p>There are currently no projects in this category.</p>
-          </div>
+        <div className="no-projects">
+          <h3>No projects found</h3>
+          <p>There are currently no projects in this category.</p>
+        </div>
       );
     }
     return <div className="projects-grid">{filteredProjects.map(renderProjectContent)}</div>;
   };
 
   return (
-      <div className="dashboard-container" data-theme={theme}>
-        {isMobile && (
-            <div className="menu-toggle">
-              <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-                {sidebarOpen ? '×' : '≡'}
-              </button>
-            </div>
-        )}
-        <CoworkerSidebar
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            user={user}
-            isOpen={sidebarOpen}
-            setIsOpen={setSidebarOpen}
-        />
-        <div className={`main-content ${theme}`}>
-          {activeTab === 'profile' ? (
-              <CoworkerSettings
-                  user={user}
-                  onUpdateProfile={(updatedProfile) => {
-                    console.log('Profile updated:', updatedProfile);
-                    sendNotification({
-                      userId: user.id,
-                      message: 'Profile updated successfully',
-                      type: 'success'
-                    });
-                  }}
-              />
-          ) : (
-              renderContent()
-          )}
+    <div className="dashboard-container" data-theme={theme}>
+      {isMobile && (
+        <div className="menu-toggle">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)}>
+            {sidebarOpen ? '×' : '≡'}
+          </button>
         </div>
+      )}
+      <CoworkerSidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        user={user}
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+      />
+      <div className={`main-content ${theme}`}>
+        <div className="dashboard-header">
+          <h2>Dashboard</h2>
+          <NotificationIcon 
+            notifications={notifications}
+            onNotificationRead={handleNotificationRead}
+          />
+        </div> 
+        {activeTab === 'profile' ? (
+          <CoworkerSettings
+            user={user}
+            onUpdateProfile={(updatedProfile) => {
+              console.log('Profile updated:', updatedProfile);
+              sendNotification({
+                userId: user.id,
+                message: 'Profile updated successfully',
+                type: 'success'
+              });
+            }}
+          />
+        ) : (
+          renderContent()
+        )}
       </div>
+    </div>
   );
 };
 

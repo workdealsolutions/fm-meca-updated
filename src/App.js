@@ -45,7 +45,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-const AppContent = ({ sendNotification }) => {
+const AppContent = ({ sendNotification, notifications }) => {
   // useNavigate now works because we're under a single Router (from index.js)
   const navigate = useNavigate();
 
@@ -256,6 +256,8 @@ const AppContent = ({ sendNotification }) => {
                 user={mockUser}
                 projects={projects}
                 setProjects={setProjects}
+                sendNotification={sendNotification}
+                notifications={notifications}
             />
           } />
           <Route path="/client-dashboard" element={
@@ -296,14 +298,24 @@ const AppContent = ({ sendNotification }) => {
 };
 
 const App = () => {
+  const [notifications, setNotifications] = useState([]);
+
   const sendNotification = ({ userId, message, type }) => {
-    console.log(`Notification for user ${userId}: ${message} (${type})`);
+    const newNotification = {
+      id: Date.now(),
+      userId,
+      message,
+      type,
+      read: false,
+      timestamp: new Date()
+    };
+    setNotifications(prev => [...prev, newNotification]);
   };
 
   return (
       <ThemeProvider>
         <NotificationProvider>
-          <AppContent sendNotification={sendNotification} />
+          <AppContent sendNotification={sendNotification} notifications={notifications} />
         </NotificationProvider>
       </ThemeProvider>
   );

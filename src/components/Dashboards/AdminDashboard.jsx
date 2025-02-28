@@ -6,6 +6,7 @@ import FeedbackModal from '../FeedbackModal';
 import './AdminDashboard.css';
 import ProfileSettings from '../pages/ProfileSettings';
 import ProjectSteps from '../ProjectSteps';
+import NotificationIcon from '../Notifications/NotificationIcon';
 
 const AdminDashboard = ({ sendNotification }) => {
   const { isDark } = useTheme();
@@ -15,7 +16,7 @@ const AdminDashboard = ({ sendNotification }) => {
   const [projects, setProjects] = useState([]);
   const [clients, setClients] = useState([]);
   const [coworkers, setCoworkers] = useState([]);
-
+  const [notifications, setNotifications] = useState([]);
 
   const [activeTab, setActiveTab] = useState('pending'); // "pending" or "completed"
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -83,6 +84,23 @@ const AdminDashboard = ({ sendNotification }) => {
       }
     }
     fetchCoworkers();
+  }, []);
+
+  // Fetch notifications
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const config = getAuthConfig();
+        const response = await axios.get('http://localhost:5000/api/notifications', config);
+        setNotifications(response.data.notifications);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   // Handle mobile menu scroll behavior
@@ -193,6 +211,24 @@ const AdminDashboard = ({ sendNotification }) => {
       setSelectedProjectId(null);
     } catch (error) {
       console.error('Error saving steps:', error);
+    }
+  };
+
+  const handleNotificationRead = async (notificationId) => {
+    try {
+      const config = getAuthConfig();
+      await axios.patch(
+        `http://localhost:5000/api/notifications/${notificationId}/read`,
+        {},
+        config
+      );
+      setNotifications(prev => 
+        prev.map(notif => 
+          notif.id === notificationId ? { ...notif, read: true } : notif
+        )
+      );
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
     }
   };
 
@@ -308,17 +344,23 @@ const AdminDashboard = ({ sendNotification }) => {
             setIsOpen={setSidebarOpen}
         />
         <div className={`main-content ${theme}`}>
-          <h2 className={`dashboard-title ${theme}`}>
-            {showSettings
-                ? 'Profile Settings'
-                : selectedClient
-                    ? `Client: ${selectedClient.name}`
-                    : selectedCoworker
-                        ? 'Coworker Profile'
-                        : activeTab === 'pending'
-                            ? 'Active Projects'
-                            : 'Completed Projects'}
-          </h2>
+          <div className="dashboard-header">
+            <h2 className={`dashboard-title ${theme}`}>
+              {showSettings
+                  ? 'Profile Settings'
+                  : selectedClient
+                      ? `Client: ${selectedClient.name}`
+                      : selectedCoworker
+                          ? 'Coworker Profile'
+                          : activeTab === 'pending'
+                              ? 'Active Projects'
+                              : 'Completed Projects'}
+            </h2>
+            <NotificationIcon 
+              notifications={notifications}
+              onNotificationRead={handleNotificationRead}
+            />
+          </div>
           {getMainContent()}
         </div>
 
