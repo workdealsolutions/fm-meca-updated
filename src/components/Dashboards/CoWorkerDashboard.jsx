@@ -298,9 +298,6 @@ const CoWorkerDashboard = ({
   );
 
   // Update the renderProjectContent function to use the new renderSteps
-  };
-
-  // Render the project card for each project
   const renderProjectContent = (project) => {
     const completedStepsCount = project.steps ? project.steps.filter(step => step.status === 'approved').length : 0;
     const progress = project.steps && project.steps.length ? (completedStepsCount / project.steps.length) * 100 : 0;
@@ -402,5 +399,6 @@ const CoWorkerDashboard = ({
       </div>
     </div>
   );
+};
 
 export default CoWorkerDashboard;
