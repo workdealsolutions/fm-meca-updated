@@ -402,6 +402,5 @@ const CoWorkerDashboard = ({
       </div>
     </div>
   );
-;
 
 export default CoWorkerDashboard;
